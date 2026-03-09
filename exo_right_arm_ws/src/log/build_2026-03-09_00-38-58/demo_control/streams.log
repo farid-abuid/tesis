@@ -1,0 +1,42 @@
+[0.013s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/demo_control -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/src/install/demo_control
+[0.063s] -- The C compiler identification is GNU 13.3.0
+[0.108s] -- The CXX compiler identification is GNU 13.3.0
+[0.122s] -- Detecting C compiler ABI info
+[0.192s] -- Detecting C compiler ABI info - done
+[0.200s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.200s] -- Detecting C compile features
+[0.200s] -- Detecting C compile features - done
+[0.207s] -- Detecting CXX compiler ABI info
+[0.284s] -- Detecting CXX compiler ABI info - done
+[0.290s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.290s] -- Detecting CXX compile features
+[0.291s] -- Detecting CXX compile features - done
+[0.292s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.401s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.477s] -- Found ament_lint_auto: 0.17.4 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[0.555s] -- Added test 'lint_cmake' to check CMake code style
+[0.556s] -- Added test 'xmllint' to check XML markup files
+[0.557s] -- Configuring done (0.5s)
+[0.558s] -- Generating done (0.0s)
+[0.559s] -- Build files have been written to: /home/farid/tesis/exo_right_arm_ws/src/build/demo_control
+[0.563s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/demo_control -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/src/install/demo_control
+[0.563s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/src/build/demo_control -- -j32 -l32
+[0.596s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/src/build/demo_control -- -j32 -l32
+[0.597s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/src/build/demo_control
+[0.604s] -- Install configuration: ""
+[0.604s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/ament_index/resource_index/package_run_dependencies/demo_control
+[0.605s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/ament_index/resource_index/parent_prefix_path/demo_control
+[0.605s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/environment/ament_prefix_path.sh
+[0.605s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/environment/ament_prefix_path.dsv
+[0.605s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/environment/path.sh
+[0.605s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/environment/path.dsv
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/local_setup.bash
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/local_setup.sh
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/local_setup.zsh
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/local_setup.dsv
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/package.dsv
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/ament_index/resource_index/packages/demo_control
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/cmake/demo_controlConfig.cmake
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/cmake/demo_controlConfig-version.cmake
+[0.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/src/install/demo_control/share/demo_control/package.xml
+[0.613s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/src/build/demo_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/src/build/demo_control

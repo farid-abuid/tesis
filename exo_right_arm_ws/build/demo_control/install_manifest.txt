@@ -1,0 +1,15 @@
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/ament_index/resource_index/package_run_dependencies/demo_control
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/ament_index/resource_index/parent_prefix_path/demo_control
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/environment/ament_prefix_path.sh
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/environment/ament_prefix_path.dsv
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/environment/path.sh
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/environment/path.dsv
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/local_setup.bash
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/local_setup.sh
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/local_setup.zsh
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/local_setup.dsv
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/package.dsv
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/ament_index/resource_index/packages/demo_control
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/cmake/demo_controlConfig.cmake
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/cmake/demo_controlConfig-version.cmake
+/home/farid/tesis/exo_right_arm_ws/install/demo_control/share/demo_control/package.xml

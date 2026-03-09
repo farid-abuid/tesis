@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: my-package
+Version: 0.0.0
+Summary: TODO: Package description
+Maintainer: farid
+Maintainer-email: farid.abuid@utec.edu.pe
+License: TODO: License declaration
+Provides-Extra: test

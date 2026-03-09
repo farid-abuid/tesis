@@ -1,0 +1,40 @@
+[0.010s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_hardware -- -j32 -l32
+[0.060s] [ 50%] [32mBuilding CXX object CMakeFiles/exo_hardware.dir/src/exo_hardware.cpp.o[0m
+[1.571s] [01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/src/exo_hardware.cpp:[m[K In member function ‘[01m[Kvirtual hardware_interface::CallbackReturn exo_hardware::teensy_plugin::[01;32m[Kon_init[m[K(const hardware_interface::HardwareInfo&)[m[K’:
+[1.571s] [01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/src/exo_hardware.cpp:36:50:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvirtual rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn hardware_interface::HardwareComponentInterface::[01;32m[Kon_init[m[K(const hardware_interface::HardwareInfo&)[m[K’ is deprecated: Use on_init(const HardwareComponentInterfaceParams & params) instead. [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-declarations-Wdeprecated-declarations]8;;[m[K]
+[1.571s]    36 |   if([01;35m[Khardware_interface::SystemInterface::on_init(info)[m[K !=
+[1.571s]       |      [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+[1.571s] In file included from [01m[K/opt/ros/jazzy/include/hardware_interface/hardware_interface/system_interface.hpp:18[m[K,
+[1.571s]                  from [01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/include/exo_hardware/exo_hardware.hpp:6[m[K,
+[1.571s]                  from [01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/src/exo_hardware.cpp:1[m[K:
+[1.571s] [01m[K/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_component_interface.hpp:140:26:[m[K [01;36m[Knote: [m[Kdeclared here
+[1.571s]   140 |   virtual CallbackReturn [01;36m[Kon_init[m[K(const HardwareInfo & hardware_info);
+[1.571s]       |                          [01;36m[K^~~~~~~[m[K
+[2.657s] [100%] [32m[1mLinking CXX shared library libexo_hardware.so[0m
+[2.781s] [100%] Built target exo_hardware
+[2.793s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_hardware -- -j32 -l32
+[2.795s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_hardware
+[2.804s] -- Install configuration: ""
+[2.804s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/exo_hardware_plugins.xml
+[2.804s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/libexo_hardware.so
+[2.805s] -- Set non-toolchain portion of runtime path of "/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/libexo_hardware.so" to ""
+[2.805s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/include
+[2.805s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/include/exo_hardware
+[2.805s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/include/exo_hardware/exo_hardware.hpp
+[2.805s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/ament_index/resource_index/package_run_dependencies/exo_hardware
+[2.805s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/ament_index/resource_index/parent_prefix_path/exo_hardware
+[2.805s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/environment/ament_prefix_path.sh
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/environment/ament_prefix_path.dsv
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/environment/path.sh
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/environment/path.dsv
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/local_setup.bash
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/local_setup.sh
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/local_setup.zsh
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/local_setup.dsv
+[2.806s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.dsv
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/ament_index/resource_index/packages/exo_hardware
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/ament_index/resource_index/hardware_interface__pluginlib__plugin/exo_hardware
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/cmake/exo_hardwareConfig.cmake
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/cmake/exo_hardwareConfig-version.cmake
+[2.806s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.xml
+[2.807s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/my_package:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_hardware

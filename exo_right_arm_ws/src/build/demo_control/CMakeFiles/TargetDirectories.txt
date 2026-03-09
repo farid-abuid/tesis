@@ -1,0 +1,9 @@
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/uninstall.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/demo_control_uninstall.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/test.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/edit_cache.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/rebuild_cache.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/list_install_components.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/install.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/install/local.dir
+/home/farid/tesis/exo_right_arm_ws/src/build/demo_control/CMakeFiles/install/strip.dir

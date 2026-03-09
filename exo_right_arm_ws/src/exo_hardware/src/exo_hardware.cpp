@@ -1,0 +1,205 @@
+#include "exo_hardware/exo_hardware.hpp"
+#include <cstring>
+#include <fcntl.h>
+#include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+
+#define HEADER1 0xAA
+#define HEADER2 0x55
+
+namespace exo_hardware
+{
+
+struct __attribute__((packed)) MotorStatus2
+{
+    uint8_t  motorID;
+    float torque;
+    float speed;
+    float angle;
+};
+
+static uint8_t computeChecksum(uint8_t *data, int len)
+{
+    uint8_t cs = 0;
+
+    for(int i=0;i<len;i++)
+        cs ^= data[i];
+
+    return cs;
+}
+
+
+hardware_interface::CallbackReturn teensy_plugin::on_init(
+  const hardware_interface::HardwareInfo & info)
+{
+  if(hardware_interface::SystemInterface::on_init(info) !=
+     hardware_interface::CallbackReturn::SUCCESS)
+  {
+      return hardware_interface::CallbackReturn::ERROR;
+  }
+
+  size_t n = info.joints.size();
+
+  position_.resize(n);
+  velocity_.resize(n);
+  torque_.resize(n);
+  effort_command_.resize(n);
+  motor_ids_.resize(n);
+
+  for(size_t i=0;i<n;i++)
+      motor_ids_[i] = i+1; // ALWAYS 1,2,3,4,5,6
+
+    serial_fd_ = ::open("/dev/teensy_motor", O_RDWR | O_NOCTTY | O_NONBLOCK);
+
+    if (serial_fd_ < 0) {
+    RCLCPP_ERROR(rclcpp::get_logger("exo_hw"), "Failed to open serial port");
+    return hardware_interface::CallbackReturn::ERROR;
+    }
+
+    struct termios tty;
+    tcgetattr(serial_fd_, &tty);
+
+    cfsetispeed(&tty, B115200);
+    cfsetospeed(&tty, B115200);
+
+    tty.c_cflag |= (CLOCAL | CREAD);
+    tty.c_cflag &= ~CSIZE;
+    tty.c_cflag |= CS8;
+    tty.c_cflag &= ~PARENB;
+    tty.c_cflag &= ~CSTOPB;
+
+    tcsetattr(serial_fd_, TCSANOW, &tty);
+
+  return hardware_interface::CallbackReturn::SUCCESS;
+}
+
+std::vector<hardware_interface::StateInterface>
+teensy_plugin::export_state_interfaces()
+{
+    std::vector<hardware_interface::StateInterface> state_interfaces;
+
+    for (size_t i = 0; i < info_.joints.size(); i++)
+    {
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                info_.joints[i].name,
+                hardware_interface::HW_IF_POSITION,
+                &position_[i]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                info_.joints[i].name,
+                hardware_interface::HW_IF_VELOCITY,
+                &velocity_[i]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                info_.joints[i].name,
+                "torque",
+                &torque_[i]));
+    }
+
+    return state_interfaces;
+}
+
+std::vector<hardware_interface::CommandInterface>
+teensy_plugin::export_command_interfaces()
+{
+    std::vector<hardware_interface::CommandInterface> command_interfaces;
+
+    for (size_t i = 0; i < info_.joints.size(); i++)
+    {
+        command_interfaces.emplace_back(
+            hardware_interface::CommandInterface(
+                info_.joints[i].name,
+                hardware_interface::HW_IF_EFFORT,
+                &effort_command_[i]));
+    }
+
+    return command_interfaces;
+}
+
+
+hardware_interface::return_type teensy_plugin::write(
+  const rclcpp::Time &,
+  const rclcpp::Duration &)
+{
+  const uint8_t cmd_type = 1; // ALWAYS TORQUE FOR NOW
+  const uint8_t n = effort_command_.size();
+
+  uint8_t buffer[128];
+  int idx = 0;
+
+  buffer[idx++] = HEADER1;
+  buffer[idx++] = HEADER2;
+
+  uint8_t cmd = (cmd_type << 4) | n;
+  buffer[idx++] = cmd;
+
+  for(size_t i=0;i<n;i++)
+  {
+      uint8_t id = motor_ids_[i];
+      float torque = effort_command_[i];
+
+      memcpy(&buffer[idx], &id, 1);
+      idx += 1;
+
+      memcpy(&buffer[idx], &torque, 4);
+      idx += 4;
+  }
+
+  uint8_t cs = computeChecksum(&buffer[2], idx-2);
+  buffer[idx++] = cs;
+
+  ::write(serial_fd_, buffer, idx);
+
+  return hardware_interface::return_type::OK;
+}
+
+
+
+hardware_interface::return_type teensy_plugin::read(
+  const rclcpp::Time &,
+  const rclcpp::Duration &)
+{
+  const size_t n = position_.size();
+
+  const int expected =
+      2 + n*sizeof(MotorStatus2);
+
+  uint8_t header[2];
+  int nread = ::read(serial_fd_, header, 2);
+  if (nread != 2) return hardware_interface::return_type::OK;
+
+  for(size_t i=0;i<n;i++)
+  {
+      MotorStatus2 status;
+
+      ::read(serial_fd_, &status, sizeof(MotorStatus2));
+
+      int idx = status.motorID - 1;
+
+      if(idx < 0 || idx >= (int)n)
+          continue;
+
+      position_[idx] =
+          status.angle;
+
+      velocity_[idx] =
+          status.speed;
+
+      torque_[idx] =
+          status.torque;
+  }
+
+  return hardware_interface::return_type::OK;
+}
+
+}
+
+#include "pluginlib/class_list_macros.hpp"
+
+PLUGINLIB_EXPORT_CLASS(
+  exo_hardware::teensy_plugin,
+  hardware_interface::SystemInterface)
