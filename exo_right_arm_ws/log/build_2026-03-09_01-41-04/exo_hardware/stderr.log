@@ -1,8 +1,0 @@
-In file included from [01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/src/exo_hardware.cpp:1[m[K:
-[01m[K/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/include/exo_hardware/exo_hardware.hpp:11:10:[m[K [01;31m[Kfatal error: [m[Khardware_interface/visibility_control.h: No such file or directory
-   11 | #include [01;31m[K"hardware_interface/visibility_control.h"[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-gmake[2]: *** [CMakeFiles/exo_hardware.dir/build.make:76: CMakeFiles/exo_hardware.dir/src/exo_hardware.cpp.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/exo_hardware.dir/all] Error 2
-gmake: *** [Makefile:146: all] Error 2

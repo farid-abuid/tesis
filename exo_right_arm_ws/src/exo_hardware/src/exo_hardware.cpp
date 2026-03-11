@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <iostream>
 
 #define HEADER1 0xAA
 #define HEADER2 0x55
@@ -14,7 +15,7 @@ namespace exo_hardware
 struct __attribute__((packed)) MotorStatus2
 {
     uint8_t  motorID;
-    float torque;
+    float effort;
     float speed;
     float angle;
 };
@@ -43,7 +44,7 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
 
   position_.resize(n);
   velocity_.resize(n);
-  torque_.resize(n);
+  effort_.resize(n);
   effort_command_.resize(n);
   motor_ids_.resize(n);
 
@@ -96,8 +97,8 @@ teensy_plugin::export_state_interfaces()
         state_interfaces.emplace_back(
             hardware_interface::StateInterface(
                 info_.joints[i].name,
-                "torque",
-                &torque_[i]));
+                hardware_interface::HW_IF_EFFORT,
+                &effort_[i]));
     }
 
     return state_interfaces;
@@ -125,7 +126,7 @@ hardware_interface::return_type teensy_plugin::write(
   const rclcpp::Time &,
   const rclcpp::Duration &)
 {
-  const uint8_t cmd_type = 1; // ALWAYS TORQUE FOR NOW
+  const uint8_t cmd_type = 9; // ALWAYS TORQUE FOR NOW
   const uint8_t n = effort_command_.size();
 
   uint8_t buffer[128];
@@ -140,12 +141,12 @@ hardware_interface::return_type teensy_plugin::write(
   for(size_t i=0;i<n;i++)
   {
       uint8_t id = motor_ids_[i];
-      float torque = effort_command_[i];
+      float effort = effort_command_[i];
 
       memcpy(&buffer[idx], &id, 1);
       idx += 1;
 
-      memcpy(&buffer[idx], &torque, 4);
+      memcpy(&buffer[idx], &effort, 4);
       idx += 4;
   }
 
@@ -189,8 +190,9 @@ hardware_interface::return_type teensy_plugin::read(
       velocity_[idx] =
           status.speed;
 
-      torque_[idx] =
-          status.torque;
+      effort_[idx] =
+          status.effort;
+      //std::cout << " effort=" << status.effort << std::endl;
   }
 
   return hardware_interface::return_type::OK;

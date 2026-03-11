@@ -37,7 +37,7 @@ private:
 
   std::vector<double> position_;
   std::vector<double> velocity_;
-  std::vector<double> torque_;
+  std::vector<double> effort_;
 
   std::vector<double> effort_command_;
 

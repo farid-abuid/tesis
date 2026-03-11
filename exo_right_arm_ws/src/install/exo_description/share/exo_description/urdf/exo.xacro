@@ -229,21 +229,21 @@
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
-    <state_interface name="torque"/>
+    <state_interface name="effort"/>
   </joint>
   
   <joint name="Revolute 5">
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
-    <state_interface name="torque"/>  
+    <state_interface name="effort"/>  
   </joint>
 
   <joint name="Revolute 7">
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
-    <state_interface name="torque"/>  
+    <state_interface name="effort"/>  
   </joint>
 
 </ros2_control>
