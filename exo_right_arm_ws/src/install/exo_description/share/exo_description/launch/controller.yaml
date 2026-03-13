@@ -5,15 +5,15 @@ exo_controller:
     publish_rate: 50
 
   # Position Controllers --------------------------------------
-  Revolute 1_position_controller:
+  revolute_1_position_controller:
     type: effort_controllers/JointPositionController
-    joint: Revolute 1
+    joint: revolute_1
     pid: {p: 100.0, i: 0.01, d: 10.0}
-  Revolute 5_position_controller:
+  revolute_5_position_controller:
     type: effort_controllers/JointPositionController
-    joint: Revolute 5
+    joint: revolute_5
     pid: {p: 100.0, i: 0.01, d: 10.0}
-  Revolute 7_position_controller:
+  revolute_7_position_controller:
     type: effort_controllers/JointPositionController
-    joint: Revolute 7
+    joint: revolute_7
     pid: {p: 100.0, i: 0.01, d: 10.0}

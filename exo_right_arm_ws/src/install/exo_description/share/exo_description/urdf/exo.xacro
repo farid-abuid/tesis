@@ -175,7 +175,7 @@
   </collision>
 </link>
 
-<joint name="Revolute 1" type="continuous">
+<joint name="revolute_1" type="continuous">
   <origin xyz="-0.014 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Motor1_1"/>
@@ -194,7 +194,7 @@
   <child link="Motor2_1"/>
 </joint>
 
-<joint name="Revolute 5" type="continuous">
+<joint name="revolute_5" type="continuous">
   <origin xyz="0.0 0.003 0.0" rpy="0 0 0"/>
   <parent link="Motor2_1"/>
   <child link="Componente3_v1_1"/>
@@ -207,7 +207,7 @@
   <child link="Componente4_v1_1"/>
 </joint>
 
-<joint name="Revolute 7" type="continuous">
+<joint name="revolute_7" type="continuous">
   <origin xyz="0.002653 -0.0095 -0.24002" rpy="0 0 0"/>
   <parent link="Componente4_v1_1"/>
   <child link="Motor3_1"/>
@@ -225,21 +225,21 @@
     <plugin>exo_hardware/teensy_plugin</plugin>
   </hardware>
 
-  <joint name="Revolute 1">
+  <joint name="revolute_1">
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
     <state_interface name="effort"/>
   </joint>
   
-  <joint name="Revolute 5">
+  <joint name="revolute_5">
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>
     <state_interface name="effort"/>  
   </joint>
 
-  <joint name="Revolute 7">
+  <joint name="revolute_7">
     <command_interface name="effort"/>
     <state_interface name="position"/>
     <state_interface name="velocity"/>

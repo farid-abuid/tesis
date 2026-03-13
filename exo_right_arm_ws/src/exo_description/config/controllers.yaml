@@ -12,6 +12,6 @@ controller_manager:
 effort_controller:
   ros__parameters:
     joints:
-      - "Revolute 1"
-      - "Revolute 5"
-      - "Revolute 7"
+      - "revolute_1"
+      - "revolute_2"
+      - "revolute_3"
