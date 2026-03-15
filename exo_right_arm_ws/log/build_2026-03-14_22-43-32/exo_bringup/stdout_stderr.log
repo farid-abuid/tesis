@@ -16,6 +16,7 @@ creating /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/ament_inde
 copying resource/exo_bringup -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/ament_index/resource_index/packages
 copying package.xml -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup
 creating /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
+copying launch/rviz.launch.py -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
 copying launch/exo.launch.py -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
 creating /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/config
 copying config/controllers.yaml -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/config

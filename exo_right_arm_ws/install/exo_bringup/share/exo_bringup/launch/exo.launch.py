@@ -12,7 +12,8 @@ def generate_launch_description():
             FindPackageShare("exo_description"),
             "urdf",
             "exo.xacro"
-        ])
+        ]),
+        " hardware:=real"
     ])
 
     controller_config = PathJoinSubstitution([

@@ -182,13 +182,13 @@
   <axis xyz="-1.0 -0.0 0.0"/>
 </joint>
 
-<joint name="Rigid 2" type="fixed">
+<joint name="rigid_2" type="fixed">
   <origin xyz="-0.003 0.0 0.0" rpy="0 0 0"/>
   <parent link="Motor1_1"/>
   <child link="Componente2_v1_1"/>
 </joint>
 
-<joint name="Rigid 3" type="fixed">
+<joint name="rigid_3" type="fixed">
   <origin xyz="0.087 -0.087 0.0" rpy="0 0 0"/>
   <parent link="Componente2_v1_1"/>
   <child link="Motor2_1"/>
@@ -201,7 +201,7 @@
   <axis xyz="-0.0 1.0 -0.0"/>
 </joint>
 
-<joint name="Rigid 6" type="fixed">
+<joint name="rigid_6" type="fixed">
   <origin xyz="0.00033 0.003 -0.045569" rpy="0 0 0"/>
   <parent link="Componente3_v1_1"/>
   <child link="Componente4_v1_1"/>
@@ -214,7 +214,7 @@
   <axis xyz="-0.0 -1.0 -0.0"/>
 </joint>
 
-<joint name="Rigid 8" type="fixed">
+<joint name="rigid_8" type="fixed">
   <origin xyz="0.0 -0.003 0.0" rpy="0 0 0"/>
   <parent link="Motor3_1"/>
   <child link="Componente5_v1_1"/>

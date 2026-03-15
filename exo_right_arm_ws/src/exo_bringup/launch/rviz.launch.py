@@ -3,10 +3,12 @@ from launch_ros.actions import Node
 from launch.substitutions import Command
 from launch_ros.substitutions import FindPackageShare
 from launch.substitutions import PathJoinSubstitution
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
 
-    robot_description = Command([
+    robot_description = ParameterValue(
+    Command([
         "xacro ",
         PathJoinSubstitution([
             FindPackageShare("exo_description"),
@@ -14,7 +16,9 @@ def generate_launch_description():
             "exo.xacro"
         ]),
         " hardware:=real"
-    ])
+    ]),
+    value_type=str
+)
 
     controller_config = PathJoinSubstitution([
         FindPackageShare("exo_bringup"),
@@ -50,10 +54,16 @@ def generate_launch_description():
         executable="spawner",
         arguments=["effort_controller"],
     )
+    rviz_node = Node(
+            package="rviz2",
+            executable="rviz2",
+            output="screen"
+        )
 
     return LaunchDescription([
         robot_state_pub,
         control_node,
         joint_state_spawner,
-        effort_controller_spawner
+        effort_controller_spawner,
+        rviz_node
     ])

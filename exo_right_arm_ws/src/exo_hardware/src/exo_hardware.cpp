@@ -126,7 +126,7 @@ hardware_interface::return_type teensy_plugin::write(
   const rclcpp::Time &,
   const rclcpp::Duration &)
 {
-  const uint8_t cmd_type = 9; // ALWAYS TORQUE FOR NOW
+  const uint8_t cmd_type = 9; // 1 torque, 2 speed, 9 angle
   const uint8_t n = effort_command_.size();
 
   uint8_t buffer[128];
