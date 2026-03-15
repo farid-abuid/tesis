@@ -26,6 +26,12 @@ def generate_launch_description():
         "controllers.yaml"
     ])
 
+    rviz_config = PathJoinSubstitution([
+        FindPackageShare("exo_description"),
+        "launch",
+        "urdf.rviz"
+    ])
+
     robot_state_pub = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -57,6 +63,7 @@ def generate_launch_description():
     rviz_node = Node(
             package="rviz2",
             executable="rviz2",
+            arguments=["-d", rviz_config],
             output="screen"
         )
 
