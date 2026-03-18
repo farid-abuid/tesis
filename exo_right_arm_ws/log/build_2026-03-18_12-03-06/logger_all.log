@@ -1,0 +1,431 @@
+[0.064s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.064s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x71bf8a577050>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x71bf8a576f30>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x71bf8a576f30>>)
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.088s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.088s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/farid/tesis/exo_right_arm_ws'
+[0.088s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.089s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.106s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extensions ['ignore', 'ignore_ament_install']
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extension 'ignore'
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extension 'ignore_ament_install'
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extensions ['colcon_pkg']
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extension 'colcon_pkg'
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extensions ['colcon_meta']
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extension 'colcon_meta'
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extensions ['ros']
+[0.107s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_bringup) by extension 'ros'
+[0.109s] DEBUG:colcon.colcon_core.package_identification:Package 'src/exo_bringup' with type 'ros.ament_python' and name 'exo_bringup'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extensions ['ignore', 'ignore_ament_install']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extension 'ignore'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extension 'ignore_ament_install'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extensions ['colcon_pkg']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extension 'colcon_pkg'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extensions ['colcon_meta']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extension 'colcon_meta'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extensions ['ros']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_description) by extension 'ros'
+[0.109s] DEBUG:colcon.colcon_core.package_identification:Package 'src/exo_description' with type 'ros.ament_cmake' and name 'exo_description'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extensions ['ignore', 'ignore_ament_install']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extension 'ignore'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extension 'ignore_ament_install'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extensions ['colcon_pkg']
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extension 'colcon_pkg'
+[0.109s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extensions ['colcon_meta']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extension 'colcon_meta'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extensions ['ros']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/exo_hardware) by extension 'ros'
+[0.110s] DEBUG:colcon.colcon_core.package_identification:Package 'src/exo_hardware' with type 'ros.ament_cmake' and name 'exo_hardware'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extensions ['ignore', 'ignore_ament_install']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extension 'ignore'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extension 'ignore_ament_install'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extensions ['colcon_pkg']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extension 'colcon_pkg'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extensions ['colcon_meta']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extension 'colcon_meta'
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extensions ['ros']
+[0.110s] Level 1:colcon.colcon_core.package_identification:_identify(src/gravity_compensation_controller) by extension 'ros'
+[0.110s] DEBUG:colcon.colcon_core.package_identification:Package 'src/gravity_compensation_controller' with type 'ros.ament_cmake' and name 'gravity_compensation_controller'
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extensions ['ignore', 'ignore_ament_install']
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extension 'ignore'
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extension 'ignore_ament_install'
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extensions ['colcon_pkg']
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extension 'colcon_pkg'
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extensions ['colcon_meta']
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extension 'colcon_meta'
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extensions ['ros']
+[0.111s] Level 1:colcon.colcon_core.package_identification:_identify(src/joint_state_broadcaster) by extension 'ros'
+[0.111s] DEBUG:colcon.colcon_core.package_identification:Package 'src/joint_state_broadcaster' with type 'ros.ament_cmake' and name 'joint_state_broadcaster'
+[0.112s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.112s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.112s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.112s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.112s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.123s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/farid/tesis/exo_right_arm_ws/install/exo_description' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.ament:The path '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup' in the environment variable AMENT_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.124s] WARNING:colcon.colcon_ros.prefix_path.catkin:The path '/home/farid/tesis/exo_right_arm_ws/install/exo_description' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+[0.125s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /home/farid/tesis/exo_right_arm_ws/install
+[0.126s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 371 installed packages in /opt/ros/jazzy
+[0.126s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.154s] WARNING:colcon.colcon_core.package_selection:Some selected packages are already built in one or more underlay workspaces:
+	'joint_state_broadcaster' is in: /opt/ros/jazzy
+If a package in a merged underlay workspace is overridden and it installs headers, then all packages in the overlay must sort their include directories by workspace order. Failure to do so may result in build failures or undefined behavior at run time.
+If the overridden package is used by another package in any underlay, then the overriding package in the overlay must be API and ABI compatible or undefined behavior at run time may occur.
+
+If you understand the risks and want to override a package anyways, add the following to the command line:
+	--allow-overriding joint_state_broadcaster
+
+This may be promoted to an error in a future release of colcon-override-check.
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_args' from command line to 'None'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_target' from command line to 'None'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_clean_cache' from command line to 'False'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_clean_first' from command line to 'False'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'cmake_force_configure' from command line to 'False'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'ament_cmake_args' from command line to 'None'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'catkin_cmake_args' from command line to 'None'
+[0.154s] Level 5:colcon.colcon_core.verb:set package 'exo_bringup' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.154s] DEBUG:colcon.colcon_core.verb:Building package 'exo_bringup' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/farid/tesis/exo_right_arm_ws/build/exo_bringup', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup', 'merge_install': False, 'path': '/home/farid/tesis/exo_right_arm_ws/src/exo_bringup', 'symlink_install': False, 'test_result_base': None}
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_target' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_clean_cache' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_clean_first' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'cmake_force_configure' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'ament_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'catkin_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.155s] DEBUG:colcon.colcon_core.verb:Building package 'exo_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/farid/tesis/exo_right_arm_ws/build/exo_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/farid/tesis/exo_right_arm_ws/install/exo_description', 'merge_install': False, 'path': '/home/farid/tesis/exo_right_arm_ws/src/exo_description', 'symlink_install': False, 'test_result_base': None}
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_target' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_clean_cache' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_clean_first' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'cmake_force_configure' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'ament_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'catkin_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'exo_hardware' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.155s] DEBUG:colcon.colcon_core.verb:Building package 'exo_hardware' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware', 'merge_install': False, 'path': '/home/farid/tesis/exo_right_arm_ws/src/exo_hardware', 'symlink_install': False, 'test_result_base': None}
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_target' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_clean_cache' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_clean_first' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'cmake_force_configure' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'ament_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'catkin_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'gravity_compensation_controller' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.155s] DEBUG:colcon.colcon_core.verb:Building package 'gravity_compensation_controller' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller', 'merge_install': False, 'path': '/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller', 'symlink_install': False, 'test_result_base': None}
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_target' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_clean_cache' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_clean_first' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'cmake_force_configure' from command line to 'False'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'ament_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'catkin_cmake_args' from command line to 'None'
+[0.155s] Level 5:colcon.colcon_core.verb:set package 'joint_state_broadcaster' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.155s] DEBUG:colcon.colcon_core.verb:Building package 'joint_state_broadcaster' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster', 'merge_install': False, 'path': '/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster', 'symlink_install': False, 'test_result_base': None}
+[0.155s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.156s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.156s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/farid/tesis/exo_right_arm_ws/src/exo_bringup' with build type 'ament_python'
+[0.156s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_bringup', 'ament_prefix_path')
+[0.158s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.158s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/ament_prefix_path.ps1'
+[0.158s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/ament_prefix_path.dsv'
+[0.158s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/ament_prefix_path.sh'
+[0.159s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.159s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.161s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/farid/tesis/exo_right_arm_ws/src/exo_description' with build type 'ament_cmake'
+[0.161s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/farid/tesis/exo_right_arm_ws/src/exo_description'
+[0.161s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.161s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.163s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/farid/tesis/exo_right_arm_ws/src/exo_hardware' with build type 'ament_cmake'
+[0.163s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/farid/tesis/exo_right_arm_ws/src/exo_hardware'
+[0.163s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.163s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.166s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller' with build type 'ament_cmake'
+[0.166s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller'
+[0.166s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.166s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.168s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster' with build type 'ament_cmake'
+[0.168s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster'
+[0.168s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.168s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.304s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/farid/tesis/exo_right_arm_ws/src/exo_bringup'
+[0.304s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.304s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.308s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/exo_description -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/exo_description
+[0.309s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/exo_hardware -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/exo_hardware
+[0.310s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller
+[0.313s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster
+[0.696s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/src/exo_bringup': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/exo_bringup build --build-base /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build install --record /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/install.log --single-version-externally-managed install_data
+[0.879s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/exo_description -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/exo_description
+[0.880s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_description -- -j32 -l32
+[0.915s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_description -- -j32 -l32
+[0.924s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_description
+[0.935s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(exo_description)
+[0.935s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_description
+[0.937s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description' for CMake module files
+[0.938s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description' for CMake config files
+[0.938s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_description', 'cmake_prefix_path')
+[0.938s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.ps1'
+[0.938s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.dsv'
+[0.939s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.sh'
+[0.939s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/bin'
+[0.939s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/lib/pkgconfig/exo_description.pc'
+[0.940s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/lib/python3.12/site-packages'
+[0.940s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/bin'
+[0.940s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.ps1'
+[0.941s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.dsv'
+[0.941s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.sh'
+[0.942s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.bash'
+[0.942s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.zsh'
+[0.942s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/colcon-core/packages/exo_description)
+[0.943s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(exo_description)
+[0.943s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description' for CMake module files
+[0.943s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description' for CMake config files
+[0.943s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_description', 'cmake_prefix_path')
+[0.943s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.ps1'
+[0.943s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.dsv'
+[0.944s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/hook/cmake_prefix_path.sh'
+[0.944s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/bin'
+[0.944s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/lib/pkgconfig/exo_description.pc'
+[0.944s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/lib/python3.12/site-packages'
+[0.944s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_description/bin'
+[0.944s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.ps1'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.dsv'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.sh'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.bash'
+[0.945s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.zsh'
+[0.945s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/colcon-core/packages/exo_description)
+[1.015s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup' for CMake module files
+[1.015s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/src/exo_bringup' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/exo_bringup build --build-base /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build install --record /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/install.log --single-version-externally-managed install_data
+[1.016s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup' for CMake config files
+[1.016s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib'
+[1.017s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/bin'
+[1.017s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/pkgconfig/exo_bringup.pc'
+[1.017s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages'
+[1.017s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_bringup', 'pythonpath')
+[1.017s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/pythonpath.ps1'
+[1.018s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/pythonpath.dsv'
+[1.018s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/hook/pythonpath.sh'
+[1.019s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/bin'
+[1.019s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(exo_bringup)
+[1.019s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/package.ps1'
+[1.019s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/package.dsv'
+[1.020s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/package.sh'
+[1.020s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/package.bash'
+[1.020s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/package.zsh'
+[1.021s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/colcon-core/packages/exo_bringup)
+[1.506s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller
+[1.506s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[1.509s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/exo_hardware -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/exo_hardware
+[1.510s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_hardware -- -j32 -l32
+[1.647s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster
+[1.648s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[4.338s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_hardware -- -j32 -l32
+[4.339s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_hardware
+[4.348s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(exo_hardware)
+[4.348s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_hardware' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/exo_hardware
+[4.348s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' for CMake module files
+[4.349s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' for CMake config files
+[4.349s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_hardware', 'cmake_prefix_path')
+[4.349s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.ps1'
+[4.350s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.dsv'
+[4.350s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.sh'
+[4.350s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib'
+[4.350s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_hardware', 'ld_library_path_lib')
+[4.351s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.ps1'
+[4.351s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.dsv'
+[4.351s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.sh'
+[4.351s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/bin'
+[4.351s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/pkgconfig/exo_hardware.pc'
+[4.351s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/python3.12/site-packages'
+[4.352s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/bin'
+[4.352s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.ps1'
+[4.352s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.dsv'
+[4.352s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.sh'
+[4.352s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.bash'
+[4.353s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.zsh'
+[4.353s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/colcon-core/packages/exo_hardware)
+[4.353s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(exo_hardware)
+[4.353s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' for CMake module files
+[4.353s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware' for CMake config files
+[4.353s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_hardware', 'cmake_prefix_path')
+[4.354s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.ps1'
+[4.354s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.dsv'
+[4.354s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/cmake_prefix_path.sh'
+[4.354s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib'
+[4.354s] Level 1:colcon.colcon_core.shell:create_environment_hook('exo_hardware', 'ld_library_path_lib')
+[4.354s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.ps1'
+[4.355s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.dsv'
+[4.355s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/hook/ld_library_path_lib.sh'
+[4.355s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/bin'
+[4.355s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/pkgconfig/exo_hardware.pc'
+[4.355s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/lib/python3.12/site-packages'
+[4.355s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/bin'
+[4.355s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.ps1'
+[4.356s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.dsv'
+[4.356s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.sh'
+[4.356s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.bash'
+[4.357s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/exo_hardware/package.zsh'
+[4.357s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/exo_hardware/share/colcon-core/packages/exo_hardware)
+[4.388s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[4.388s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
+[4.401s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(gravity_compensation_controller)
+[4.401s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
+[4.402s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' for CMake module files
+[4.402s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' for CMake config files
+[4.402s] Level 1:colcon.colcon_core.shell:create_environment_hook('gravity_compensation_controller', 'cmake_prefix_path')
+[4.402s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.ps1'
+[4.402s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.dsv'
+[4.403s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.sh'
+[4.403s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib'
+[4.403s] Level 1:colcon.colcon_core.shell:create_environment_hook('gravity_compensation_controller', 'ld_library_path_lib')
+[4.403s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.ps1'
+[4.403s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.dsv'
+[4.403s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.sh'
+[4.404s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/bin'
+[4.404s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/pkgconfig/gravity_compensation_controller.pc'
+[4.404s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/python3.12/site-packages'
+[4.404s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/bin'
+[4.404s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.ps1'
+[4.404s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.dsv'
+[4.405s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.sh'
+[4.405s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.bash'
+[4.405s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.zsh'
+[4.405s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/colcon-core/packages/gravity_compensation_controller)
+[4.405s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(gravity_compensation_controller)
+[4.405s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' for CMake module files
+[4.406s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller' for CMake config files
+[4.406s] Level 1:colcon.colcon_core.shell:create_environment_hook('gravity_compensation_controller', 'cmake_prefix_path')
+[4.406s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.ps1'
+[4.406s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.dsv'
+[4.406s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/cmake_prefix_path.sh'
+[4.407s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib'
+[4.407s] Level 1:colcon.colcon_core.shell:create_environment_hook('gravity_compensation_controller', 'ld_library_path_lib')
+[4.407s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.ps1'
+[4.407s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.dsv'
+[4.407s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/hook/ld_library_path_lib.sh'
+[4.407s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/bin'
+[4.407s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/pkgconfig/gravity_compensation_controller.pc'
+[4.407s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/python3.12/site-packages'
+[4.408s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/bin'
+[4.408s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.ps1'
+[4.408s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.dsv'
+[4.408s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.sh'
+[4.408s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.bash'
+[4.409s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.zsh'
+[4.409s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/colcon-core/packages/gravity_compensation_controller)
+[14.457s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[14.458s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster
+[14.471s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(joint_state_broadcaster)
+[14.471s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster
+[14.471s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' for CMake module files
+[14.472s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' for CMake config files
+[14.472s] Level 1:colcon.colcon_core.shell:create_environment_hook('joint_state_broadcaster', 'cmake_prefix_path')
+[14.472s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.ps1'
+[14.472s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.dsv'
+[14.473s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.sh'
+[14.473s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib'
+[14.473s] Level 1:colcon.colcon_core.shell:create_environment_hook('joint_state_broadcaster', 'ld_library_path_lib')
+[14.473s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.ps1'
+[14.473s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.dsv'
+[14.473s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.sh'
+[14.474s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/bin'
+[14.474s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/pkgconfig/joint_state_broadcaster.pc'
+[14.474s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/python3.12/site-packages'
+[14.474s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/bin'
+[14.475s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.ps1'
+[14.475s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.dsv'
+[14.476s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.sh'
+[14.476s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.bash'
+[14.476s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.zsh'
+[14.476s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/colcon-core/packages/joint_state_broadcaster)
+[14.477s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(joint_state_broadcaster)
+[14.477s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' for CMake module files
+[14.478s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster' for CMake config files
+[14.478s] Level 1:colcon.colcon_core.shell:create_environment_hook('joint_state_broadcaster', 'cmake_prefix_path')
+[14.478s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.ps1'
+[14.478s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.dsv'
+[14.479s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/cmake_prefix_path.sh'
+[14.479s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib'
+[14.479s] Level 1:colcon.colcon_core.shell:create_environment_hook('joint_state_broadcaster', 'ld_library_path_lib')
+[14.479s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.ps1'
+[14.480s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.dsv'
+[14.480s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/hook/ld_library_path_lib.sh'
+[14.480s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/bin'
+[14.480s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/pkgconfig/joint_state_broadcaster.pc'
+[14.481s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/python3.12/site-packages'
+[14.481s] Level 1:colcon.colcon_core.environment:checking '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/bin'
+[14.481s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.ps1'
+[14.482s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.dsv'
+[14.482s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.sh'
+[14.482s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.bash'
+[14.483s] INFO:colcon.colcon_core.shell:Creating package script '/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.zsh'
+[14.483s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/colcon-core/packages/joint_state_broadcaster)
+[14.483s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[14.484s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[14.484s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[14.484s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[14.490s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[14.490s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[14.490s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[14.516s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[14.516s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/farid/tesis/exo_right_arm_ws/install/local_setup.ps1'
+[14.517s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/farid/tesis/exo_right_arm_ws/install/_local_setup_util_ps1.py'
+[14.518s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/farid/tesis/exo_right_arm_ws/install/setup.ps1'
+[14.519s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/farid/tesis/exo_right_arm_ws/install/local_setup.sh'
+[14.520s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/farid/tesis/exo_right_arm_ws/install/_local_setup_util_sh.py'
+[14.520s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/farid/tesis/exo_right_arm_ws/install/setup.sh'
+[14.521s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/farid/tesis/exo_right_arm_ws/install/local_setup.bash'
+[14.521s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/farid/tesis/exo_right_arm_ws/install/setup.bash'
+[14.522s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/farid/tesis/exo_right_arm_ws/install/local_setup.zsh'
+[14.523s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/farid/tesis/exo_right_arm_ws/install/setup.zsh'

@@ -1,0 +1,101 @@
+[0.144s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster
+[0.190s] -- The C compiler identification is GNU 13.3.0
+[0.234s] -- The CXX compiler identification is GNU 13.3.0
+[0.248s] -- Detecting C compiler ABI info
+[0.320s] -- Detecting C compiler ABI info - done
+[0.327s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.327s] -- Detecting C compile features
+[0.328s] -- Detecting C compile features - done
+[0.336s] -- Detecting CXX compiler ABI info
+[0.418s] -- Detecting CXX compiler ABI info - done
+[0.428s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.428s] -- Detecting CXX compile features
+[0.428s] -- Detecting CXX compile features - done
+[0.431s] -- Found ros2_control_cmake: 0.3.0 (/opt/ros/jazzy/share/ros2_control_cmake/cmake)
+[0.431s] -- Compiler warnings enabled for GNU
+[0.431s] -- Detected GCC Version: 13.3.0 (Major: 13, Minor: 3)
+[0.433s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.568s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.652s] -- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+[0.683s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.694s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.707s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.721s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.735s] -- Found control_msgs: 5.7.0 (/opt/ros/jazzy/share/control_msgs/cmake)
+[0.862s] -- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[0.898s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.936s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.938s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.958s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.011s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[1.014s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.027s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[1.029s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.036s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[1.045s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.267s] -- Found generate_parameter_library: 0.6.0 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+[1.269s] -- Found parameter_traits: 0.6.0 (/opt/ros/jazzy/share/parameter_traits/cmake)
+[1.287s] -- Found ament_cmake_gmock: 2.5.5 (/opt/ros/jazzy/share/ament_cmake_gmock/cmake)
+[1.289s] -- Found controller_manager: 4.42.2 (/opt/ros/jazzy/share/controller_manager/cmake)
+[1.352s] -- Found ros2_control_test_assets: 4.42.2 (/opt/ros/jazzy/share/ros2_control_test_assets/cmake)
+[1.354s] -- Found gmock sources under '/opt/ros/jazzy/src/gmock_vendor': C++ tests using 'Google Mock' will be built
+[1.359s] -- Found ament_cmake_gtest: 2.5.5 (/opt/ros/jazzy/share/ament_cmake_gtest/cmake)
+[1.360s] -- Found gtest sources under '/opt/ros/jazzy/src/gtest_vendor': C++ tests using 'Google Test' will be built
+[1.427s] -- Configuring done (1.3s)
+[1.460s] -- Generating done (0.0s)
+[1.468s] -- Build files have been written to: /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster
+[1.478s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster
+[1.479s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[1.524s] [  7%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster_parameters.hpp /home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster/src/joint_state_broadcaster_parameters.yaml `[0m
+[1.524s] [ 15%] [32mBuilding CXX object gmock/CMakeFiles/gmock.dir/opt/ros/jazzy/src/gtest_vendor/src/gtest-all.cc.o[0m
+[1.524s] [ 23%] [32mBuilding CXX object gmock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o[0m
+[1.526s] [ 30%] [32mBuilding CXX object gmock/CMakeFiles/gmock.dir/src/gmock-all.cc.o[0m
+[1.993s] [ 38%] [34m[1mCreating deprecated header file /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/include/joint_state_broadcaster_parameters.hpp[0m
+[2.013s] [ 38%] Built target joint_state_broadcaster_parameters
+[2.038s] [ 46%] [32mBuilding CXX object CMakeFiles/joint_state_broadcaster.dir/src/joint_state_broadcaster.cpp.o[0m
+[2.189s] [ 53%] [32m[1mLinking CXX static library libgmock_main.a[0m
+[2.241s] [ 53%] Built target gmock_main
+[3.957s] [ 61%] [32m[1mLinking CXX static library libgmock.a[0m
+[4.031s] [ 61%] Built target gmock
+[6.733s] [ 69%] [32m[1mLinking CXX shared library libjoint_state_broadcaster.so[0m
+[6.945s] [ 69%] Built target joint_state_broadcaster
+[6.968s] [ 76%] [32mBuilding CXX object CMakeFiles/test_load_joint_state_broadcaster.dir/test/test_load_joint_state_broadcaster.cpp.o[0m
+[6.971s] [ 84%] [32mBuilding CXX object CMakeFiles/test_joint_state_broadcaster.dir/test/test_joint_state_broadcaster.cpp.o[0m
+[10.465s] [ 92%] [32m[1mLinking CXX executable test_load_joint_state_broadcaster[0m
+[10.686s] [ 92%] Built target test_load_joint_state_broadcaster
+[13.861s] [100%] [32m[1mLinking CXX executable test_joint_state_broadcaster[0m
+[14.277s] [100%] Built target test_joint_state_broadcaster
+[14.289s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[14.290s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster
+[14.297s] -- Install configuration: ""
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster_parameters.hpp
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/joint_state_plugin.xml
+[14.298s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster/joint_state_broadcaster.hpp
+[14.298s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/libjoint_state_broadcaster.so
+[14.300s] -- Set non-toolchain portion of runtime path of "/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/libjoint_state_broadcaster.so" to ""
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/library_path.sh
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/library_path.dsv
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/package_run_dependencies/joint_state_broadcaster
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/parent_prefix_path/joint_state_broadcaster
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/ament_prefix_path.sh
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/ament_prefix_path.dsv
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/path.sh
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/path.dsv
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.bash
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.sh
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.zsh
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.dsv
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.dsv
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/packages/joint_state_broadcaster
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/controller_interface__pluginlib__plugin/joint_state_broadcaster
+[14.301s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport-noconfig.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/ament_cmake_export_dependencies-extras.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/ament_cmake_export_targets-extras.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/joint_state_broadcasterConfig.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/joint_state_broadcasterConfig-version.cmake
+[14.302s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.xml
+[14.303s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster

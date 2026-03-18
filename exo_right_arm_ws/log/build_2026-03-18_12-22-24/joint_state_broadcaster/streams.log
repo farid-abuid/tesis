@@ -1,0 +1,45 @@
+[0.180s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[0.221s] [ 15%] Built target joint_state_broadcaster_parameters
+[0.224s] [ 30%] Built target gmock_main
+[0.231s] [ 53%] Built target gmock
+[0.250s] [ 61%] [32mBuilding CXX object CMakeFiles/joint_state_broadcaster.dir/src/joint_state_broadcaster.cpp.o[0m
+[4.856s] [ 69%] [32m[1mLinking CXX shared library libjoint_state_broadcaster.so[0m
+[5.066s] [ 69%] Built target joint_state_broadcaster
+[5.096s] [ 76%] [32m[1mLinking CXX executable test_joint_state_broadcaster[0m
+[5.098s] [ 84%] [32m[1mLinking CXX executable test_load_joint_state_broadcaster[0m
+[5.319s] [ 92%] Built target test_load_joint_state_broadcaster
+[5.578s] [100%] Built target test_joint_state_broadcaster
+[5.589s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster -- -j32 -l32
+[5.591s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster
+[5.601s] -- Install configuration: ""
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster_parameters.hpp
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/joint_state_plugin.xml
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster
+[5.601s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/include/joint_state_broadcaster/joint_state_broadcaster/joint_state_broadcaster.hpp
+[5.601s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/libjoint_state_broadcaster.so
+[5.605s] -- Set non-toolchain portion of runtime path of "/home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/lib/libjoint_state_broadcaster.so" to ""
+[5.605s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/library_path.sh
+[5.605s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/library_path.dsv
+[5.605s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/package_run_dependencies/joint_state_broadcaster
+[5.605s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/parent_prefix_path/joint_state_broadcaster
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/ament_prefix_path.sh
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/ament_prefix_path.dsv
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/path.sh
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/environment/path.dsv
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.bash
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.sh
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.zsh
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/local_setup.dsv
+[5.606s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.dsv
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/packages/joint_state_broadcaster
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/ament_index/resource_index/controller_interface__pluginlib__plugin/joint_state_broadcaster
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport.cmake
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport-noconfig.cmake
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/ament_cmake_export_dependencies-extras.cmake
+[5.606s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/ament_cmake_export_targets-extras.cmake
+[5.607s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/joint_state_broadcasterConfig.cmake
+[5.607s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/cmake/joint_state_broadcasterConfig-version.cmake
+[5.607s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/joint_state_broadcaster/share/joint_state_broadcaster/package.xml
+[5.608s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster

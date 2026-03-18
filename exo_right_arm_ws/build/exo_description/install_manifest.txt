@@ -14,8 +14,8 @@
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/display.launch
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/gazebo.launch
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/controller.yaml
-/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/urdf.rviz
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/config/controllers.yaml
+/home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/rviz/exo.rviz
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/ament_index/resource_index/package_run_dependencies/exo_description
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/ament_index/resource_index/parent_prefix_path/exo_description
 /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/environment/ament_prefix_path.sh

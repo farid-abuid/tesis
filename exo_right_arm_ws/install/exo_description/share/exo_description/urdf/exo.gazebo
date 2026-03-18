@@ -1,10 +1,15 @@
 <?xml version="1.0" ?>
 <robot name="exo" xmlns:xacro="http://www.ros.org/wiki/xacro" >
-<xacro:property name="body_color" value="Gazebo/Silver" />
+<xacro:property name="body_color" value="0.1 0.1 0.1 1.0" />
 
 <gazebo>
-  <plugin name="control" filename="libgazebo_ros_control.so"/>
+  <plugin
+    filename="libgz_ros2_control-system.so"
+    name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+    <parameters>$(find exo_bringup)/config/${xacro.arg('controller_config')}</parameters>
+  </plugin>
 </gazebo>
+
 <gazebo reference="base_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>

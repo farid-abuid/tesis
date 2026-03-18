@@ -7,8 +7,10 @@ setup.py
 ../../build/exo_bringup/exo_bringup.egg-info/requires.txt
 ../../build/exo_bringup/exo_bringup.egg-info/top_level.txt
 ../../build/exo_bringup/exo_bringup.egg-info/zip-safe
-config/controllers.yaml
+config/controllers_effort.yaml
+config/controllers_gravity_compensation.yaml
 launch/exo.launch.py
+launch/gazebo.launch.py
 launch/rviz.launch.py
 resource/exo_bringup
 test/test_copyright.py

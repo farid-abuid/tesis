@@ -1,18 +1,20 @@
 <?xml version="1.0" ?>
 <robot name="exo" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+<xacro:arg name="hardware" default="real"/>
+<xacro:arg name="controller_config" default="controllers_effort.yaml"/>
 
 <xacro:include filename="$(find exo_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find exo_description)/urdf/exo.trans" />
-<xacro:include filename="$(find exo_description)/urdf/exo.gazebo" />
 
-<link name="base"/>
+<link name="world"/>
 
-<joint name="base_to_base_link" type="fixed">
-  <parent link="base"/>
+<joint name="world_fixed" type="fixed">
+  <parent link="world"/>
   <child link="base_link"/>
-  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <origin xyz="0 0 0.6" rpy="0 0 0"/>
 </joint>
+
 
 <link name="base_link">
   <inertial>
@@ -46,7 +48,7 @@
     <geometry>
       <mesh filename="package://exo_description/meshes/Motor1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin xyz="0.014 0.0 -0.0" rpy="0 0 0"/>
@@ -88,7 +90,7 @@
     <geometry>
       <mesh filename="package://exo_description/meshes/Motor2_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin xyz="-0.07 0.087 -0.0" rpy="0 0 0"/>
@@ -151,7 +153,7 @@
     <geometry>
       <mesh filename="package://exo_description/meshes/Motor3_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin xyz="-0.072983 0.0905 0.285589" rpy="0 0 0"/>
@@ -182,12 +184,13 @@
   </collision>
 </link>
 
-<joint name="revolute_1" type="continuous">
+<joint name="revolute_1" type="revolute">
   <origin xyz="-0.014 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Motor1_1"/>
   <axis xyz="-1.0 -0.0 0.0"/>
   <dynamics damping="0.012" friction="0.1184"/>
+  <limit lower="0" upper="1.919" effort="20" velocity="11"/>
 </joint>
 
 <joint name="rigid_2" type="fixed">
@@ -202,12 +205,14 @@
   <child link="Motor2_1"/>
 </joint>
 
-<joint name="revolute_2" type="continuous">
+<joint name="revolute_2" type="revolute">
   <origin xyz="0.0 0.003 0.0" rpy="0 0 0"/>
   <parent link="Motor2_1"/>
   <child link="Componente3_v1_1"/>
-  <axis xyz="-0.0 1.0 -0.0"/>
+  <axis xyz="0.0 -1.0 0.0"/>
   <dynamics damping="0.012" friction="0.1184"/>
+  <limit lower="-0.56" upper="2.793" effort="20" velocity="11"/>
+
 </joint>
 
 <joint name="rigid_6" type="fixed">
@@ -216,12 +221,14 @@
   <child link="Componente4_v1_1"/>
 </joint>
 
-<joint name="revolute_3" type="continuous">
+<joint name="revolute_3" type="revolute">
   <origin xyz="0.002653 -0.0095 -0.24002" rpy="0 0 0"/>
   <parent link="Componente4_v1_1"/>
   <child link="Motor3_1"/>
   <axis xyz="-0.0 -1.0 -0.0"/>
   <dynamics damping="0.012" friction="0.1184"/>
+  <limit lower="0" upper="2.094" effort="20" velocity="11"/>
+
 </joint>
 
 <joint name="rigid_8" type="fixed">
@@ -229,8 +236,6 @@
   <parent link="Motor3_1"/>
   <child link="Componente5_v1_1"/>
 </joint>
-
-<xacro:arg name="hardware" default="real"/>
 
 <ros2_control name="exo_right_arm" type="system">
   <hardware>
@@ -240,7 +245,7 @@
     </xacro:if>
 
     <xacro:if value="${xacro.arg('hardware') == 'gazebo'}">
-      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </xacro:if>
 
   </hardware>
@@ -268,5 +273,10 @@
   </joint>
 
 </ros2_control>
+
+<xacro:if value="${xacro.arg('hardware') == 'gazebo'}">
+
+  <xacro:include filename="$(find exo_description)/urdf/exo.gazebo"/>
+</xacro:if>
 
 </robot>

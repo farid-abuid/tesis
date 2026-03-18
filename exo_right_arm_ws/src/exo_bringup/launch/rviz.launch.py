@@ -18,7 +18,13 @@ def generate_launch_description():
         " hardware:=real"
     ]),
     value_type=str
-)
+    )
+
+    rviz_config = PathJoinSubstitution([
+        FindPackageShare("exo_description"),
+        "rviz",
+        "exo.rviz"
+    ])
 
     controller_config = PathJoinSubstitution([
         FindPackageShare("exo_bringup"),

@@ -48,6 +48,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/home/farid/tesis/exo_right_arm_ws/src/exo_description/meshes"
     "/home/farid/tesis/exo_right_arm_ws/src/exo_description/launch"
     "/home/farid/tesis/exo_right_arm_ws/src/exo_description/config"
+    "/home/farid/tesis/exo_right_arm_ws/src/exo_description/rviz"
     )
 endif()
 

@@ -1,0 +1,35 @@
+[0.153s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[0.206s] [ 50%] [32mBuilding CXX object CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.o[0m
+[1.828s] [01m[K/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/gravity_compensation_controller.cpp:[m[K In member function ‘[01m[Kvirtual controller_interface::return_type gravity_compensation_controller::GravityCompensationController::[01;32m[Kupdate[m[K(const rclcpp::Time&, const rclcpp::Duration&)[m[K’:
+[1.828s] [01m[K/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/gravity_compensation_controller.cpp:198:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdq[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[1.828s]   198 |     double [01;35m[Kdq[m[K = *dq_opt;
+[1.828s]       |            [01;35m[K^~[m[K
+[3.022s] [100%] [32m[1mLinking CXX shared library libgravity_compensation_controller.so[0m
+[3.145s] [100%] Built target gravity_compensation_controller
+[3.156s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[3.157s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
+[3.166s] -- Install configuration: ""
+[3.167s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/gravity_compensation_controller_plugin.xml
+[3.167s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/libgravity_compensation_controller.so
+[3.168s] -- Set non-toolchain portion of runtime path of "/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/libgravity_compensation_controller.so" to ""
+[3.168s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/include
+[3.168s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/include/gravity_compensation_controller
+[3.168s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/include/gravity_compensation_controller/gravity_compensation_controller.hpp
+[3.168s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/gravity_compensation_controller_plugin.xml
+[3.168s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/package_run_dependencies/gravity_compensation_controller
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/parent_prefix_path/gravity_compensation_controller
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/ament_prefix_path.sh
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/ament_prefix_path.dsv
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/path.sh
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/path.dsv
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.bash
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.sh
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.zsh
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.dsv
+[3.169s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.dsv
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/packages/gravity_compensation_controller
+[3.169s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/gravity_compensation_controller
+[3.170s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/cmake/gravity_compensation_controllerConfig.cmake
+[3.170s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/cmake/gravity_compensation_controllerConfig-version.cmake
+[3.170s] -- Up-to-date: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.xml
+[3.171s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
