@@ -1,5 +1,7 @@
 #include <FlexCAN_T4.h>
+#include <string.h>
 
+#define LED_PIN 13
 #define HEADER1 0xAA
 #define HEADER2 0x55
 #define MAX_MOTORS 8
@@ -22,7 +24,9 @@ struct __attribute__((packed)) MotorStatus2 {
     float angle;
 };
 
-float motorCmd[MAX_MOTORS];
+float motorCmdOld[MAX_MOTORS];
+float motorCmdNew[MAX_MOTORS];
+
 uint8_t motorIDs[MAX_MOTORS];
 MotorStatus2 motorData[MAX_MOTORS];
 
@@ -61,7 +65,7 @@ void parseMotorCommands()
         memcpy(&val, &rxBuf[2 + 5*i], 4);
 
         motorIDs[i] = id;
-        motorCmd[i] = val;
+        motorCmdNew[i] = val;
     }
 }
 
@@ -246,6 +250,8 @@ void canAbsolutePositionControl(uint8_t motorID,
 
 void setup()
 {
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(LED_PIN, LOW);
     Serial.begin(115200);
 
     Can1.begin();
@@ -258,6 +264,7 @@ void setup()
 void loop()
 {
     uint32_t now = micros();
+    digitalWrite(LED_PIN, LOW);
 
     if (now - last < DT_US) return;
     last += DT_US;
@@ -266,6 +273,13 @@ void loop()
 
     if (!send_command)
         return;
+    
+    if (memcmp(motorCmdOld, motorCmdNew, n_motors * sizeof(float)) == 0)
+        return;
+
+    memcpy(motorCmdOld, motorCmdNew, n_motors * sizeof(float));
+
+    digitalWrite(LED_PIN, HIGH);
 
     switch (cmd_type)
     {
@@ -274,7 +288,7 @@ void loop()
 
         for (int i = 0; i < n_motors; i++)
         {
-            int16_t iq = motorCmd[i] / Kt * 100.0f; //Nm -> A -> 100*A (CAN)
+            int16_t iq = motorCmdNew[i] / Kt * 100.0f; //Nm -> A -> 100*A (CAN)
             canTorqueControl(motorIDs[i], iq);
         }
 
@@ -283,14 +297,14 @@ void loop()
     case 2:
 
         for (int i = 0; i < n_motors; i++)
-            canSpeedControl(motorIDs[i], motorCmd[i]);
+            canSpeedControl(motorIDs[i], motorCmdNew[i]);
 
         break;
 
     case 4:
 
         for (int i = 0; i < n_motors; i++)
-            canAbsolutePositionControl(motorIDs[i], motorCmd[i]);
+            canAbsolutePositionControl(motorIDs[i], motorCmdNew[i]);
 
         break;
 
