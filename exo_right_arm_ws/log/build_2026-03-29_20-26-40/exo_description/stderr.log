@@ -1,5 +1,0 @@
-error: <class 'ament_index_python.packages.PackageNotFoundError'>: "package 'exo_description' not found, searching: ['/opt/ros/jazzy']" "package 'exo_description' not found, searching: ['/opt/ros/jazzy']"
-when processing file: /home/farid/tesis/exo_right_arm_ws/src/exo_description/urdf/exo.xacro
-gmake[2]: *** [CMakeFiles/generate_exo_dynamics_urdf.dir/build.make:76: exo_dynamics.urdf] Error 2
-gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/generate_exo_dynamics_urdf.dir/all] Error 2
-gmake: *** [Makefile:146: all] Error 2

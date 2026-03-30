@@ -1,1 +1,0 @@
-/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/libgravity_compensation_controller.so

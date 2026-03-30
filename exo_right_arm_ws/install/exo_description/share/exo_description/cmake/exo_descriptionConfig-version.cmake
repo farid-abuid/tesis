@@ -1,1 +1,0 @@
-/home/farid/tesis/exo_right_arm_ws/build/exo_description/ament_cmake_core/exo_descriptionConfig-version.cmake
