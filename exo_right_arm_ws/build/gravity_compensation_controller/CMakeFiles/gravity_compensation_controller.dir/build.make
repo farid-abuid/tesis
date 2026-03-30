@@ -83,50 +83,44 @@ CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controll
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/gravity_compensation_controller.cpp -o CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.s
 
+CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o: CMakeFiles/gravity_compensation_controller.dir/flags.make
+CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o: /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/dynamics_backend.cpp
+CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o: CMakeFiles/gravity_compensation_controller.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o -MF CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o.d -o CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o -c /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/dynamics_backend.cpp
+
+CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/dynamics_backend.cpp > CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.i
+
+CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/dynamics_backend.cpp -o CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.s
+
 # Object files for target gravity_compensation_controller
 gravity_compensation_controller_OBJECTS = \
-"CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.o"
+"CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.o" \
+"CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o"
 
 # External object files for target gravity_compensation_controller
 gravity_compensation_controller_EXTERNAL_OBJECTS =
 
 libgravity_compensation_controller.so: CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.o
+libgravity_compensation_controller.so: CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o
 libgravity_compensation_controller.so: CMakeFiles/gravity_compensation_controller.dir/build.make
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontroller_interface.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libmock_components.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libhardware_interface.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libthread_priority.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libjoint_saturation_limiter.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libjoint_limiter_interface.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libclass_loader.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libjoint_limits_helpers.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp_lifecycle.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librealtime_tools.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp_action.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_action.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp_lifecycle.so
 libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libfmt.so.9.1.0
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liburdf.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/x86_64-linux-gnu/liburdfdom_model.so.4.0
-libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0
-libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libtinyxml2.so.10.0.0
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liblibstatistics_collector.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so
@@ -184,28 +178,6 @@ libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libpal_statistics_msgs
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp_lifecycle.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_lifecycle.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_yaml_param_parser.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_logging_interface.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librmw_implementation.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libament_index_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtracetools.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_typesupport_introspection_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_typesupport_fastrtps_cpp.so
@@ -221,50 +193,28 @@ libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosid
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_fastrtps_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_introspection_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_introspection_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_fastrtps_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_py.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_generator_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_fastrtps_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_fastrtps_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_introspection_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libsensor_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so
@@ -272,11 +222,71 @@ libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_ty
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp_action.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librclcpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/liblibstatistics_collector.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstatistics_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_action.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_interfaces__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_yaml_param_parser.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtracetools.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcl_logging_interface.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librmw_implementation.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libament_index_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_introspection_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_introspection_cpp.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
@@ -288,14 +298,33 @@ libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_typesupport_
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_py.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_typesupport_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcpputils.so
-libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_generator_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librosidl_runtime_c.so
 libgravity_compensation_controller.so: /opt/ros/jazzy/lib/librcutils.so
+libgravity_compensation_controller.so: /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_parsers.so.3.8.0
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/x86_64-linux-gnu/liburdfdom_sensor.so.4.0
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/x86_64-linux-gnu/liburdfdom_model.so.4.0
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/x86_64-linux-gnu/liburdfdom_world.so.4.0
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libtinyxml2.so.10.0.0
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0
+libgravity_compensation_controller.so: /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_collision.so.3.8.0
+libgravity_compensation_controller.so: /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_visualizers.so.3.8.0
+libgravity_compensation_controller.so: /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_default.so.3.8.0
+libgravity_compensation_controller.so: /opt/ros/jazzy/lib/x86_64-linux-gnu/libhpp-fcl.so
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libboost_serialization.so
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/liboctomap.so.1.9.7
+libgravity_compensation_controller.so: /usr/lib/x86_64-linux-gnu/liboctomath.so.1.9.7
 libgravity_compensation_controller.so: CMakeFiles/gravity_compensation_controller.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libgravity_compensation_controller.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libgravity_compensation_controller.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gravity_compensation_controller.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

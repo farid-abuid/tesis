@@ -43,11 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/include/joint_state_broadcaster")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster/joint_state_plugin.xml")
+  include("/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_symlink_install/ament_cmake_symlink_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -58,10 +54,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/gtest/cmake_install.cmake")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/joint_state_broadcaster" TYPE DIRECTORY FILES "/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster/include/")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -88,66 +80,6 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/opt/ros/jazzy/lib/python3.12/site-packages/ament_package/template/environment_hook/library_path.sh")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/library_path.dsv")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/joint_state_broadcaster")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/parent_prefix_path" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/joint_state_broadcaster")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/opt/ros/jazzy/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/ament_prefix_path.dsv")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/opt/ros/jazzy/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/environment" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/path.dsv")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/local_setup.bash")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/local_setup.sh")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/local_setup.zsh")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/local_setup.dsv")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_environment_hooks/package.dsv")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/packages" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_index/share/ament_index/resource_index/packages/joint_state_broadcaster")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/controller_interface__pluginlib__plugin" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_index/share/ament_index/resource_index/controller_interface__pluginlib__plugin/joint_state_broadcaster")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake/export_joint_state_broadcasterExport.cmake"
@@ -168,25 +100,6 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^()$")
     file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/CMakeFiles/Export/0170fa5db30242ed2a1abe2ed572eb79/export_joint_state_broadcasterExport-noconfig.cmake")
   endif()
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_export_dependencies/ament_cmake_export_dependencies-extras.cmake")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_export_targets/ament_cmake_export_targets-extras.cmake")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster/cmake" TYPE FILE FILES
-    "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_core/joint_state_broadcasterConfig.cmake"
-    "/home/farid/tesis/exo_right_arm_ws/build/joint_state_broadcaster/ament_cmake_core/joint_state_broadcasterConfig-version.cmake"
-    )
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/joint_state_broadcaster" TYPE FILE FILES "/home/farid/tesis/exo_right_arm_ws/src/joint_state_broadcaster/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

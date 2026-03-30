@@ -1,0 +1,43 @@
+-- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/farid/tesis/exo_right_arm_ws/build/exo_description
+[100%] Built target generate_exo_dynamics_urdf
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/urdf/exo.gazebo
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/urdf/exo.trans
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/urdf/exo.xacro
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/urdf/materials.xacro
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Componente2_v1_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Componente3_v1_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Componente4_v1_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Componente5_v1_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Motor1_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Motor2_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/Motor3_1.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/meshes/base_link.stl
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/controller.launch
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/controller.yaml
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/display.launch
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/gazebo.launch
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/launch/urdf.rviz
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/config/controllers.yaml
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/rviz/exo.rviz
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/urdf/exo_dynamics.urdf
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/ament_index/resource_index/package_run_dependencies/exo_description
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/ament_index/resource_index/parent_prefix_path/exo_description
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/environment/ament_prefix_path.sh
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/environment/ament_prefix_path.dsv
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/environment/path.sh
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/environment/path.dsv
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/local_setup.bash
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/local_setup.sh
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/local_setup.zsh
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/local_setup.dsv
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.dsv
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/ament_index/resource_index/packages/exo_description
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/cmake/exo_descriptionConfig.cmake
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/cmake/exo_descriptionConfig-version.cmake
+-- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/exo_description/share/exo_description/package.xml

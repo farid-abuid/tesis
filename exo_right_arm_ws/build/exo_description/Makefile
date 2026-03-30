@@ -197,6 +197,19 @@ exo_description_uninstall/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/exo_description_uninstall.dir/build.make CMakeFiles/exo_description_uninstall.dir/build
 .PHONY : exo_description_uninstall/fast
 
+#=============================================================================
+# Target rules for targets named generate_exo_dynamics_urdf
+
+# Build rule for target.
+generate_exo_dynamics_urdf: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 generate_exo_dynamics_urdf
+.PHONY : generate_exo_dynamics_urdf
+
+# fast build rule for target.
+generate_exo_dynamics_urdf/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/generate_exo_dynamics_urdf.dir/build.make CMakeFiles/generate_exo_dynamics_urdf.dir/build
+.PHONY : generate_exo_dynamics_urdf/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -211,6 +224,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... exo_description_uninstall"
+	@echo "... generate_exo_dynamics_urdf"
 	@echo "... uninstall"
 .PHONY : help
 

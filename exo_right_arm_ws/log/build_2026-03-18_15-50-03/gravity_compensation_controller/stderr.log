@@ -1,4 +1,0 @@
-[01m[K/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/gravity_compensation_controller.cpp:[m[K In member function ‘[01m[Kvirtual controller_interface::return_type gravity_compensation_controller::GravityCompensationController::[01;32m[Kupdate[m[K(const rclcpp::Time&, const rclcpp::Duration&)[m[K’:
-[01m[K/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/src/gravity_compensation_controller.cpp:175:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdq[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
-  175 |     double [01;35m[Kdq[m[K = *dq_opt;
-      |            [01;35m[K^~[m[K

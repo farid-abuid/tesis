@@ -41,6 +41,8 @@ using hardware_interface::HW_IF_VELOCITY;
 JointStateBroadcaster::JointStateBroadcaster() {}
 
 controller_interface::CallbackReturn JointStateBroadcaster::on_init()
+// loads parameters from the parameter server
+
 {
   try
   {
@@ -65,6 +67,7 @@ JointStateBroadcaster::command_interface_configuration() const
 
 controller_interface::InterfaceConfiguration JointStateBroadcaster::state_interface_configuration()
   const
+  // returns the configuration of the state interfaces
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
 
@@ -413,8 +416,10 @@ void JointStateBroadcaster::init_dynamic_joint_state_msg()
 
 bool JointStateBroadcaster::use_all_available_interfaces() const
 {
-  RCLCPP_INFO(get_node()->get_logger(), "interfaces size: %ld", params_.interfaces.size());
-  RCLCPP_INFO(get_node()->get_logger(), "joints size: %ld", params_.joints.size());
+  // looks for the parameters in the parameter server
+
+  //RCLCPP_INFO(get_node()->get_logger(), "interfaces size: %ld", params_.interfaces.size());
+  //RCLCPP_INFO(get_node()->get_logger(), "joints size: %ld", params_.joints.size());
   return params_.joints.empty() || params_.interfaces.empty();
 }
 

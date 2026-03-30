@@ -1,0 +1,81 @@
+[0.000000] (-) TimerEvent: {}
+[0.000155] (-) JobUnselected: {'identifier': 'exo_bringup'}
+[0.000338] (-) JobUnselected: {'identifier': 'exo_description'}
+[0.000373] (-) JobUnselected: {'identifier': 'exo_hardware'}
+[0.000427] (-) JobUnselected: {'identifier': 'joint_state_broadcaster'}
+[0.000447] (gravity_compensation_controller) JobQueued: {'identifier': 'gravity_compensation_controller', 'dependencies': OrderedDict({'exo_description': '/home/farid/tesis/exo_right_arm_ws/install/exo_description'})}
+[0.000486] (gravity_compensation_controller) JobStarted: {'identifier': 'gravity_compensation_controller'}
+[0.006230] (gravity_compensation_controller) JobProgress: {'identifier': 'gravity_compensation_controller', 'progress': 'cmake'}
+[0.006499] (gravity_compensation_controller) Command: {'cmd': ['/usr/bin/cmake', '/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller', '-DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller'], 'cwd': '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/farid', 'CURSOR_EXTENSION_HOST_ROLE': 'agent-exec', 'VSCODE_ESM_ENTRYPOINT': 'vs/workbench/api/node/extensionHostProcess', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share:/home/farid/tesis/exo_right_arm_ws/install/exo_description/share:/home/farid/tesis/exo_right_arm_ws/install/exo_description/share', 'USER': 'farid', 'VSCODE_NLS_CONFIG': '{"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/usr/share/cursor/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'CI': '1', 'VSCODE_HANDLES_UNCAUGHT_ERRORS': 'true', 'XDG_SESSION_TYPE': 'x11', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/farid', 'CHROME_DESKTOP': 'cursor.desktop', 'OLDPWD': '/tmp', 'DESKTOP_SESSION': 'ubuntu', 'VSCODE_IPC_HOOK': '/run/user/1000/vscode-153679cc-2.6.-main.sock', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/cursor.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'CURSOR_WORKSPACE_LABEL': 'tesis', 'MANAGERPID': '2572', 'SYSTEMD_EXEC_PID': '2974', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'NO_COLOR': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '16578', '_colcon_cd_root': '/opt/ros/jazzy/', 'VSCODE_CRASH_REPORTER_PROCESS_TYPE': 'extensionHost', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'farid', 'FORCE_COLOR': '0', 'JOURNAL_STREAM': '9:12580', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@x11.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'farid', 'TERM': 'dumb', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/farid-laptop:@/tmp/.ICE-unix/2926,unix/farid-laptop:/tmp/.ICE-unix/2926', 'INVOCATION_ID': 'b0442c1c419b45e7a6c73369be7e3a21', 'XDG_MENU_PREFIX': 'gnome-', 'VSCODE_PROCESS_TITLE': 'extension-host (agent-exec) tesis [1-4]', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'CURSOR_AGENT': '1', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': '', 'SBX_CHROME_API_RQ': '1', 'CURSOR_TRACE_ID': '817f80831e8b42fc87d077b343166d13', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/farid/tesis/exo_right_arm_ws/install/exo_description:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'VSCODE_CODE_CACHE_PATH': '/home/farid/.config/Cursor/CachedData/224838f96445be37e3db643a163a817c15b36060', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', '_ZO_DOCTOR': '0', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'CMAKE_PREFIX_PATH': '/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy', 'VSCODE_PID': '16578'}), 'shell': False}
+[0.058649] (gravity_compensation_controller) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.099842] (-) TimerEvent: {}
+[0.119007] (gravity_compensation_controller) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.132576] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.199997] (-) TimerEvent: {}
+[0.238668] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.251683] (gravity_compensation_controller) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.252086] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.252322] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.264694] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.300085] (-) TimerEvent: {}
+[0.381058] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.387646] (gravity_compensation_controller) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.387877] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.388168] (gravity_compensation_controller) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.391457] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)\n'}
+[0.400162] (-) TimerEvent: {}
+[0.500298] (-) TimerEvent: {}
+[0.535383] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[0.600401] (-) TimerEvent: {}
+[0.623223] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)\n'}
+[0.675317] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)\n'}
+[0.686826] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)\n'}
+[0.699985] (gravity_compensation_controller) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.700432] (-) TimerEvent: {}
+[0.714626] (gravity_compensation_controller) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.800602] (-) TimerEvent: {}
+[0.883873] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2\n'}
+[0.900785] (-) TimerEvent: {}
+[0.921613] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)\n'}
+[0.924380] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.943694] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2\n'}
+[1.000916] (-) TimerEvent: {}
+[1.010906] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[1.014829] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2\n'}
+[1.037863] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") \n'}
+[1.041482] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2\n'}
+[1.047797] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2\n'}
+[1.060568] (gravity_compensation_controller) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.100989] (-) TimerEvent: {}
+[1.201146] (-) TimerEvent: {}
+[1.301334] (-) TimerEvent: {}
+[1.301998] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)\n'}
+[1.311681] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[1.312652] (gravity_compensation_controller) StdoutLine: {'line': b'-- pinocchio_default FOUND. pinocchio_default at /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_default.so\n'}
+[1.312888] (gravity_compensation_controller) StdoutLine: {'line': b'-- pinocchio_parsers FOUND. pinocchio_parsers at /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_parsers.so\n'}
+[1.314480] (gravity_compensation_controller) StdoutLine: {'line': b'-- boost_filesystem FOUND. boost_filesystem at /lib/x86_64-linux-gnu/libboost_filesystem.so\n'}
+[1.350303] (gravity_compensation_controller) StdoutLine: {'line': b'-- Found Boost: /usr/include (found version "1.83.0") found components: filesystem serialization system \n'}
+[1.358608] (gravity_compensation_controller) StderrLine: {'line': b'CMake Error at /usr/share/cmake-3.28/Modules/CMakeFindDependencyMacro.cmake:76 (find_package):\n'}
+[1.358743] (gravity_compensation_controller) StderrLine: {'line': b'  By not providing "Findeigenpy.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[1.358790] (gravity_compensation_controller) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "eigenpy", but\n'}
+[1.358830] (gravity_compensation_controller) StderrLine: {'line': b'  CMake did not find one.\n'}
+[1.358868] (gravity_compensation_controller) StderrLine: {'line': b'\n'}
+[1.358910] (gravity_compensation_controller) StderrLine: {'line': b'  Could not find a package configuration file provided by "eigenpy"\n'}
+[1.358949] (gravity_compensation_controller) StderrLine: {'line': b'  (requested version 2.7.10) with any of the following names:\n'}
+[1.358984] (gravity_compensation_controller) StderrLine: {'line': b'\n'}
+[1.359019] (gravity_compensation_controller) StderrLine: {'line': b'    eigenpyConfig.cmake\n'}
+[1.359053] (gravity_compensation_controller) StderrLine: {'line': b'    eigenpy-config.cmake\n'}
+[1.359088] (gravity_compensation_controller) StderrLine: {'line': b'\n'}
+[1.359122] (gravity_compensation_controller) StderrLine: {'line': b'  Add the installation prefix of "eigenpy" to CMAKE_PREFIX_PATH or set\n'}
+[1.359158] (gravity_compensation_controller) StderrLine: {'line': b'  "eigenpy_DIR" to a directory containing one of the above files.  If\n'}
+[1.359190] (gravity_compensation_controller) StderrLine: {'line': b'  "eigenpy" provides a separate development package or SDK, be sure it has\n'}
+[1.359224] (gravity_compensation_controller) StderrLine: {'line': b'  been installed.\n'}
+[1.359258] (gravity_compensation_controller) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[1.359291] (gravity_compensation_controller) StderrLine: {'line': b'  /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/cmake/pinocchio/pinocchioConfig.cmake:161 (find_dependency)\n'}
+[1.359326] (gravity_compensation_controller) StderrLine: {'line': b'  CMakeLists.txt:18 (find_package)\n'}
+[1.359358] (gravity_compensation_controller) StderrLine: {'line': b'\n'}
+[1.359391] (gravity_compensation_controller) StderrLine: {'line': b'\n'}
+[1.359436] (gravity_compensation_controller) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[1.367113] (gravity_compensation_controller) CommandEnded: {'returncode': 1}
+[1.383440] (gravity_compensation_controller) JobEnded: {'identifier': 'gravity_compensation_controller', 'rc': 1}
+[1.393727] (-) EventReactorShutdown: {}
