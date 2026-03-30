@@ -1,1 +1,0 @@
-/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/launch/exo.launch.py

@@ -1,1 +1,0 @@
-/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/include/exo_hardware/exo_hardware.hpp

@@ -1,1 +1,0 @@
-/home/farid/tesis/exo_right_arm_ws/build/exo_hardware/ament_cmake_environment_hooks/local_setup.sh
