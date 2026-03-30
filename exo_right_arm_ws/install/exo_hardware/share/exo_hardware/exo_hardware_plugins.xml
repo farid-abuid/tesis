@@ -1,7 +1,1 @@
-<library path="exo_hardware">
-  <class
-      name="exo_hardware/teensy_plugin"
-      type="exo_hardware::teensy_plugin"
-      base_class_type="hardware_interface::SystemInterface">
-  </class>
-</library>
+/home/farid/tesis/exo_right_arm_ws/src/exo_hardware/exo_hardware_plugins.xml

@@ -1,0 +1,44 @@
+-- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+-- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+-- pinocchio_default FOUND. pinocchio_default at /opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_default.so
+-- pinocchio_parsers FOUND. pinocchio_parsers at /opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_parsers.so
+-- boost_filesystem FOUND. boost_filesystem at /lib/x86_64-linux-gnu/libboost_filesystem.so
+-- eigenpy FOUND. eigenpy at /opt/ros/jazzy/lib/x86_64-linux-gnu/libeigenpy.so
+-- Checking for NumPy
+--   NUMPY_INCLUDE_DIRS=/usr/lib/python3/dist-packages/numpy/core/include
+--   NUMPY_VERSION=1.26.4
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development.Module NumPy 
+-- PythonLibraryDirs: 
+-- PythonLibVersionString: 3.12.3
+-- Python site lib: lib/python3.12/site-packages
+-- Python include dirs: /usr/include/python3.12
+-- Checking for NumPy
+--   NUMPY_INCLUDE_DIRS=/usr/lib/python3/dist-packages/numpy/core/include
+--   NUMPY_VERSION=1.26.4
+-- NumPy include dir: /usr/lib/python3/dist-packages/numpy/core/include
+-- Found Boost: /usr/include (found version "1.83.0") found components: python312 
+-- Default C++ standard: 201703
+-- Minimal C++ standard upgraded to 11
+-- C++ standard sufficient: Minimal required 11, currently defined: 17
+-- CMAKE_CXX_STANDARD was not set: automatically set to currently defined standard 17
+-- hpp-fcl FOUND. hpp-fcl at /opt/ros/jazzy/lib/x86_64-linux-gnu/libhpp-fcl.so
+-- Found Boost: /usr/include (found version "1.83.0") found components: chrono serialization filesystem 
+-- Minimal C++ standard upgraded to 14
+-- C++ standard sufficient: Minimal required 14, currently defined: 17
+-- C++ standard sufficient: Minimal required 14, currently defined: 17
+-- gravity_compensation_controller: RBDL not found; only Pinocchio backend available
+-- Configuring incomplete, errors occurred!

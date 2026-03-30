@@ -1,0 +1,12 @@
+[0.007s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_description -- -j32 -l32
+[0.029s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.285s] -- Configuring done (0.3s)
+[0.287s] -- Generating done (0.0s)
+[0.288s] -- Build files have been written to: /home/farid/tesis/exo_right_arm_ws/build/exo_description
+[0.317s] [100%] Generating exo_dynamics.urdf
+[0.397s] error: <class 'ament_index_python.packages.PackageNotFoundError'>: "package 'exo_description' not found, searching: ['/opt/ros/jazzy']" "package 'exo_description' not found, searching: ['/opt/ros/jazzy']"
+[0.397s] when processing file: /home/farid/tesis/exo_right_arm_ws/src/exo_description/urdf/exo.xacro
+[0.405s] gmake[2]: *** [CMakeFiles/generate_exo_dynamics_urdf.dir/build.make:76: exo_dynamics.urdf] Error 2
+[0.406s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/generate_exo_dynamics_urdf.dir/all] Error 2
+[0.406s] gmake: *** [Makefile:146: all] Error 2
+[0.408s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_description' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/exo_description -- -j32 -l32

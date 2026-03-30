@@ -1,11 +1,15 @@
 #pragma once
 
-#include <vector>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "controller_interface/controller_interface.hpp"
+#include "gravity_compensation_controller/dynamics_backend.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
+#include "realtime_tools/realtime_buffer.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "trajectory_msgs/msg/joint_trajectory.hpp"
 
 namespace gravity_compensation_controller
 {
@@ -13,6 +17,8 @@ namespace gravity_compensation_controller
 class GravityCompensationController : public controller_interface::ControllerInterface
 {
 public:
+  ~GravityCompensationController() override = default;
+
   controller_interface::CallbackReturn on_init() override;
   controller_interface::CallbackReturn on_configure(
     const rclcpp_lifecycle::State & previous_state) override;
@@ -29,25 +35,35 @@ public:
   controller_interface::InterfaceConfiguration state_interface_configuration() const override;
 
 private:
-
-  // --- YOUR INIT FUNCTION ---
   bool init_interfaces();
 
-  // --- PARAMETERS ---
-  std::vector<std::string> joint_names_param_;   // from YAML
+  void referenceTrajectoryCallback(const trajectory_msgs::msg::JointTrajectory::SharedPtr msg);
 
-  // --- INTERNAL STRUCTURE ---
+  struct TrajectorySetpoint
+  {
+    std::vector<double> positions;
+    std::vector<double> velocities;
+    bool valid{false};
+  };
+
+  std::vector<std::string> joint_names_param_;
+
   std::vector<std::string> joint_names_;
-
   std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>> pos_interfaces_;
   std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>> vel_interfaces_;
   std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>> eff_interfaces_;
-
   std::vector<std::reference_wrapper<hardware_interface::LoanedCommandInterface>> cmd_interfaces_;
 
-  // --- CONTROL ---
-  std::vector<double> desired_positions_;
-  double kp_ = 1.0;
+  std::string dynamics_backend_;
+  std::string urdf_path_;
+  std::string reference_trajectory_topic_;
+  double kp_{50.0};
+  double kd_{5.0};
+  double gravity_scale_{1.0};
+
+  std::unique_ptr<DynamicsModel> dynamics_;
+  realtime_tools::RealtimeBuffer<TrajectorySetpoint> setpoint_buffer_;
+  rclcpp::Subscription<trajectory_msgs::msg::JointTrajectory>::SharedPtr traj_sub_;
 };
 
 }  // namespace gravity_compensation_controller

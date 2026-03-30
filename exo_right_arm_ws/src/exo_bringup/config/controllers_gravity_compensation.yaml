@@ -20,12 +20,14 @@ joint_state_broadcaster:
       - effort
 
 gravity_compensation_controller:
-  ros__parameters:        
+  ros__parameters:
     joints:
       - revolute_1
       - revolute_2
       - revolute_3
-    interfaces:
-      - position
-      - velocity
-      - effort
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    reference_trajectory_topic: /reference_trajectory
+    kp: 50.0
+    kd: 5.0
+    gravity_scale: 1.0

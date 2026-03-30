@@ -1,2 +1,1 @@
-source;share/gravity_compensation_controller/environment/ament_prefix_path.sh
-source;share/gravity_compensation_controller/environment/path.sh
+/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller/ament_cmake_environment_hooks/local_setup.dsv

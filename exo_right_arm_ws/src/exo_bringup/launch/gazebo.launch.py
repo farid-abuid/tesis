@@ -46,6 +46,18 @@ def generate_launch_description():
         output="screen"
     )
 
+    world_path = PathJoinSubstitution([
+        FindPackageShare("exo_bringup"),
+        "worlds",
+        "empty_custom.sdf"
+    ])
+
+    gui_config_path = PathJoinSubstitution([
+        FindPackageShare("exo_bringup"),
+        "config",
+        "gazebo.config",
+    ])
+
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -54,7 +66,9 @@ def generate_launch_description():
                 "gz_sim.launch.py"
             ])
         ),
-        launch_arguments={"gz_args": "-r empty.sdf"}.items()
+        launch_arguments={
+            "gz_args": ["-r ", world_path, " --gui-config ", gui_config_path],
+        }.items(),
     )
 
     spawn_robot = Node(
@@ -98,7 +112,7 @@ def generate_launch_description():
             clock_bridge,
             robot_state_pub,
             spawn_robot,
-            #joint_state_spawner,
+            joint_state_spawner,
             effort_controller_spawner
         ]
     )

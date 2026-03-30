@@ -1,0 +1,37 @@
+[0.006s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[0.037s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.240s] -- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[0.262s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.268s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.276s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.285s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.423s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.448s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.449s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.462s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.471s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.484s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.492s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.502s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.616s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[0.622s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[0.630s] CMake Error at CMakeLists.txt:18 (find_package):
+[0.630s]   By not providing "Findpinocchio.cmake" in CMAKE_MODULE_PATH this project
+[0.630s]   has asked CMake to find a package configuration file provided by
+[0.630s]   "pinocchio", but CMake did not find one.
+[0.630s] 
+[0.630s]   Could not find a package configuration file provided by "pinocchio" with
+[0.630s]   any of the following names:
+[0.630s] 
+[0.630s]     pinocchioConfig.cmake
+[0.630s]     pinocchio-config.cmake
+[0.630s] 
+[0.630s]   Add the installation prefix of "pinocchio" to CMAKE_PREFIX_PATH or set
+[0.630s]   "pinocchio_DIR" to a directory containing one of the above files.  If
+[0.630s]   "pinocchio" provides a separate development package or SDK, be sure it has
+[0.630s]   been installed.
+[0.630s] 
+[0.630s] 
+[0.630s] -- Configuring incomplete, errors occurred!
+[0.635s] gmake: *** [Makefile:267: cmake_check_build_system] Error 1
+[0.637s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '2': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
