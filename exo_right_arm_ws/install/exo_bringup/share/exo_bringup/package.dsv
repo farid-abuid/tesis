@@ -4,3 +4,6 @@ source;share/exo_bringup/hook/pythonpath.sh
 source;share/exo_bringup/hook/ament_prefix_path.ps1
 source;share/exo_bringup/hook/ament_prefix_path.dsv
 source;share/exo_bringup/hook/ament_prefix_path.sh
+source;../../build/exo_bringup/share/exo_bringup/hook/pythonpath_develop.ps1
+source;../../build/exo_bringup/share/exo_bringup/hook/pythonpath_develop.dsv
+source;../../build/exo_bringup/share/exo_bringup/hook/pythonpath_develop.sh

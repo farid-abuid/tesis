@@ -1,0 +1,15 @@
+[0.524s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_bringup': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build --no-deps symlink_data
+[0.726s] running develop
+[0.843s] running egg_info
+[0.853s] writing exo_bringup.egg-info/PKG-INFO
+[0.854s] writing dependency_links to exo_bringup.egg-info/dependency_links.txt
+[0.854s] writing requirements to exo_bringup.egg-info/requires.txt
+[0.854s] writing top-level names to exo_bringup.egg-info/top_level.txt
+[0.865s] reading manifest file 'exo_bringup.egg-info/SOURCES.txt'
+[0.866s] writing manifest file 'exo_bringup.egg-info/SOURCES.txt'
+[0.878s] running build_ext
+[0.889s] Creating /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages/exo-bringup.egg-link (link to .)
+[0.889s] 
+[0.890s] Installed /home/farid/tesis/exo_right_arm_ws/build/exo_bringup
+[0.890s] running symlink_data
+[0.910s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_bringup' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build --no-deps symlink_data

@@ -1,7 +1,1 @@
-<library path="gravity_compensation_controller">
-  <class
-    name="gravity_compensation_controller/GravityCompensationController"
-    type="gravity_compensation_controller::GravityCompensationController"
-    base_class_type="controller_interface::ControllerInterface">
-  </class>
-</library>
+/home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller/gravity_compensation_controller_plugin.xml

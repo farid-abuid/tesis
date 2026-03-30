@@ -1,0 +1,23 @@
+[0.527s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/exo_bringup': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build --no-deps symlink_data --force
+[0.732s] running develop
+[0.851s] running egg_info
+[0.863s] writing exo_bringup.egg-info/PKG-INFO
+[0.863s] writing dependency_links to exo_bringup.egg-info/dependency_links.txt
+[0.863s] writing requirements to exo_bringup.egg-info/requires.txt
+[0.863s] writing top-level names to exo_bringup.egg-info/top_level.txt
+[0.874s] reading manifest file 'exo_bringup.egg-info/SOURCES.txt'
+[0.875s] writing manifest file 'exo_bringup.egg-info/SOURCES.txt'
+[0.887s] running build_ext
+[0.899s] Creating /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages/exo-bringup.egg-link (link to .)
+[0.899s] 
+[0.899s] Installed /home/farid/tesis/exo_right_arm_ws/build/exo_bringup
+[0.899s] running symlink_data
+[0.899s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/resource/exo_bringup -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/ament_index/resource_index/packages
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/package.xml -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/launch/rviz.launch.py -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/launch/gazebo.launch.py -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/launch/exo.launch.py -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/launch
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/config/controllers_gravity_compensation.yaml -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/config
+[0.900s] symbolically linking /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/config/controllers_effort.yaml -> /home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/config
+[0.900s] error: [Errno 2] No such file or directory: '/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/share/exo_bringup/config/gazebo.config'
+[0.917s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/exo_bringup' returned '1': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/farid/tesis/exo_right_arm_ws/build/exo_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/farid/tesis/exo_right_arm_ws/install/exo_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/farid/tesis/exo_right_arm_ws/build/exo_bringup/build --no-deps symlink_data --force

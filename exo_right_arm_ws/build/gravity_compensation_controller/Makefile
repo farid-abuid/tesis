@@ -210,6 +210,30 @@ gravity_compensation_controller/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gravity_compensation_controller.dir/build.make CMakeFiles/gravity_compensation_controller.dir/build
 .PHONY : gravity_compensation_controller/fast
 
+src/dynamics_backend.o: src/dynamics_backend.cpp.o
+.PHONY : src/dynamics_backend.o
+
+# target to build an object file
+src/dynamics_backend.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gravity_compensation_controller.dir/build.make CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o
+.PHONY : src/dynamics_backend.cpp.o
+
+src/dynamics_backend.i: src/dynamics_backend.cpp.i
+.PHONY : src/dynamics_backend.i
+
+# target to preprocess a source file
+src/dynamics_backend.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gravity_compensation_controller.dir/build.make CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.i
+.PHONY : src/dynamics_backend.cpp.i
+
+src/dynamics_backend.s: src/dynamics_backend.cpp.s
+.PHONY : src/dynamics_backend.s
+
+# target to generate assembly for a file
+src/dynamics_backend.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gravity_compensation_controller.dir/build.make CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.s
+.PHONY : src/dynamics_backend.cpp.s
+
 src/gravity_compensation_controller.o: src/gravity_compensation_controller.cpp.o
 .PHONY : src/gravity_compensation_controller.o
 
@@ -250,6 +274,9 @@ help:
 	@echo "... gravity_compensation_controller_uninstall"
 	@echo "... uninstall"
 	@echo "... gravity_compensation_controller"
+	@echo "... src/dynamics_backend.o"
+	@echo "... src/dynamics_backend.i"
+	@echo "... src/dynamics_backend.s"
 	@echo "... src/gravity_compensation_controller.o"
 	@echo "... src/gravity_compensation_controller.i"
 	@echo "... src/gravity_compensation_controller.s"

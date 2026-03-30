@@ -1,0 +1,79 @@
+[0.008s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller
+[0.021s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.051s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.108s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.113s] -- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[0.136s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.143s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.153s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.164s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.303s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.328s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.329s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.341s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.348s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.362s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.372s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[0.384s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.487s] -- pinocchio_default FOUND. pinocchio_default at /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_default.so
+[0.487s] -- pinocchio_parsers FOUND. pinocchio_parsers at /tmp/pinocchio_ros/opt/ros/jazzy/lib/x86_64-linux-gnu/libpinocchio_parsers.so
+[0.487s] -- boost_filesystem FOUND. boost_filesystem at /lib/x86_64-linux-gnu/libboost_filesystem.so
+[0.492s] -- Found Boost: /usr/include (found version "1.83.0") found components: filesystem serialization system 
+[0.493s] -- eigenpy FOUND. eigenpy at /opt/ros/jazzy/lib/x86_64-linux-gnu/libeigenpy.so
+[0.516s] -- Checking for NumPy
+[0.670s] --   NUMPY_INCLUDE_DIRS=/usr/lib/python3/dist-packages/numpy/core/include
+[0.741s] --   NUMPY_VERSION=1.26.4
+[0.913s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development.Module NumPy 
+[0.914s] -- PythonLibraryDirs: 
+[0.914s] -- PythonLibVersionString: 3.12.3
+[0.929s] -- Python site lib: lib/python3.12/site-packages
+[0.929s] -- Python include dirs: /usr/include/python3.12
+[0.968s] -- Checking for NumPy
+[1.043s] --   NUMPY_INCLUDE_DIRS=/usr/lib/python3/dist-packages/numpy/core/include
+[1.121s] --   NUMPY_VERSION=1.26.4
+[1.121s] -- NumPy include dir: /usr/lib/python3/dist-packages/numpy/core/include
+[1.125s] -- Found Boost: /usr/include (found version "1.83.0") found components: python312 
+[1.387s] -- Default C++ standard: 201703
+[1.387s] -- C++ standard sufficient: Minimal required 14, currently defined: 17
+[1.387s] -- CMAKE_CXX_STANDARD was not set: automatically set to currently defined standard 17
+[1.388s] -- hpp-fcl FOUND. hpp-fcl at /opt/ros/jazzy/lib/x86_64-linux-gnu/libhpp-fcl.so
+[1.394s] -- Found Boost: /usr/include (found version "1.83.0") found components: chrono serialization filesystem 
+[1.395s] -- C++ standard sufficient: Minimal required 14, currently defined: 17
+[1.396s] -- C++ standard sufficient: Minimal required 14, currently defined: 17
+[1.399s] -- gravity_compensation_controller: RBDL not found; only Pinocchio backend available
+[1.473s] -- Configuring done (1.5s)
+[1.490s] -- Generating done (0.0s)
+[1.493s] -- Build files have been written to: /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
+[1.501s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/farid/tesis/exo_right_arm_ws/src/gravity_compensation_controller -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller
+[1.501s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[1.557s] [ 33%] Building CXX object CMakeFiles/gravity_compensation_controller.dir/src/dynamics_backend.cpp.o
+[1.557s] [ 66%] Building CXX object CMakeFiles/gravity_compensation_controller.dir/src/gravity_compensation_controller.cpp.o
+[8.022s] [100%] Linking CXX shared library libgravity_compensation_controller.so
+[8.405s] [100%] Built target gravity_compensation_controller
+[8.415s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller -- -j32 -l32
+[8.430s] Invoking command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller
+[8.440s] -- Install configuration: ""
+[8.441s] -- Execute custom install script
+[8.441s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller//gravity_compensation_controller_plugin.xml
+[8.450s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/include/gravity_compensation_controller/dynamics_backend.hpp
+[8.462s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/include/gravity_compensation_controller/gravity_compensation_controller.hpp
+[8.474s] -- Up-to-date symlink: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/gravity_compensation_controller_plugin.xml
+[8.474s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/package_run_dependencies/gravity_compensation_controller
+[8.486s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/parent_prefix_path/gravity_compensation_controller
+[8.497s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/ament_prefix_path.sh
+[8.507s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/ament_prefix_path.dsv
+[8.520s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/path.sh
+[8.530s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/environment/path.dsv
+[8.542s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.bash
+[8.553s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.sh
+[8.559s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.zsh
+[8.568s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/local_setup.dsv
+[8.578s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.dsv
+[8.590s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/packages/gravity_compensation_controller
+[8.599s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/gravity_compensation_controller
+[8.607s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/cmake/gravity_compensation_controllerConfig.cmake
+[8.617s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/cmake/gravity_compensation_controllerConfig-version.cmake
+[8.625s] -- Symlinking: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/share/gravity_compensation_controller/package.xml
+[8.634s] -- Installing: /home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/libgravity_compensation_controller.so
+[8.638s] -- Set non-toolchain portion of runtime path of "/home/farid/tesis/exo_right_arm_ws/install/gravity_compensation_controller/lib/libgravity_compensation_controller.so" to ""
+[8.639s] Invoked command in '/home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller' returned '0': AMENT_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/farid/tesis/exo_right_arm_ws/install/exo_description:/tmp/pinocchio_ros/opt/ros/jazzy:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/farid/tesis/exo_right_arm_ws/build/gravity_compensation_controller

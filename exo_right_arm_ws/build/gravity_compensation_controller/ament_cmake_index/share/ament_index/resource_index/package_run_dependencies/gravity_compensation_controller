@@ -1,1 +1,1 @@
-controller_interface;hardware_interface;pluginlib;rclcpp;ament_lint_auto;ament_lint_common
+controller_interface;hardware_interface;pluginlib;rclcpp;trajectory_msgs;realtime_tools;ament_index_cpp;pinocchio;exo_description;ament_lint_auto;ament_lint_common

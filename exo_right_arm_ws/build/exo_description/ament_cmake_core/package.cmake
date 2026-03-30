@@ -1,7 +1,7 @@
 set(_AMENT_PACKAGE_NAME "exo_description")
 set(exo_description_VERSION "0.0.0")
 set(exo_description_MAINTAINER "Farid <farid@example.com>")
-set(exo_description_BUILD_DEPENDS )
+set(exo_description_BUILD_DEPENDS "xacro")
 set(exo_description_BUILDTOOL_DEPENDS "ament_cmake")
 set(exo_description_BUILD_EXPORT_DEPENDS )
 set(exo_description_BUILDTOOL_EXPORT_DEPENDS )
