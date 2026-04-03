@@ -7,6 +7,7 @@
 namespace gravity_compensation_controller
 {
 
+/// Shared rigid-body dynamics (Pinocchio / optional RBDL) for all controllers in this package.
 /// Loads a URDF and maps controller joint order to generalized gravity torques.
 class DynamicsModel
 {

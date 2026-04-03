@@ -1,12 +1,11 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
-from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+from launch.conditions import IfCondition
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, TextSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import IncludeLaunchDescription, LogInfo
-from launch.substitutions import PythonExpression
-
+from launch.actions import IncludeLaunchDescription
 def generate_launch_description():
 
     control_mode = LaunchConfiguration("control_mode")
@@ -16,14 +15,29 @@ def generate_launch_description():
         default_value="effort"
     )
 
-    controller_config = PythonExpression([
-        "'controllers_' + '", control_mode, "' + '.yaml'"
-    ])
+    declare_enable_data_logger = DeclareLaunchArgument(
+        "enable_data_logger",
+        default_value="true"
+    )
 
-    controller_name = PythonExpression([
-        "'", control_mode, "' + '_controller'"
-    ])
+    enable_data_logger = LaunchConfiguration("enable_data_logger")
 
+    controller_stem = [control_mode, TextSubstitution(text="_controller")]
+    telemetry_topic = [
+        TextSubstitution(text="/"),
+        control_mode,
+        TextSubstitution(text="_controller/telemetry"),
+    ]
+    session_topic = [
+        TextSubstitution(text="/"),
+        control_mode,
+        TextSubstitution(text="_controller/logging/session"),
+    ]
+    lifecycle_topic = [
+        TextSubstitution(text="/"),
+        control_mode,
+        TextSubstitution(text="_controller/transition_event"),
+    ]
 
     robot_description = Command([
         "xacro ",
@@ -33,7 +47,9 @@ def generate_launch_description():
             "exo.xacro"
         ]),
         " hardware:=gazebo",
-        " controller_config:=", controller_config
+        " controller_config:=controllers_",
+        control_mode,
+        TextSubstitution(text=".yaml"),
     ])
 
     robot_state_pub = Node(
@@ -91,7 +107,28 @@ def generate_launch_description():
     effort_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=[controller_name]
+        arguments=[controller_stem],
+    )
+
+    data_logger_node = Node(
+        package="exo_bringup",
+        executable="exo_data_logger",
+        name="exo_data_logger",
+        parameters=[
+            PathJoinSubstitution([
+                FindPackageShare("exo_bringup"),
+                "config",
+                "data_logger.yaml",
+            ]),
+            {
+                "use_sim_time": True,
+                "telemetry_topic": telemetry_topic,
+                "session_topic": session_topic,
+                "lifecycle_transition_topic": lifecycle_topic,
+            },
+        ],
+        condition=IfCondition(enable_data_logger),
+        output="screen",
     )
 
     clock_bridge = Node(
@@ -107,17 +144,19 @@ def generate_launch_description():
     start_sim = TimerAction(
         period=1.0,
         actions=[
-            declare_controller_arg,
             gz_sim,
             clock_bridge,
             robot_state_pub,
             spawn_robot,
             joint_state_spawner,
-            effort_controller_spawner
+            effort_controller_spawner,
+            data_logger_node,
         ]
     )
 
     return LaunchDescription([
+        declare_controller_arg,
+        declare_enable_data_logger,
         kill_gz,
-        start_sim
+        start_sim,
     ])

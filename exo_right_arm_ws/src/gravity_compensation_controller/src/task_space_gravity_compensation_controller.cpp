@@ -1,4 +1,6 @@
-#include "gravity_compensation_controller/gravity_compensation_controller.hpp"
+#include "gravity_compensation_controller/task_space_gravity_compensation_controller.hpp"
+#include "gravity_compensation_controller/controller_kinematics_utils.hpp"
+#include "gravity_compensation_controller/gravity_compensation_common.hpp"
 #include "pluginlib/class_list_macros.hpp"
 
 #include <algorithm>
@@ -11,21 +13,26 @@
 namespace gravity_compensation_controller
 {
 
-controller_interface::CallbackReturn GravityCompensationController::on_init()
+controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_init()
 {
   auto_declare<std::vector<std::string>>("joints", {});
   auto_declare<std::string>("dynamics_backend", std::string("pinocchio"));
   auto_declare<std::string>("urdf_path", std::string(""));
   auto_declare<std::string>("reference_trajectory_topic", std::string("/reference_trajectory"));
+  auto_declare<std::string>("end_effector_frame", std::string("tool0"));
   auto_declare<double>("kp", 50.0);
   auto_declare<double>("kd", 5.0);
   auto_declare<double>("gravity_scale", 1.0);
+  auto_declare<bool>("publish_telemetry", true);
+  auto_declare<std::string>("telemetry_topic", std::string("telemetry"));
+  auto_declare<std::string>("logging_session_topic", std::string("logging/session"));
 
-  RCLCPP_INFO(get_node()->get_logger(), "Gravity compensation controller initialized");
+  RCLCPP_INFO(
+    get_node()->get_logger(), "Task-space gravity compensation controller initialized");
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::CallbackReturn GravityCompensationController::on_configure(
+controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_configure(
   const rclcpp_lifecycle::State &)
 {
   joint_names_param_ = get_node()->get_parameter("joints").as_string_array();
@@ -39,9 +46,22 @@ controller_interface::CallbackReturn GravityCompensationController::on_configure
   urdf_path_ = get_node()->get_parameter("urdf_path").as_string();
   reference_trajectory_topic_ =
     get_node()->get_parameter("reference_trajectory_topic").as_string();
+  end_effector_frame_ = get_node()->get_parameter("end_effector_frame").as_string();
   kp_ = get_node()->get_parameter("kp").as_double();
   kd_ = get_node()->get_parameter("kd").as_double();
   gravity_scale_ = get_node()->get_parameter("gravity_scale").as_double();
+  publish_telemetry_ = get_node()->get_parameter("publish_telemetry").as_bool();
+  telemetry_topic_ = get_node()->get_parameter("telemetry_topic").as_string();
+  logging_session_topic_ = get_node()->get_parameter("logging_session_topic").as_string();
+
+  if (publish_telemetry_) {
+    const auto telem_qos = rclcpp::QoS(rclcpp::KeepLast(10)).best_effort();
+    telemetry_pub_ = get_node()->create_publisher<exo_control_msgs::msg::JointControlTelemetry>(
+      telemetry_topic_, telem_qos);
+    const auto session_qos = rclcpp::QoS(rclcpp::KeepLast(1)).transient_local().reliable();
+    logging_session_pub_ = get_node()->create_publisher<std_msgs::msg::Bool>(
+      logging_session_topic_, session_qos);
+  }
 
   if (urdf_path_.empty()) {
     try {
@@ -75,14 +95,14 @@ controller_interface::CallbackReturn GravityCompensationController::on_configure
 
   RCLCPP_INFO(
     get_node()->get_logger(),
-    "Configured: backend=%s urdf=%s reference_topic=%s joints=%zu",
-    dynamics_backend_.c_str(), urdf_path_.c_str(), reference_trajectory_topic_.c_str(),
-    joint_names_param_.size());
+    "Configured (task-space gravity): backend=%s urdf=%s ee_frame=%s reference_topic=%s joints=%zu",
+    dynamics_backend_.c_str(), urdf_path_.c_str(), end_effector_frame_.c_str(),
+    reference_trajectory_topic_.c_str(), joint_names_param_.size());
 
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::CallbackReturn GravityCompensationController::on_activate(
+controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_activate(
   const rclcpp_lifecycle::State &)
 {
   if (!init_interfaces()) {
@@ -93,23 +113,35 @@ controller_interface::CallbackReturn GravityCompensationController::on_activate(
   traj_sub_ = get_node()->create_subscription<trajectory_msgs::msg::JointTrajectory>(
     reference_trajectory_topic_, rclcpp::SystemDefaultsQoS(),
     std::bind(
-      &GravityCompensationController::referenceTrajectoryCallback, this,
+      &TaskSpaceGravityCompensationController::referenceTrajectoryCallback, this,
       std::placeholders::_1));
 
-  RCLCPP_INFO(get_node()->get_logger(), "Controller activated");
+  if (logging_session_pub_) {
+    std_msgs::msg::Bool msg;
+    msg.data = true;
+    logging_session_pub_->publish(msg);
+  }
+
+  RCLCPP_INFO(get_node()->get_logger(), "Task-space gravity compensation controller activated");
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
-controller_interface::CallbackReturn GravityCompensationController::on_deactivate(
+controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_deactivate(
   const rclcpp_lifecycle::State &)
 {
+  if (logging_session_pub_) {
+    std_msgs::msg::Bool msg;
+    msg.data = false;
+    logging_session_pub_->publish(msg);
+  }
+
   traj_sub_.reset();
-  RCLCPP_INFO(get_node()->get_logger(), "Controller deactivated");
+  RCLCPP_INFO(get_node()->get_logger(), "Task-space gravity compensation controller deactivated");
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
 controller_interface::InterfaceConfiguration
-GravityCompensationController::command_interface_configuration() const
+TaskSpaceGravityCompensationController::command_interface_configuration() const
 {
   controller_interface::InterfaceConfiguration config;
   config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
@@ -122,7 +154,7 @@ GravityCompensationController::command_interface_configuration() const
 }
 
 controller_interface::InterfaceConfiguration
-GravityCompensationController::state_interface_configuration() const
+TaskSpaceGravityCompensationController::state_interface_configuration() const
 {
   controller_interface::InterfaceConfiguration config;
   config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
@@ -136,7 +168,7 @@ GravityCompensationController::state_interface_configuration() const
   return config;
 }
 
-bool GravityCompensationController::init_interfaces()
+bool TaskSpaceGravityCompensationController::init_interfaces()
 {
   if (state_interfaces_.empty()) {
     RCLCPP_ERROR(get_node()->get_logger(), "No state interfaces assigned");
@@ -163,7 +195,7 @@ bool GravityCompensationController::init_interfaces()
   joint_names_.clear();
   pos_interfaces_.clear();
   vel_interfaces_.clear();
-  eff_interfaces_.clear();
+  effort_state_.clear();
   cmd_interfaces_.clear();
 
   for (const auto & joint : joint_names_param_) {
@@ -176,10 +208,7 @@ bool GravityCompensationController::init_interfaces()
     joint_names_.push_back(joint);
     pos_interfaces_.push_back(*pos_map[joint]);
     vel_interfaces_.push_back(*vel_map[joint]);
-
-    if (eff_map.count(joint)) {
-      eff_interfaces_.push_back(*eff_map[joint]);
-    }
+    effort_state_.push_back(eff_map.count(joint) ? eff_map[joint] : nullptr);
   }
 
   std::unordered_map<std::string, hardware_interface::LoanedCommandInterface *> cmd_map;
@@ -207,7 +236,7 @@ bool GravityCompensationController::init_interfaces()
   return true;
 }
 
-void GravityCompensationController::referenceTrajectoryCallback(
+void TaskSpaceGravityCompensationController::referenceTrajectoryCallback(
   const trajectory_msgs::msg::JointTrajectory::SharedPtr msg)
 {
   if (!msg || msg->points.empty()) {
@@ -242,12 +271,14 @@ void GravityCompensationController::referenceTrajectoryCallback(
     }
   }
 
+  // When inverseKinematicsEndEffector is implemented, map Cartesian references to sp.positions here.
+
   sp.valid = true;
   setpoint_buffer_.writeFromNonRT(sp);
 }
 
-controller_interface::return_type GravityCompensationController::update(
-  const rclcpp::Time &,
+controller_interface::return_type TaskSpaceGravityCompensationController::update(
+  const rclcpp::Time & time,
   const rclcpp::Duration &)
 {
   TrajectorySetpoint * sp_ptr = setpoint_buffer_.readFromRT();
@@ -277,15 +308,66 @@ controller_interface::return_type GravityCompensationController::update(
     return controller_interface::return_type::ERROR;
   }
 
-  for (size_t i = 0; i < joint_names_.size(); ++i) {
-    const double q_des = sp_ptr->positions[i];
-    const double dq_des = sp_ptr->velocities[i];
-    const double tau =
-      gravity_scale_ * tau_g[i] + kp_ * (q_des - q_meas[i]) + kd_ * (dq_des - dq_meas[i]);
+  const Eigen::VectorXd tau_vec = computeGravityPdEffort(
+    gravity_scale_, kp_, kd_, tau_g, sp_ptr->positions, sp_ptr->velocities, q_meas, dq_meas);
 
-    if (!cmd_interfaces_[i].get().set_value(tau)) {
+  for (size_t i = 0; i < joint_names_.size(); ++i) {
+    if (!cmd_interfaces_[i].get().set_value(tau_vec(static_cast<Eigen::Index>(i)))) {
       return controller_interface::return_type::ERROR;
     }
+  }
+
+  if (telemetry_pub_) {
+    exo_control_msgs::msg::JointControlTelemetry msg;
+    msg.header.stamp = time;
+    msg.header.frame_id = "base_link";
+    msg.joint_names = joint_names_;
+    const size_t n = joint_names_.size();
+    msg.position.resize(n);
+    msg.velocity.resize(n);
+    msg.position_reference.resize(n);
+    msg.velocity_reference.resize(n);
+    msg.effort_command.resize(n);
+    msg.effort_feedforward.resize(n);
+    bool any_effort_state = false;
+    for (auto * es : effort_state_) {
+      if (es != nullptr) {
+        any_effort_state = true;
+        break;
+      }
+    }
+    if (any_effort_state) {
+      msg.effort_measured.resize(n);
+    }
+    for (size_t i = 0; i < n; ++i) {
+      msg.position[i] = q_meas[i];
+      msg.velocity[i] = dq_meas[i];
+      msg.position_reference[i] = sp_ptr->positions[i];
+      msg.velocity_reference[i] = sp_ptr->velocities[i];
+      msg.effort_feedforward[i] = gravity_scale_ * tau_g[i];
+      msg.effort_command[i] =
+        msg.effort_feedforward[i] +
+        kp_ * (msg.position_reference[i] - msg.position[i]) +
+        kd_ * (msg.velocity_reference[i] - msg.velocity[i]);
+      if (any_effort_state) {
+        if (effort_state_[i] != nullptr) {
+          auto te = effort_state_[i]->get_optional();
+          msg.effort_measured[i] = te ? *te : 0.0;
+        } else {
+          msg.effort_measured[i] = 0.0;
+        }
+      }
+    }
+
+    Eigen::Vector3d ee;
+    std::string kin_err;
+    if (forwardKinematicsEndEffector(
+        end_effector_frame_, joint_names_, q_meas, ee, &kin_err))
+    {
+      msg.operational_position_actual = {ee.x(), ee.y(), ee.z()};
+    }
+
+    telemetry_pub_->publish(msg);
   }
 
   return controller_interface::return_type::OK;
@@ -294,5 +376,5 @@ controller_interface::return_type GravityCompensationController::update(
 }  // namespace gravity_compensation_controller
 
 PLUGINLIB_EXPORT_CLASS(
-  gravity_compensation_controller::GravityCompensationController,
+  gravity_compensation_controller::TaskSpaceGravityCompensationController,
   controller_interface::ControllerInterface)

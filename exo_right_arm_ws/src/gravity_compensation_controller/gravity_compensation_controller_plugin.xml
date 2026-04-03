@@ -1,7 +1,14 @@
 <library path="gravity_compensation_controller">
   <class
-    name="gravity_compensation_controller/GravityCompensationController"
-    type="gravity_compensation_controller::GravityCompensationController"
+    name="gravity_compensation_controller/JointSpaceGravityCompensationController"
+    type="gravity_compensation_controller::JointSpaceGravityCompensationController"
     base_class_type="controller_interface::ControllerInterface">
+    <description>Joint-space PD with gravity feedforward (trajectory references in joint coordinates).</description>
+  </class>
+  <class
+    name="gravity_compensation_controller/TaskSpaceGravityCompensationController"
+    type="gravity_compensation_controller::TaskSpaceGravityCompensationController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Task-space-oriented gravity compensation; joint trajectory I/O until FK/IK utils are implemented.</description>
   </class>
 </library>

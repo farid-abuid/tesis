@@ -29,8 +29,8 @@ setup(
             'pytest',
         ],
     },
-    entry_points={
-        'console_scripts': [
-        ],
-    },
+    scripts=[
+        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_data_logger'),
+        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_plot_run'),
+    ],
 )

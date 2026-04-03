@@ -1,0 +1,8 @@
+# Controller-specific topics (telemetry, session, lifecycle) are set from gazebo.launch.py
+# from the same control_mode used for the controller spawner (e.g. joint_space_gravity_compensation).
+exo_data_logger:
+  ros__parameters:
+    log_root: "~/exo_logs"
+    use_controller_session: true
+    use_lifecycle_events: true
+    auto_plot: false

@@ -1,15 +1,15 @@
 controller_manager:
   ros__parameters:
-    update_rate: 500
+    update_rate: 1000
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    gravity_compensation_controller:
-      type: gravity_compensation_controller/GravityCompensationController
+    joint_space_gravity_compensation_controller:
+      type: gravity_compensation_controller/JointSpaceGravityCompensationController
 
 joint_state_broadcaster:
-  ros__parameters:        
+  ros__parameters:
     joints:
       - revolute_1
       - revolute_2
@@ -19,7 +19,7 @@ joint_state_broadcaster:
       - velocity
       - effort
 
-gravity_compensation_controller:
+joint_space_gravity_compensation_controller:
   ros__parameters:
     joints:
       - revolute_1
@@ -28,6 +28,9 @@ gravity_compensation_controller:
     dynamics_backend: pinocchio
     urdf_path: ""
     reference_trajectory_topic: /reference_trajectory
-    kp: 50.0
-    kd: 5.0
+    kp: 5.0
+    kd: 1.0
     gravity_scale: 1.0
+    publish_telemetry: true
+    telemetry_topic: /joint_space_gravity_compensation_controller/telemetry
+    logging_session_topic: /joint_space_gravity_compensation_controller/logging/session
