@@ -39,7 +39,13 @@ private:
   std::vector<double> velocity_;
   std::vector<double> effort_;
 
+  std::vector<double> position_command_;
+  std::vector<double> velocity_command_;
   std::vector<double> effort_command_;
+  std::vector<double> last_position_command_;
+  std::vector<double> last_velocity_command_;
+  std::vector<double> last_effort_command_;
+  uint8_t active_cmd_type_ = 1;
 
   std::vector<uint8_t> motor_ids_;
 

@@ -5,6 +5,8 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <iostream>
+#include <limits>
+#include <cmath>
 
 #define HEADER1 0xAA
 #define HEADER2 0x55
@@ -45,7 +47,12 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
   position_.resize(n);
   velocity_.resize(n);
   effort_.resize(n);
-  effort_command_.resize(n);
+  position_command_.resize(n, std::numeric_limits<double>::quiet_NaN());
+  velocity_command_.resize(n, std::numeric_limits<double>::quiet_NaN());
+  effort_command_.resize(n, 0.0);
+  last_position_command_ = position_command_;
+  last_velocity_command_ = velocity_command_;
+  last_effort_command_ = effort_command_;
   motor_ids_.resize(n);
 
   for(size_t i=0;i<n;i++)
@@ -114,6 +121,18 @@ teensy_plugin::export_command_interfaces()
         command_interfaces.emplace_back(
             hardware_interface::CommandInterface(
                 info_.joints[i].name,
+                hardware_interface::HW_IF_POSITION,
+                &position_command_[i]));
+
+        command_interfaces.emplace_back(
+            hardware_interface::CommandInterface(
+                info_.joints[i].name,
+                hardware_interface::HW_IF_VELOCITY,
+                &velocity_command_[i]));
+
+        command_interfaces.emplace_back(
+            hardware_interface::CommandInterface(
+                info_.joints[i].name,
                 hardware_interface::HW_IF_EFFORT,
                 &effort_command_[i]));
     }
@@ -126,7 +145,45 @@ hardware_interface::return_type teensy_plugin::write(
   const rclcpp::Time &,
   const rclcpp::Duration &)
 {
-  const uint8_t cmd_type = 9; // 1 torque, 2 speed, 9 angle
+  const auto has_changed = [](const std::vector<double> & now, const std::vector<double> & prev) {
+    if (now.size() != prev.size()) {
+      return true;
+    }
+    constexpr double eps = 1e-9;
+    for (size_t i = 0; i < now.size(); ++i) {
+      const bool now_finite = std::isfinite(now[i]);
+      const bool prev_finite = std::isfinite(prev[i]);
+      if (now_finite != prev_finite) {
+        return true;
+      }
+      if (now_finite && std::fabs(now[i] - prev[i]) > eps) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const bool position_updated = has_changed(position_command_, last_position_command_);
+  const bool velocity_updated = has_changed(velocity_command_, last_velocity_command_);
+  const bool effort_updated = has_changed(effort_command_, last_effort_command_);
+
+  // Controllers switch mode by writing to their claimed command interface.
+  if (position_updated) {
+    active_cmd_type_ = 9;
+  } else if (velocity_updated) {
+    active_cmd_type_ = 2;
+  } else if (effort_updated) {
+    active_cmd_type_ = 1;
+  }
+
+  const uint8_t cmd_type = active_cmd_type_; // 1 torque, 2 speed, 9 angle
+  const std::vector<double> * active_commands = &effort_command_;
+  if (cmd_type == 9) {
+    active_commands = &position_command_;
+  } else if (cmd_type == 2) {
+    active_commands = &velocity_command_;
+  }
+
   const uint8_t n = effort_command_.size();
 
   uint8_t buffer[128];
@@ -141,7 +198,11 @@ hardware_interface::return_type teensy_plugin::write(
   for(size_t i=0;i<n;i++)
   {
       uint8_t id = motor_ids_[i];
-      float effort = effort_command_[i];
+      float effort = static_cast<float>((*active_commands)[i]);
+      if (!std::isfinite(effort))
+      {
+        effort = 0.0f;
+      }
 
       memcpy(&buffer[idx], &id, 1);
       idx += 1;
@@ -154,6 +215,9 @@ hardware_interface::return_type teensy_plugin::write(
   buffer[idx++] = cs;
 
   ::write(serial_fd_, buffer, idx);
+  last_position_command_ = position_command_;
+  last_velocity_command_ = velocity_command_;
+  last_effort_command_ = effort_command_;
 
   return hardware_interface::return_type::OK;
 }
