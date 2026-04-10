@@ -18,7 +18,12 @@ setup(
         (os.path.join('share', package_name, 'rviz'), glob('rviz/*.rviz')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*.sdf')),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'numpy',
+        'matplotlib',
+        'pyserial',
+    ],
     zip_safe=True,
     maintainer='farid',
     maintainer_email='farid.abuid@utec.edu.pe',
@@ -32,5 +37,6 @@ setup(
     scripts=[
         os.path.join(os.path.dirname(__file__), 'scripts', 'exo_data_logger'),
         os.path.join(os.path.dirname(__file__), 'scripts', 'exo_plot_run'),
+        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_dc_motor_id'),
     ],
 )
