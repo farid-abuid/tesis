@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+"""Launcher for Teensy single-motor serial RTT benchmark."""
+
+import sys
+
+from exo_bringup.teensy_serial_rtt import main
+
+
+if __name__ == "__main__":
+    sys.exit(main())

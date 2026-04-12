@@ -7,6 +7,7 @@
 #include <iostream>
 #include <limits>
 #include <cmath>
+#include <algorithm>
 
 #define HEADER1 0xAA
 #define HEADER2 0x55
@@ -21,6 +22,9 @@ struct __attribute__((packed)) MotorStatus2
     float speed;
     float angle;
 };
+
+// Hardware joint directions (index 0..5): joints 1 and 3 are reversed.
+static const int8_t kJointDirection[] = {-1, 1, -1};
 
 static uint8_t computeChecksum(uint8_t *data, int len)
 {
@@ -78,6 +82,12 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
     tty.c_cflag &= ~CSTOPB;
 
     tcsetattr(serial_fd_, TCSANOW, &tty);
+
+    // Initialize timing diagnostics.
+    const auto now_tp = std::chrono::steady_clock::now();
+    last_write_tp_ = now_tp;
+    last_read_tp_ = now_tp;
+    stats_window_start_tp_ = now_tp;
 
   return hardware_interface::CallbackReturn::SUCCESS;
 }
@@ -145,6 +155,16 @@ hardware_interface::return_type teensy_plugin::write(
   const rclcpp::Time &,
   const rclcpp::Duration &)
 {
+  const auto now_tp = std::chrono::steady_clock::now();
+  const double write_dt_s = std::chrono::duration<double>(now_tp - last_write_tp_).count();
+  if (write_cycles_ > 0) {
+    write_dt_sum_s_ += write_dt_s;
+    write_dt_sq_sum_s2_ += write_dt_s * write_dt_s;
+    write_dt_max_s_ = std::max(write_dt_max_s_, write_dt_s);
+  }
+  write_cycles_++;
+  last_write_tp_ = now_tp;
+
   const auto has_changed = [](const std::vector<double> & now, const std::vector<double> & prev) {
     if (now.size() != prev.size()) {
       return true;
@@ -203,6 +223,10 @@ hardware_interface::return_type teensy_plugin::write(
       {
         effort = 0.0f;
       }
+      if (i < (sizeof(kJointDirection) / sizeof(kJointDirection[0])))
+      {
+        effort *= static_cast<float>(kJointDirection[i]);
+      }
 
       memcpy(&buffer[idx], &id, 1);
       idx += 1;
@@ -228,35 +252,96 @@ hardware_interface::return_type teensy_plugin::read(
   const rclcpp::Time &,
   const rclcpp::Duration &)
 {
-  const size_t n = position_.size();
+  const auto now_tp = std::chrono::steady_clock::now();
+  const double read_dt_s = std::chrono::duration<double>(now_tp - last_read_tp_).count();
+  if (read_cycles_ > 0) {
+    read_dt_sum_s_ += read_dt_s;
+    read_dt_sq_sum_s2_ += read_dt_s * read_dt_s;
+    read_dt_max_s_ = std::max(read_dt_max_s_, read_dt_s);
+  }
+  read_cycles_++;
+  last_read_tp_ = now_tp;
 
-  const int expected =
-      2 + n*sizeof(MotorStatus2);
+  const size_t n = position_.size();
 
   uint8_t header[2];
   int nread = ::read(serial_fd_, header, 2);
-  if (nread != 2) return hardware_interface::return_type::OK;
+  bool frame_ok = (nread == 2 && header[0] == HEADER1 && header[1] == HEADER2);
+  if (!frame_ok) {
+    stale_reads_++;
+  }
 
-  for(size_t i=0;i<n;i++)
-  {
-      MotorStatus2 status;
+  if (frame_ok) {
+    for(size_t i=0;i<n;i++)
+    {
+        MotorStatus2 status;
 
-      ::read(serial_fd_, &status, sizeof(MotorStatus2));
+        const int payload_read = ::read(serial_fd_, &status, sizeof(MotorStatus2));
+        if (payload_read != (int)sizeof(MotorStatus2)) {
+          frame_ok = false;
+          stale_reads_++;
+          break;
+        }
 
-      int idx = status.motorID - 1;
+        int idx = status.motorID - 1;
 
-      if(idx < 0 || idx >= (int)n)
-          continue;
+        if(idx < 0 || idx >= (int)n)
+            continue;
 
-      position_[idx] =
-          status.angle;
+        const float sign =
+            (idx < (int)(sizeof(kJointDirection) / sizeof(kJointDirection[0])))
+                ? static_cast<float>(kJointDirection[idx])
+                : 1.0f;
 
-      velocity_[idx] =
-          status.speed;
+        position_[idx] =
+            sign * status.angle;
 
-      effort_[idx] =
-          status.effort;
-      //std::cout << " effort=" << status.effort << std::endl;
+        velocity_[idx] =
+            sign * status.speed;
+
+        effort_[idx] =
+            sign * status.effort;
+        //std::cout << " effort=" << status.effort << std::endl;
+    }
+  }
+
+  if (frame_ok) {
+    fresh_frames_++;
+  }
+
+  const double window_s = std::chrono::duration<double>(now_tp - stats_window_start_tp_).count();
+  if (window_s >= 1.0) {
+    const double write_samples = (write_cycles_ > 1) ? static_cast<double>(write_cycles_ - 1) : 0.0;
+    const double read_samples = (read_cycles_ > 1) ? static_cast<double>(read_cycles_ - 1) : 0.0;
+    const double write_mean_s = (write_samples > 0.0) ? (write_dt_sum_s_ / write_samples) : 0.0;
+    const double read_mean_s = (read_samples > 0.0) ? (read_dt_sum_s_ / read_samples) : 0.0;
+    const double write_var_s2 = (write_samples > 0.0) ? (write_dt_sq_sum_s2_ / write_samples - write_mean_s * write_mean_s) : 0.0;
+    const double read_var_s2 = (read_samples > 0.0) ? (read_dt_sq_sum_s2_ / read_samples - read_mean_s * read_mean_s) : 0.0;
+    const double write_jitter_ms = std::sqrt(std::max(0.0, write_var_s2)) * 1000.0;
+    const double read_jitter_ms = std::sqrt(std::max(0.0, read_var_s2)) * 1000.0;
+    const double write_rate_hz = write_cycles_ / window_s;
+    const double read_rate_hz = read_cycles_ / window_s;
+    const double fresh_rate_hz = fresh_frames_ / window_s;
+    const double stale_pct = (read_cycles_ > 0) ? (100.0 * static_cast<double>(stale_reads_) / static_cast<double>(read_cycles_)) : 0.0;
+
+    RCLCPP_INFO(
+      rclcpp::get_logger("exo_hw"),
+      "HW stats: write=%.1fHz (jitter=%.3fms, max_dt=%.3fms) read=%.1fHz (jitter=%.3fms, max_dt=%.3fms) fresh=%.1fHz stale=%.1f%%",
+      write_rate_hz, write_jitter_ms, write_dt_max_s_ * 1000.0,
+      read_rate_hz, read_jitter_ms, read_dt_max_s_ * 1000.0,
+      fresh_rate_hz, stale_pct);
+
+    stats_window_start_tp_ = now_tp;
+    write_dt_sum_s_ = 0.0;
+    write_dt_sq_sum_s2_ = 0.0;
+    write_dt_max_s_ = 0.0;
+    read_dt_sum_s_ = 0.0;
+    read_dt_sq_sum_s2_ = 0.0;
+    read_dt_max_s_ = 0.0;
+    write_cycles_ = 0;
+    read_cycles_ = 0;
+    fresh_frames_ = 0;
+    stale_reads_ = 0;
   }
 
   return hardware_interface::return_type::OK;

@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
+#include <cstdint>
 
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
@@ -50,6 +52,21 @@ private:
   std::vector<uint8_t> motor_ids_;
 
   int serial_fd_;
+
+  // Runtime timing stats for control/update diagnostics.
+  std::chrono::steady_clock::time_point last_write_tp_{};
+  std::chrono::steady_clock::time_point last_read_tp_{};
+  std::chrono::steady_clock::time_point stats_window_start_tp_{};
+  double write_dt_sum_s_ = 0.0;
+  double write_dt_sq_sum_s2_ = 0.0;
+  double write_dt_max_s_ = 0.0;
+  double read_dt_sum_s_ = 0.0;
+  double read_dt_sq_sum_s2_ = 0.0;
+  double read_dt_max_s_ = 0.0;
+  uint64_t write_cycles_ = 0;
+  uint64_t read_cycles_ = 0;
+  uint64_t fresh_frames_ = 0;
+  uint64_t stale_reads_ = 0;
 
 };
 
