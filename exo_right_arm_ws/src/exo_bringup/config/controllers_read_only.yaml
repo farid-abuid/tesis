@@ -1,0 +1,17 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - revolute_1
+      - revolute_2
+      - revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort

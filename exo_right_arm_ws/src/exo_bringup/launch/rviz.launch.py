@@ -1,10 +1,10 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch_ros.actions import Node
 from launch.substitutions import Command
 from launch_ros.substitutions import FindPackageShare
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, TextSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, TextSubstitution, PythonExpression
 from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
@@ -21,6 +21,10 @@ def generate_launch_description():
     )
 
     enable_data_logger = LaunchConfiguration("enable_data_logger")
+
+    is_read_only = PythonExpression(["'", control_mode, "' == 'read_only'"])
+
+    controller_yaml = PythonExpression(["'controllers_' + '", control_mode, "' + '.yaml'"])
 
     telemetry_topic = [
         TextSubstitution(text="/"),
@@ -60,7 +64,7 @@ def generate_launch_description():
     controller_config = PathJoinSubstitution([
         FindPackageShare("exo_bringup"),
         "config",
-        [TextSubstitution(text="controllers_"), control_mode, TextSubstitution(text=".yaml")]
+        controller_yaml,
     ])
 
     robot_state_pub = Node(
@@ -90,10 +94,11 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=[ [control_mode, TextSubstitution(text="_controller")] ],
+        condition=UnlessCondition(is_read_only),
     )
 
     data_logger_node = Node(
-        package="exo_bringup",
+        package="exo_utils",
         executable="exo_data_logger",
         name="exo_data_logger",
         parameters=[

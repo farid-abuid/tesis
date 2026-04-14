@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
-namespace gravity_compensation_controller
+namespace exo_utils
+{
+namespace kinematics
 {
 
 /// Placeholder forward kinematics (implement with Pinocchio / analytic IK later).
@@ -24,4 +26,5 @@ bool inverseKinematicsEndEffector(
   std::vector<double> & q_out,
   std::string * error = nullptr);
 
-}  // namespace gravity_compensation_controller
+}  // namespace kinematics
+}  // namespace exo_utils

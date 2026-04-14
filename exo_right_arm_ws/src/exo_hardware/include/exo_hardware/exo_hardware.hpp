@@ -10,6 +10,7 @@
 #include "hardware_interface/hardware_info.hpp"
 
 #include "rclcpp/rclcpp.hpp"
+#include "rclcpp_lifecycle/state.hpp"
 
 //#include <serial/serial.h>
 
@@ -22,6 +23,12 @@ public:
 
   hardware_interface::CallbackReturn on_init(
     const hardware_interface::HardwareInfo & info) override;
+
+  hardware_interface::CallbackReturn on_deactivate(
+    const rclcpp_lifecycle::State & previous_state) override;
+
+  hardware_interface::CallbackReturn on_shutdown(
+    const rclcpp_lifecycle::State & previous_state) override;
 
   hardware_interface::return_type read(
     const rclcpp::Time &,
@@ -37,6 +44,9 @@ public:
 
 private:
 
+  // Sends a serial frame with the given cmd_type (e.g. 6=stop, 7=shutdown).
+  void sendSpecialCommand(uint8_t cmd_type);
+
   std::vector<double> position_;
   std::vector<double> velocity_;
   std::vector<double> effort_;
@@ -47,7 +57,10 @@ private:
   std::vector<double> last_position_command_;
   std::vector<double> last_velocity_command_;
   std::vector<double> last_effort_command_;
-  uint8_t active_cmd_type_ = 1;
+  uint8_t active_cmd_type_ = 5; // 5 = read-only until a controller writes commands
+  bool effort_stiction_comp_enabled_ = false;
+  std::vector<double> effort_stiction_tau_per_joint_;
+  std::vector<double> effort_stiction_slope_per_joint_;
 
   std::vector<uint8_t> motor_ids_;
 

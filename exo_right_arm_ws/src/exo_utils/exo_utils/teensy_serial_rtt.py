@@ -159,7 +159,7 @@ def main() -> int:
         description="Teensy serial round-trip benchmark (1 or more motors per frame)."
     )
     p.add_argument("--port", default="/dev/teensy_motor", help="Serial device")
-    p.add_argument("--baud", type=int, default=115200)
+    p.add_argument("--baud", type=int, default=460800)
     p.add_argument("--timeout", type=float, default=0.5, help="Per-byte read timeout (s)")
     p.add_argument(
         "--n-motors",
@@ -178,8 +178,8 @@ def main() -> int:
         "--cmd-type",
         type=int,
         default=1,
-        choices=(1, 2, 9),
-        help="1=torque, 2=speed, 9=position (Teensy protocol)",
+        choices=(1, 2, 3),
+        help="1=torque, 2=speed, 3=position (Teensy protocol)",
     )
     p.add_argument(
         "--value",

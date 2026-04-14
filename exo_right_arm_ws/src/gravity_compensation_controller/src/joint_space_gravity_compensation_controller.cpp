@@ -74,7 +74,7 @@ controller_interface::CallbackReturn JointSpaceGravityCompensationController::on
   }
 
   std::string dyn_err;
-  dynamics_ = createDynamicsModel(dynamics_backend_, &dyn_err);
+  dynamics_ = exo_utils::dynamics::createDynamicsModel(dynamics_backend_, &dyn_err);
   if (!dynamics_) {
     RCLCPP_ERROR(get_node()->get_logger(), "%s", dyn_err.c_str());
     return controller_interface::CallbackReturn::ERROR;

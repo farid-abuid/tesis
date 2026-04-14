@@ -111,7 +111,7 @@ def generate_launch_description():
     )
 
     data_logger_node = Node(
-        package="exo_bringup",
+        package="exo_utils",
         executable="exo_data_logger",
         name="exo_data_logger",
         parameters=[

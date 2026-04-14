@@ -19,7 +19,7 @@
   <depend>realtime_tools</depend>
   <depend>ament_index_cpp</depend>
   <build_depend>eigen3_cmake_module</build_depend>
-  <depend>pinocchio</depend>
+  <depend>exo_utils</depend>
   <exec_depend>exo_description</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>

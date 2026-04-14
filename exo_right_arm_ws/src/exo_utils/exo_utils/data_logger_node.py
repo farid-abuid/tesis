@@ -210,7 +210,7 @@ class DataLoggerNode(Node):
         self.get_logger().info(f'Logging stopped ({source})')
         if plot and csv_path is not None and csv_path.is_file() and csv_path.stat().st_size > 0:
             try:
-                from exo_bringup import plot_run
+                from exo_utils import plot_run
                 plot_dir.mkdir(parents=True, exist_ok=True)
                 plot_run.generate_plots(str(csv_path), str(plot_dir))
                 self.get_logger().info(f'Plots written to {plot_dir}')

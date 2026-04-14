@@ -20,9 +20,6 @@ setup(
     ],
     install_requires=[
         'setuptools',
-        'numpy',
-        'matplotlib',
-        'pyserial',
     ],
     zip_safe=True,
     maintainer='farid',
@@ -34,10 +31,4 @@ setup(
             'pytest',
         ],
     },
-    scripts=[
-        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_data_logger'),
-        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_plot_run'),
-        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_dc_motor_id'),
-        os.path.join(os.path.dirname(__file__), 'scripts', 'exo_teensy_serial_rtt'),
-    ],
 )

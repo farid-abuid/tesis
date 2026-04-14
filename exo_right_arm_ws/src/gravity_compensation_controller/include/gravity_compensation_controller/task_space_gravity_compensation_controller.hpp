@@ -6,7 +6,7 @@
 
 #include "controller_interface/controller_interface.hpp"
 #include "exo_control_msgs/msg/joint_control_telemetry.hpp"
-#include "gravity_compensation_controller/dynamics_backend.hpp"
+#include "exo_utils/dynamics/dynamics_backend.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "realtime_tools/realtime_buffer.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -18,7 +18,7 @@ namespace gravity_compensation_controller
 
 /// Task-space oriented gravity compensation controller: same I/O and lifecycle as the joint-space
 /// variant. Joint trajectory references are used until inverse kinematics is implemented in
-/// controller_kinematics_utils; optional Cartesian error terms hook in once FK/IK return true.
+/// exo_utils kinematics; optional Cartesian error terms hook in once FK/IK return true.
 class TaskSpaceGravityCompensationController : public controller_interface::ControllerInterface
 {
 public:
@@ -67,7 +67,7 @@ private:
   double kd_{5.0};
   double gravity_scale_{1.0};
 
-  std::unique_ptr<DynamicsModel> dynamics_;
+  std::unique_ptr<exo_utils::dynamics::DynamicsModel> dynamics_;
   realtime_tools::RealtimeBuffer<TrajectorySetpoint> setpoint_buffer_;
   rclcpp::Subscription<trajectory_msgs::msg::JointTrajectory>::SharedPtr traj_sub_;
 

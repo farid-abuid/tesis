@@ -1,5 +1,5 @@
 #include "gravity_compensation_controller/task_space_gravity_compensation_controller.hpp"
-#include "gravity_compensation_controller/controller_kinematics_utils.hpp"
+#include "exo_utils/kinematics/kinematics_utils.hpp"
 #include "gravity_compensation_controller/gravity_compensation_common.hpp"
 #include "pluginlib/class_list_macros.hpp"
 
@@ -76,7 +76,7 @@ controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_
   }
 
   std::string dyn_err;
-  dynamics_ = createDynamicsModel(dynamics_backend_, &dyn_err);
+  dynamics_ = exo_utils::dynamics::createDynamicsModel(dynamics_backend_, &dyn_err);
   if (!dynamics_) {
     RCLCPP_ERROR(get_node()->get_logger(), "%s", dyn_err.c_str());
     return controller_interface::CallbackReturn::ERROR;
@@ -361,7 +361,7 @@ controller_interface::return_type TaskSpaceGravityCompensationController::update
 
     Eigen::Vector3d ee;
     std::string kin_err;
-    if (forwardKinematicsEndEffector(
+    if (exo_utils::kinematics::forwardKinematicsEndEffector(
         end_effector_frame_, joint_names_, q_meas, ee, &kin_err))
     {
       msg.operational_position_actual = {ee.x(), ee.y(), ee.z()};

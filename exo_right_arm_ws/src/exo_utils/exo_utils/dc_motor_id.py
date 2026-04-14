@@ -272,7 +272,7 @@ def plot_results(processed: dict, params: dict) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="DC motor parameter identification")
     parser.add_argument("--port", type=str, default="/dev/teensy_motor")
-    parser.add_argument("--baudrate", type=int, default=115200)
+    parser.add_argument("--baudrate", type=int, default=460800)
     parser.add_argument("--motor-id", type=int, required=True)
     parser.add_argument("--dt", type=float, default=0.01)
     parser.add_argument("--max-current", type=float, default=5.0)

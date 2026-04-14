@@ -13,26 +13,12 @@ find_package(rclcpp REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(exo_control_msgs REQUIRED)
+find_package(exo_utils REQUIRED)
 find_package(realtime_tools REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(pinocchio REQUIRED)
-
-find_library(RBDL_LIBRARY NAMES rbdl RBDL DOC "RBDL shared library")
-find_path(RBDL_INCLUDE_DIR NAMES rbdl/rbdl.h DOC "RBDL headers")
-
-set(HAVE_RBDL FALSE)
-if(RBDL_LIBRARY AND RBDL_INCLUDE_DIR)
-  find_package(urdf REQUIRED)
-  set(HAVE_RBDL TRUE)
-  message(STATUS "gravity_compensation_controller: RBDL backend enabled (${RBDL_LIBRARY})")
-else()
-  message(STATUS "gravity_compensation_controller: RBDL not found; only Pinocchio backend available")
-endif()
 
 add_library(gravity_compensation_controller SHARED
-  src/controller_kinematics_utils.cpp
-  src/dynamics_backend.cpp
   src/joint_space_gravity_compensation_controller.cpp
   src/task_space_gravity_compensation_controller.cpp
 )
@@ -42,12 +28,11 @@ target_include_directories(gravity_compensation_controller PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
-target_compile_definitions(gravity_compensation_controller PRIVATE GRAVITY_COMP_HAVE_PINOCCHIO)
-
-if(HAVE_RBDL)
-  target_compile_definitions(gravity_compensation_controller PRIVATE GRAVITY_COMP_HAVE_RBDL)
-  target_include_directories(gravity_compensation_controller PRIVATE ${RBDL_INCLUDE_DIR})
-endif()
+# Plugin is dlopen()'d; set RPATH so libexo_utils.so resolves without relying on LD_LIBRARY_PATH.
+set_target_properties(gravity_compensation_controller PROPERTIES
+  BUILD_RPATH "${CMAKE_BINARY_DIR}/../exo_utils/lib"
+  INSTALL_RPATH "$ORIGIN/../../exo_utils/lib"
+)
 
 ament_target_dependencies(gravity_compensation_controller
   controller_interface
@@ -61,19 +46,10 @@ ament_target_dependencies(gravity_compensation_controller
   ament_index_cpp
 )
 
-# Plain signature: ament_target_dependencies uses plain target_link_libraries; CMake
-# disallows mixing that with PUBLIC/PRIVATE on the same target.
 target_link_libraries(gravity_compensation_controller
-  pinocchio::pinocchio
   Eigen3::Eigen
+  exo_utils::exo_utils
 )
-
-if(HAVE_RBDL)
-  target_link_libraries(gravity_compensation_controller
-    ${RBDL_LIBRARY}
-    urdf::urdf
-  )
-endif()
 
 pluginlib_export_plugin_description_file(
   controller_interface

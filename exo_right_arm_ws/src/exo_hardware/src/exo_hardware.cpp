@@ -8,6 +8,7 @@
 #include <limits>
 #include <cmath>
 #include <algorithm>
+#include <sstream>
 
 #define HEADER1 0xAA
 #define HEADER2 0x55
@@ -62,6 +63,55 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
   for(size_t i=0;i<n;i++)
       motor_ids_[i] = i+1; // ALWAYS 1,2,3,4,5,6
 
+  // Optional effort-only low-level stiction compensator:
+  // tau_out = tau_in + tau_s * tanh(tau_in / slope).
+  const auto get_hw_param = [&](const std::string & key, const std::string & fallback) {
+    const auto it = info.hardware_parameters.find(key);
+    if (it == info.hardware_parameters.end()) {
+      return fallback;
+    }
+    return it->second;
+  };
+  effort_stiction_comp_enabled_ =
+    (get_hw_param("effort_stiction_comp_enabled", "false") == "true");
+  const auto parse_csv_doubles = [](const std::string & csv) {
+    std::vector<double> vals;
+    std::stringstream ss(csv);
+    std::string item;
+    while (std::getline(ss, item, ',')) {
+      if (item.empty()) {
+        continue;
+      }
+      vals.push_back(std::stod(item));
+    }
+    return vals;
+  };
+  effort_stiction_tau_per_joint_.assign(
+    n, std::stod(get_hw_param("effort_stiction_tau", "0.0")));
+  effort_stiction_slope_per_joint_.assign(
+    n, std::stod(get_hw_param("effort_stiction_slope", "0.05")));
+  const auto tau_values = parse_csv_doubles(get_hw_param("effort_stiction_tau_values", ""));
+  if (!tau_values.empty()) {
+    for (size_t i = 0; i < n && i < tau_values.size(); ++i) {
+      effort_stiction_tau_per_joint_[i] = tau_values[i];
+    }
+  }
+  const auto slope_values = parse_csv_doubles(get_hw_param("effort_stiction_slope_values", ""));
+  if (!slope_values.empty()) {
+    for (size_t i = 0; i < n && i < slope_values.size(); ++i) {
+      effort_stiction_slope_per_joint_[i] = slope_values[i];
+    }
+  }
+  for (size_t i = 0; i < n; ++i) {
+    if (effort_stiction_slope_per_joint_[i] <= 0.0) {
+      effort_stiction_slope_per_joint_[i] = 0.05;
+    }
+  }
+  RCLCPP_INFO(
+    rclcpp::get_logger("exo_hw"),
+    "Effort stiction compensation: enabled=%s",
+    effort_stiction_comp_enabled_ ? "true" : "false");
+
     serial_fd_ = ::open("/dev/teensy_motor", O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (serial_fd_ < 0) {
@@ -72,8 +122,8 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
     struct termios tty;
     tcgetattr(serial_fd_, &tty);
 
-    cfsetispeed(&tty, B115200);
-    cfsetospeed(&tty, B115200);
+    cfsetispeed(&tty, B460800);
+    cfsetospeed(&tty, B460800);
 
     tty.c_cflag |= (CLOCAL | CREAD);
     tty.c_cflag &= ~CSIZE;
@@ -89,6 +139,56 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
     last_read_tp_ = now_tp;
     stats_window_start_tp_ = now_tp;
 
+  return hardware_interface::CallbackReturn::SUCCESS;
+}
+
+void teensy_plugin::sendSpecialCommand(uint8_t special_cmd_type)
+{
+  const uint8_t n = motor_ids_.size();
+
+  uint8_t buffer[128];
+  int idx = 0;
+
+  buffer[idx++] = HEADER1;
+  buffer[idx++] = HEADER2;
+
+  uint8_t cmd = (special_cmd_type << 4) | n;
+  buffer[idx++] = cmd;
+
+  for (size_t i = 0; i < n; i++)
+  {
+    uint8_t id = motor_ids_[i];
+    float val = 0.0f;
+    memcpy(&buffer[idx], &id, 1);
+    idx += 1;
+    memcpy(&buffer[idx], &val, 4);
+    idx += 4;
+  }
+
+  uint8_t cs = computeChecksum(&buffer[2], idx - 2);
+  buffer[idx++] = cs;
+
+  ::write(serial_fd_, buffer, idx);
+}
+
+hardware_interface::CallbackReturn teensy_plugin::on_deactivate(
+  const rclcpp_lifecycle::State &)
+{
+  RCLCPP_INFO(rclcpp::get_logger("exo_hw"), "Deactivating: stopping all motors");
+  sendSpecialCommand(6);
+  active_cmd_type_ = 5;
+  return hardware_interface::CallbackReturn::SUCCESS;
+}
+
+hardware_interface::CallbackReturn teensy_plugin::on_shutdown(
+  const rclcpp_lifecycle::State &)
+{
+  RCLCPP_INFO(rclcpp::get_logger("exo_hw"), "Shutting down: shutdown all motors");
+  sendSpecialCommand(7);
+  if (serial_fd_ >= 0) {
+    ::close(serial_fd_);
+    serial_fd_ = -1;
+  }
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -187,18 +287,34 @@ hardware_interface::return_type teensy_plugin::write(
   const bool velocity_updated = has_changed(velocity_command_, last_velocity_command_);
   const bool effort_updated = has_changed(effort_command_, last_effort_command_);
 
-  // Controllers switch mode by writing to their claimed command interface.
-  if (position_updated) {
-    active_cmd_type_ = 9;
+  // Read-only only when command interfaces are still uninitialized (NaN).
+  const auto all_nan = [](const std::vector<double> & v) {
+    for (const auto & val : v) {
+      if (std::isfinite(val)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const bool no_active_commands =
+    all_nan(position_command_) &&
+    all_nan(velocity_command_) &&
+    all_nan(effort_command_);
+
+  if (no_active_commands) {
+    active_cmd_type_ = 5;
+  } else if (position_updated) {
+    active_cmd_type_ = 3;
   } else if (velocity_updated) {
     active_cmd_type_ = 2;
   } else if (effort_updated) {
     active_cmd_type_ = 1;
   }
 
-  const uint8_t cmd_type = active_cmd_type_; // 1 torque, 2 speed, 9 angle
+  const uint8_t cmd_type = active_cmd_type_; // 1 torque, 2 speed, 3 position
   const std::vector<double> * active_commands = &effort_command_;
-  if (cmd_type == 9) {
+  if (cmd_type == 3) {
     active_commands = &position_command_;
   } else if (cmd_type == 2) {
     active_commands = &velocity_command_;
@@ -222,6 +338,15 @@ hardware_interface::return_type teensy_plugin::write(
       if (!std::isfinite(effort))
       {
         effort = 0.0f;
+      }
+      if (cmd_type == 1 && effort_stiction_comp_enabled_)
+      {
+        const double tau_s = effort_stiction_tau_per_joint_[i];
+        const double slope = effort_stiction_slope_per_joint_[i];
+        const double e = static_cast<double>(effort);
+        const double compensated =
+          e + tau_s * std::tanh(e / slope);
+        effort = static_cast<float>(compensated);
       }
       if (i < (sizeof(kJointDirection) / sizeof(kJointDirection[0])))
       {

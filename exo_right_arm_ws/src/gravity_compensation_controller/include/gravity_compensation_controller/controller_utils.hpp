@@ -1,5 +1,5 @@
 #pragma once
 
-// Shared utilities and dynamics for exoskeleton controllers in this package.
-#include "gravity_compensation_controller/controller_kinematics_utils.hpp"
-#include "gravity_compensation_controller/dynamics_backend.hpp"
+// Shared kinematics / dynamics (exo_utils) for exoskeleton controllers in this package.
+#include "exo_utils/dynamics/dynamics_backend.hpp"
+#include "exo_utils/kinematics/kinematics_utils.hpp"

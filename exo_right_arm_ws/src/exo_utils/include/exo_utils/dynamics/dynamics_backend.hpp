@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 
-namespace gravity_compensation_controller
+namespace exo_utils
+{
+namespace dynamics
 {
 
-/// Shared rigid-body dynamics (Pinocchio / optional RBDL) for all controllers in this package.
-/// Loads a URDF and maps controller joint order to generalized gravity torques.
+/// Rigid-body dynamics (Pinocchio / optional RBDL): load URDF and map joint order to gravity torques.
 class DynamicsModel
 {
 public:
@@ -31,4 +32,5 @@ std::unique_ptr<DynamicsModel> createDynamicsModel(
   const std::string & backend,
   std::string * error);
 
-}  // namespace gravity_compensation_controller
+}  // namespace dynamics
+}  // namespace exo_utils

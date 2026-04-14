@@ -1,6 +1,8 @@
-#include "gravity_compensation_controller/controller_kinematics_utils.hpp"
+#include "exo_utils/kinematics/kinematics_utils.hpp"
 
-namespace gravity_compensation_controller
+namespace exo_utils
+{
+namespace kinematics
 {
 
 bool forwardKinematicsEndEffector(
@@ -30,4 +32,5 @@ bool inverseKinematicsEndEffector(
   return false;
 }
 
-}  // namespace gravity_compensation_controller
+}  // namespace kinematics
+}  // namespace exo_utils

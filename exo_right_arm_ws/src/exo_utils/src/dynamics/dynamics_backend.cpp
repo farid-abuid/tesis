@@ -1,25 +1,27 @@
-#include "gravity_compensation_controller/dynamics_backend.hpp"
+#include "exo_utils/dynamics/dynamics_backend.hpp"
 
 #include <algorithm>
 #include <cctype>
 #include <limits>
 #include <unordered_map>
 
-#ifdef GRAVITY_COMP_HAVE_PINOCCHIO
+#ifdef EXO_UTILS_HAVE_PINOCCHIO
 #include <pinocchio/algorithm/rnea.hpp>
 #include <pinocchio/parsers/urdf.hpp>
 #endif
 
-#ifdef GRAVITY_COMP_HAVE_RBDL
+#ifdef EXO_UTILS_HAVE_RBDL
 #include <rbdl/addons/urdfreader/urdfreader.h>
 #include <rbdl/rbdl.h>
 #include <urdfdom/urdf_parser/urdf_parser.h>
 #endif
 
-namespace gravity_compensation_controller
+namespace exo_utils
+{
+namespace dynamics
 {
 
-#ifdef GRAVITY_COMP_HAVE_PINOCCHIO
+#ifdef EXO_UTILS_HAVE_PINOCCHIO
 
 class PinocchioDynamics final : public DynamicsModel
 {
@@ -96,9 +98,9 @@ private:
   std::unique_ptr<pinocchio::Data> data_;
 };
 
-#endif  // GRAVITY_COMP_HAVE_PINOCCHIO
+#endif  // EXO_UTILS_HAVE_PINOCCHIO
 
-#ifdef GRAVITY_COMP_HAVE_RBDL
+#ifdef EXO_UTILS_HAVE_RBDL
 
 class RbdlDynamics final : public DynamicsModel
 {
@@ -193,7 +195,7 @@ private:
   std::unordered_map<std::string, unsigned int> joint_q_start_;
 };
 
-#endif  // GRAVITY_COMP_HAVE_RBDL
+#endif  // EXO_UTILS_HAVE_RBDL
 
 std::unique_ptr<DynamicsModel> createDynamicsModel(
   const std::string & backend,
@@ -205,7 +207,7 @@ std::unique_ptr<DynamicsModel> createDynamicsModel(
   });
 
   if (b == "pinocchio" || b == "pin") {
-#ifdef GRAVITY_COMP_HAVE_PINOCCHIO
+#ifdef EXO_UTILS_HAVE_PINOCCHIO
     return std::make_unique<PinocchioDynamics>();
 #else
     if (error) {
@@ -216,7 +218,7 @@ std::unique_ptr<DynamicsModel> createDynamicsModel(
   }
 
   if (b == "rbdl") {
-#ifdef GRAVITY_COMP_HAVE_RBDL
+#ifdef EXO_UTILS_HAVE_RBDL
     return std::make_unique<RbdlDynamics>();
 #else
     if (error) {
@@ -232,4 +234,5 @@ std::unique_ptr<DynamicsModel> createDynamicsModel(
   return nullptr;
 }
 
-}  // namespace gravity_compensation_controller
+}  // namespace dynamics
+}  // namespace exo_utils

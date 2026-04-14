@@ -242,6 +242,10 @@
 
     <xacro:if value="${xacro.arg('hardware') == 'real'}">
       <plugin>exo_hardware/teensy_plugin</plugin>
+        <param name="effort_stiction_comp_enabled">true</param>
+        <param name="effort_stiction_tau_values">0.65,0.86,1.26</param>
+        <!-- higher slope values mean a smoother transition -->
+        <param name="effort_stiction_slope_values">1, 1, 1</param>
     </xacro:if>
 
     <xacro:if value="${xacro.arg('hardware') == 'gazebo'}">
