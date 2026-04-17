@@ -7,6 +7,7 @@ from pathlib import Path
 import rclpy
 from rclpy.node import Node
 from builtin_interfaces.msg import Duration as DurationMsg
+from std_msgs.msg import Float64MultiArray
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 
@@ -15,6 +16,7 @@ class TrajectoryPlayerNode(Node):
         super().__init__('exo_trajectory_player')
         self.declare_parameter('input_file', '')
         self.declare_parameter('trajectory_topic', '/reference_trajectory')
+        self.declare_parameter('position_command_topic', '/position_controller/commands')
         self.declare_parameter('frequency', 0.0)
         self.declare_parameter('loop', False)
 
@@ -25,10 +27,12 @@ class TrajectoryPlayerNode(Node):
 
         self._input_path = Path(os.path.expanduser(input_file))
         self._topic = self.get_parameter('trajectory_topic').value
+        self._position_topic = self.get_parameter('position_command_topic').value
         self._freq_override = self.get_parameter('frequency').value
         self._loop = self.get_parameter('loop').value
 
         self._pub = self.create_publisher(JointTrajectory, self._topic, 10)
+        self._position_pub = self.create_publisher(Float64MultiArray, self._position_topic, 10)
 
         self._joint_names: list[str] = []
         self._rows: list[dict] = []
@@ -98,6 +102,9 @@ class TrajectoryPlayerNode(Node):
         msg.points = [pt]
 
         self._pub.publish(msg)
+        pos_msg = Float64MultiArray()
+        pos_msg.data = list(pt.positions)
+        self._position_pub.publish(pos_msg)
         self._current_idx += 1
 
 

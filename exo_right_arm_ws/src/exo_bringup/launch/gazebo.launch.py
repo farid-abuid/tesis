@@ -38,6 +38,11 @@ def generate_launch_description():
         control_mode,
         TextSubstitution(text="_controller/transition_event"),
     ]
+    command_topic = [
+        TextSubstitution(text="/"),
+        control_mode,
+        TextSubstitution(text="_controller/commands"),
+    ]
 
     robot_description = Command([
         "xacro ",
@@ -125,6 +130,9 @@ def generate_launch_description():
                 "telemetry_topic": telemetry_topic,
                 "session_topic": session_topic,
                 "lifecycle_transition_topic": lifecycle_topic,
+                "position_command_topic": command_topic,
+                "velocity_command_topic": command_topic,
+                "effort_command_topic": command_topic,
             },
         ],
         condition=IfCondition(enable_data_logger),

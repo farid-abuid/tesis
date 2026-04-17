@@ -25,7 +25,7 @@ struct __attribute__((packed)) MotorStatus2
 };
 
 // Hardware joint directions (index 0..5): joints 1 and 3 are reversed.
-static const int8_t kJointDirection[] = {-1, 1, -1};
+static const int8_t kJointDirection[] = {1, -1, 1};
 
 static uint8_t computeChecksum(uint8_t *data, int len)
 {
