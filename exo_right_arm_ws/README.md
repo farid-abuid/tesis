@@ -27,10 +27,21 @@ Launch files are in `src/exo_bringup/launch/`.
 ros2 launch exo_bringup exo.launch.py control_mode:=effort enable_data_logger:=true
 ```
 
-### Real hardware with RViz
+Two arms (single `controller_manager`, topics under `/left` and `/right`):
 
 ```bash
-ros2 launch exo_bringup rviz.launch.py control_mode:=position enable_data_logger:=true
+ros2 launch exo_bringup exo.launch.py arms:=dual control_mode:=effort enable_data_logger:=false
+```
+
+Optional mount poses (passed to `exo.xacro`) are available in all launch files:
+`right_mount_x`, `right_mount_y`, `right_mount_z`, `right_mount_roll`, `right_mount_pitch`, `right_mount_yaw`,
+`left_mount_x`, `left_mount_y`, `left_mount_z`, `left_mount_roll`, `left_mount_pitch`, `left_mount_yaw`.
+
+### Sliders + RViz (no ros2_control)
+
+```bash
+ros2 launch exo_bringup sliders_rviz.launch.py
+ros2 launch exo_bringup sliders_rviz.launch.py arms:=dual
 ```
 
 ### Gazebo simulation
@@ -39,9 +50,13 @@ ros2 launch exo_bringup rviz.launch.py control_mode:=position enable_data_logger
 ros2 launch exo_bringup gazebo.launch.py control_mode:=effort enable_data_logger:=true
 ```
 
+```bash
+ros2 launch exo_bringup gazebo.launch.py arms:=dual control_mode:=effort enable_data_logger:=false
+```
+
 ### Control modes
 
-`control_mode` maps to `controllers_<control_mode>.yaml` in `src/exo_bringup/config/`.
+`control_mode` maps to `controllers_<control_mode>.yaml` (single arm) or `controllers_<control_mode>_dual.yaml` when `arms:=dual`, under `src/exo_bringup/config/`.
 
 Available modes:
 - `read_only`
@@ -59,8 +74,9 @@ ros2 launch exo_bringup exo.launch.py control_mode:=read_only enable_data_logger
 
 ## Main command topics (publish)
 
-For all group controllers, command order is:
-`[revolute_1, revolute_2, revolute_3]`
+### Single arm (`arms:=single`, default)
+
+For group controllers, command order is: `[revolute_1, revolute_2, revolute_3]`.
 
 ### Position commands
 
@@ -80,9 +96,21 @@ ros2 topic pub /velocity_controller/commands std_msgs/msg/Float64MultiArray "{da
 ros2 topic pub /effort_controller/commands std_msgs/msg/Float64MultiArray "{data: [0.0, 0.5, 0.0]}"
 ```
 
+### Dual arm (`arms:=dual`)
+
+Per-arm command order is still three joints per message. Topics:
+
+- `/left/commands` — `left_revolute_1`, `left_revolute_2`, `left_revolute_3`
+- `/right/commands` — `right_revolute_1`, `right_revolute_2`, `right_revolute_3`
+
+```bash
+ros2 topic pub /left/commands std_msgs/msg/Float64MultiArray "{data: [0.0, 0.0, 0.0]}"
+ros2 topic pub /right/commands std_msgs/msg/Float64MultiArray "{data: [0.0, 0.0, 0.0]}"
+```
+
 ### Reference trajectory (gravity compensation controllers)
 
-Topic: `/reference_trajectory` (`trajectory_msgs/msg/JointTrajectory`)
+Single arm: `/reference_trajectory`. Dual: `/left/reference_trajectory` and `/right/reference_trajectory`.
 
 ```bash
 ros2 topic pub /reference_trajectory trajectory_msgs/msg/JointTrajectory "{
@@ -97,6 +125,15 @@ ros2 topic pub /reference_trajectory trajectory_msgs/msg/JointTrajectory "{
 }"
 ```
 
+Dual-arm example:
+
+```bash
+ros2 topic pub /left/reference_trajectory trajectory_msgs/msg/JointTrajectory "{
+  joint_names: [left_revolute_1, left_revolute_2, left_revolute_3],
+  points: [{positions: [0.0, 0.1, 0.0], velocities: [0.0, 0.0, 0.0], time_from_start: {sec: 0, nanosec: 0}}]
+}"
+```
+
 ## Main state/telemetry topics (inspect)
 
 ### Joint states
@@ -104,6 +141,13 @@ ros2 topic pub /reference_trajectory trajectory_msgs/msg/JointTrajectory "{
 ```bash
 ros2 topic hz /joint_states
 ros2 topic echo /joint_states --once
+```
+
+Dual arm:
+
+```bash
+ros2 topic hz /left_joint_state_broadcaster/joint_states
+ros2 topic hz /right_joint_state_broadcaster/joint_states
 ```
 
 ### Controller manager and hardware diagnostics
@@ -120,11 +164,43 @@ ros2 topic echo /joint_space_gravity_compensation_controller/telemetry --once
 ros2 topic echo /task_space_gravity_compensation_controller/telemetry --once
 ```
 
+Dual arm:
+
+```bash
+ros2 topic echo /left/joint_space_gravity_compensation_controller/telemetry --once
+ros2 topic echo /right/joint_space_gravity_compensation_controller/telemetry --once
+ros2 topic echo /left/task_space_gravity_compensation_controller/telemetry --once
+ros2 topic echo /right/task_space_gravity_compensation_controller/telemetry --once
+```
+
 ### Logger session/lifecycle topics
 
 ```bash
 ros2 topic echo /joint_space_gravity_compensation_controller/logging/session
 ros2 topic echo /joint_space_gravity_compensation_controller/transition_event
+```
+
+## Dual-arm verification checklist
+
+```bash
+cd ~/tesis/exo_right_arm_ws
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 1) Launch dual hardware or dual Gazebo
+ros2 launch exo_bringup exo.launch.py arms:=dual control_mode:=effort enable_data_logger:=false
+# ros2 launch exo_bringup gazebo.launch.py arms:=dual control_mode:=effort enable_data_logger:=false
+
+# 2) Verify controllers
+ros2 control list_controllers
+
+# 3) Verify per-arm states
+ros2 topic hz /left_joint_state_broadcaster/joint_states
+ros2 topic hz /right_joint_state_broadcaster/joint_states
+
+# 4) Send independent commands
+ros2 topic pub /left/commands std_msgs/msg/Float64MultiArray "{data: [0.0, 0.1, 0.0]}"
+ros2 topic pub /right/commands std_msgs/msg/Float64MultiArray "{data: [0.0, -0.1, 0.0]}"
 ```
 
 ## Utility scripts (`exo_utils`)
@@ -152,7 +228,7 @@ ros2 run exo_utils exo_dc_motor_id --motor-id 1 --port /dev/teensy_motor
 ### Teensy serial RTT benchmark
 
 ```bash
-ros2 run exo_utils exo_teensy_serial_rtt --port /dev/teensy_motor --n-motors 3 --cmd-type 1 --samples 1000 --pause-ms 2
+ros2 run exo_utils exo_teensy_serial_rtt --port /dev/teensy_motor --n-motors 6 --cmd-type 1 --samples 1000 --pause-ms 2
 ```
 
 `--cmd-type` mapping:
@@ -174,6 +250,18 @@ ros2 run exo_utils exo_trajectory_recorder --ros-args -p output_file:=~/recorded
 ros2 run exo_utils exo_trajectory_player --ros-args -p input_file:=~/recorded_trajs/my_traj.csv
 ```
 
+Dual arm (left arm topic):
+
+```bash
+ros2 run exo_utils exo_trajectory_player --ros-args -p input_file:=~/recorded_trajs/my_traj.csv -p trajectory_topic:=/left/reference_trajectory
+```
+
+Record from `/left_joint_state_broadcaster/joint_states` or `/right_joint_state_broadcaster/joint_states` when using `arms:=dual`:
+
+```bash
+ros2 run exo_utils exo_trajectory_recorder --ros-args -p joint_states_topic:=/left_joint_state_broadcaster/joint_states -p output_file:=~/recorded_trajs/left.csv
+```
+
 Loop playback:
 
 ```bash
@@ -188,6 +276,19 @@ ros2 run exo_utils exo_trajectory_player --ros-args -p input_file:=~/recorded_tr
 cd ~/tesis/exo_right_arm_ws
 source install/setup.bash
 ros2 pkg list | grep exo_utils
+```
+
+### `ModuleNotFoundError: No module named 'yaml'`
+
+If logger/trajectory tools fail at startup with this error, install the missing runtime dependency:
+
+```bash
+sudo apt update
+sudo apt install -y python3-yaml
+cd ~/tesis/exo_right_arm_ws
+source /opt/ros/jazzy/setup.bash
+colcon build --packages-select exo_utils --symlink-install
+source install/setup.bash
 ```
 
 ### Controller type not defined

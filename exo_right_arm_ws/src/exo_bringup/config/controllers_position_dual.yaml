@@ -1,0 +1,60 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    left_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    right_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    left_position_controller:
+      type: position_controllers/JointGroupPositionController
+    right_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+left_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - left_revolute_1
+      - left_revolute_2
+      - left_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+right_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+left_position_controller:
+  ros__parameters:
+    joints:
+      - left_revolute_1
+      - left_revolute_2
+      - left_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+
+right_position_controller:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort

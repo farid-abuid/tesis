@@ -1,9 +1,0 @@
-<launch>
-
-<rosparam file="$(find exo_description)/launch/controller.yaml" command="load"/>
-<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="exo" args="revolute_1_position_controller revolute_5_position_controller revolute_7_position_controller joint_state_controller "/>
-<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-  <remap from="/joint_states" to="/exo/joint_states"/>
-</node>
-
-</launch>

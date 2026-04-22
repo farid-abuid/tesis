@@ -3,9 +3,25 @@
 
 <xacro:arg name="hardware" default="real"/>
 <xacro:arg name="controller_config" default="controllers_effort.yaml"/>
+<xacro:arg name="arms" default="single"/>
+
+<!-- Optional fixed mounts (base_link) for each arm in dual mode (meters, radians). -->
+<xacro:arg name="right_mount_x" default="0"/>
+<xacro:arg name="right_mount_y" default="-0.20"/>
+<xacro:arg name="right_mount_z" default="0"/>
+<xacro:arg name="right_mount_roll" default="0"/>
+<xacro:arg name="right_mount_pitch" default="0"/>
+<xacro:arg name="right_mount_yaw" default="0"/>
+<xacro:arg name="left_mount_x" default="0"/>
+<xacro:arg name="left_mount_y" default="0.20"/>
+<xacro:arg name="left_mount_z" default="0"/>
+<xacro:arg name="left_mount_roll" default="0"/>
+<xacro:arg name="left_mount_pitch" default="0"/>
+<xacro:arg name="left_mount_yaw" default="0"/>
 
 <xacro:include filename="$(find exo_description)/urdf/materials.xacro" />
-<xacro:include filename="$(find exo_description)/urdf/exo.trans" />
+<xacro:include filename="$(find exo_description)/urdf/exo_arm_right.xacro" />
+<xacro:include filename="$(find exo_description)/urdf/exo_arm_left.xacro" />
 
 <link name="world"/>
 
@@ -15,237 +31,44 @@
   <origin xyz="0 0 0.6" rpy="0 0 0"/>
 </joint>
 
+<xacro:if value="${xacro.arg('arms') == 'dual'}">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0" iyz="0" ixz="0"/>
+    </inertial>
+  </link>
+</xacro:if>
 
-<link name="base_link">
-  <inertial>
-    <origin xyz="0.012748850487473646 0.0012395946054243722 0.013826907905998666" rpy="0 0 0"/>
-    <mass value="0.07388024509698206"/>
-    <inertia ixx="8e-05" iyy="0.000154" izz="0.000109" ixy="2e-06" iyz="-1e-05" ixz="-5.1e-05"/>
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+<xacro:if value="${xacro.arg('arms') == 'dual'}">
+  <xacro:exo_arm_right prefix="right_"
+    mount_x="${xacro.arg('right_mount_x')}" mount_y="${xacro.arg('right_mount_y')}" mount_z="${xacro.arg('right_mount_z')}"
+    mount_roll="${xacro.arg('right_mount_roll')}" mount_pitch="${xacro.arg('right_mount_pitch')}" mount_yaw="${xacro.arg('right_mount_yaw')}"/>
+  <xacro:exo_arm_left prefix="left_"
+    mount_x="${xacro.arg('left_mount_x')}" mount_y="${xacro.arg('left_mount_y')}" mount_z="${xacro.arg('left_mount_z')}"
+    mount_roll="${xacro.arg('left_mount_roll')}" mount_pitch="${xacro.arg('left_mount_pitch')}" mount_yaw="${xacro.arg('left_mount_yaw')}"/>
+</xacro:if>
+<xacro:unless value="${xacro.arg('arms') == 'dual'}">
+  <xacro:exo_arm_left prefix="" mount_x="0" mount_y="0" mount_z="0" mount_roll="0" mount_pitch="0" mount_yaw="0"/>
+</xacro:unless>
 
-<link name="Motor1_1">
-  <inertial>
-    <origin xyz="-0.02865689684955547 0.0008019947900518482 -0.00013732170892716988" rpy="0 0 0"/>
-    <mass value="0.33655764736226634"/>
-    <inertia ixx="0.000158" iyy="0.000206" izz="0.000208" ixy="7e-06" iyz="-0.0" ixz="-1e-06"/>
-  </inertial>
-  <visual>
-    <origin xyz="0.014 0.0 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="black"/>
-  </visual>
-  <collision>
-    <origin xyz="0.014 0.0 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Componente2_v1_1">
-  <inertial>
-    <origin xyz="0.025697121565106763 -0.06800197164371612 0.0006322543327434366" rpy="0 0 0"/>
-    <mass value="0.0856142757419247"/>
-    <inertia ixx="0.000127" iyy="0.000133" izz="0.000214" ixy="6.9e-05" iyz="1e-06" ixz="-6e-06"/>
-  </inertial>
-  <visual>
-    <origin xyz="0.017 0.0 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente2_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0.017 0.0 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente2_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Motor2_1">
-  <inertial>
-    <origin xyz="0.0008019947900903546 -0.025656896849592187 0.00013732170895816803" rpy="0 0 0"/>
-    <mass value="0.33655764736226634"/>
-    <inertia ixx="0.000206" iyy="0.000158" izz="0.000208" ixy="7e-06" iyz="1e-06" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.07 0.087 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="black"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.07 0.087 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Componente3_v1_1">
-  <inertial>
-    <origin xyz="0.00032953390008541583 0.004560809428740015 -0.04548170531617862" rpy="0 0 0"/>
-    <mass value="0.02436487236137751"/>
-    <inertia ixx="4.5e-05" iyy="4.7e-05" izz="3e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.07 0.084 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente3_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.07 0.084 -0.0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente3_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Componente4_v1_1">
-  <inertial>
-    <origin xyz="-0.010220970902704345 0.012182176440413015 -0.11338415880449806" rpy="0 0 0"/>
-    <mass value="0.16326913907635673"/>
-    <inertia ixx="0.000882" iyy="0.000951" izz="0.000135" ixy="3.1e-05" iyz="-4.9e-05" ixz="-3.5e-05"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.07033 0.081 0.045569" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente4_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.07033 0.081 0.045569" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente4_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Motor3_1">
-  <inertial>
-    <origin xyz="0.0005883974851695895 -0.028656896849589955 0.0005618260705803624" rpy="0 0 0"/>
-    <mass value="0.33655764736226634"/>
-    <inertia ixx="0.000207" iyy="0.000158" izz="0.000208" ixy="5e-06" iyz="5e-06" ixz="-1e-06"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.072983 0.0905 0.285589" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor3_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="black"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.072983 0.0905 0.285589" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Motor3_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Componente5_v1_1">
-  <inertial>
-    <origin xyz="-0.012433445660119731 0.009030253916196301 -0.08353720706436124" rpy="0 0 0"/>
-    <mass value="0.07092422473137162"/>
-    <inertia ixx="0.000201" iyy="0.000217" izz="4.3e-05" ixy="1.4e-05" iyz="1.9e-05" ixz="-1.7e-05"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.072983 0.0935 0.285589" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente5_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.072983 0.0935 0.285589" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://exo_description/meshes/Componente5_v1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<joint name="revolute_1" type="revolute">
-  <origin xyz="-0.014 0.0 0.0" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="Motor1_1"/>
-  <axis xyz="-1.0 -0.0 0.0"/>
-  <dynamics damping="0.012" friction="0.1184"/>
-  <limit lower="0" upper="1.919" effort="20" velocity="11"/>
-</joint>
-
-<joint name="rigid_2" type="fixed">
-  <origin xyz="-0.003 0.0 0.0" rpy="0 0 0"/>
-  <parent link="Motor1_1"/>
-  <child link="Componente2_v1_1"/>
-</joint>
-
-<joint name="rigid_3" type="fixed">
-  <origin xyz="0.087 -0.087 0.0" rpy="0 0 0"/>
-  <parent link="Componente2_v1_1"/>
-  <child link="Motor2_1"/>
-</joint>
-
-<joint name="revolute_2" type="revolute">
-  <origin xyz="0.0 0.003 0.0" rpy="0 0 0"/>
-  <parent link="Motor2_1"/>
-  <child link="Componente3_v1_1"/>
-  <axis xyz="0.0 -1.0 0.0"/>
-  <dynamics damping="0.012" friction="0.1184"/>
-  <limit lower="-0.56" upper="2.793" effort="20" velocity="11"/>
-
-</joint>
-
-<joint name="rigid_6" type="fixed">
-  <origin xyz="0.00033 0.003 -0.045569" rpy="0 0 0"/>
-  <parent link="Componente3_v1_1"/>
-  <child link="Componente4_v1_1"/>
-</joint>
-
-<joint name="revolute_3" type="revolute">
-  <origin xyz="0.002653 -0.0095 -0.24002" rpy="0 0 0"/>
-  <parent link="Componente4_v1_1"/>
-  <child link="Motor3_1"/>
-  <axis xyz="-0.0 -1.0 -0.0"/>
-  <dynamics damping="0.012" friction="0.1184"/>
-  <limit lower="0" upper="2.094" effort="20" velocity="11"/>
-
-</joint>
-
-<joint name="rigid_8" type="fixed">
-  <origin xyz="0.0 -0.003 0.0" rpy="0 0 0"/>
-  <parent link="Motor3_1"/>
-  <child link="Componente5_v1_1"/>
-</joint>
-
-<ros2_control name="exo_right_arm" type="system">
+<ros2_control name="exo_system" type="system">
   <hardware>
 
     <xacro:if value="${xacro.arg('hardware') == 'real'}">
       <plugin>exo_hardware/teensy_plugin</plugin>
         <param name="effort_stiction_comp_enabled">true</param>
-        <param name="effort_stiction_tau_values">0.65,0.86,1.26</param>
-        <!-- higher slope values mean a smoother transition -->
-        <param name="effort_stiction_slope_values">1, 1, 1</param>
+        <xacro:if value="${xacro.arg('arms') == 'dual'}">
+          <param name="motor_ids">1,2,3,4,5,6</param>
+          <param name="joint_directions">1,-1,1,1,-1,1</param>
+          <param name="effort_stiction_tau_values">0.65,0.86,1.26,0.65,0.86,1.26</param>
+          <param name="effort_stiction_slope_values">1, 1, 1, 1, 1, 1</param>
+        </xacro:if>
+        <xacro:unless value="${xacro.arg('arms') == 'dual'}">
+          <param name="effort_stiction_tau_values">0.65,0.86,1.26</param>
+          <param name="effort_stiction_slope_values">1, 1, 1</param>
+        </xacro:unless>
     </xacro:if>
 
     <xacro:if value="${xacro.arg('hardware') == 'gazebo'}">
@@ -254,32 +77,68 @@
 
   </hardware>
 
-  
-  <joint name="revolute_1">
-    <command_interface name="effort"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <state_interface name="effort"/>
-  </joint>
-  
-  <joint name="revolute_2">
-    <command_interface name="effort"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <state_interface name="effort"/>  
-  </joint>
-
-  <joint name="revolute_3">
-    <command_interface name="effort"/>
-    <state_interface name="position"/>
-    <state_interface name="velocity"/>
-    <state_interface name="effort"/>  
-  </joint>
+  <xacro:if value="${xacro.arg('arms') == 'dual'}">
+    <joint name="right_revolute_1">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="right_revolute_2">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="right_revolute_3">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="left_revolute_1">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="left_revolute_2">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="left_revolute_3">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </xacro:if>
+  <xacro:unless value="${xacro.arg('arms') == 'dual'}">
+    <joint name="revolute_1">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="revolute_2">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="revolute_3">
+      <command_interface name="effort"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </xacro:unless>
 
 </ros2_control>
 
 <xacro:if value="${xacro.arg('hardware') == 'gazebo'}">
-
   <xacro:include filename="$(find exo_description)/urdf/exo.gazebo"/>
 </xacro:if>
 

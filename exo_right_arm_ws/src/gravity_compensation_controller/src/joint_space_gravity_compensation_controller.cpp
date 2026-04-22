@@ -1,7 +1,7 @@
 #include "gravity_compensation_controller/joint_space_gravity_compensation_controller.hpp"
-#include "gravity_compensation_controller/gravity_compensation_common.hpp"
 #include "pluginlib/class_list_macros.hpp"
 
+#include <Eigen/Core>
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -12,11 +12,52 @@
 namespace gravity_compensation_controller
 {
 
+//==================================================================================================
+// Joint-space control law
+//==================================================================================================
+namespace
+{
+
+bool controlLaw(
+  exo_utils::dynamics::DynamicsModel & dynamics,
+  const std::vector<std::string> & joint_names,
+  double gravity_scale,
+  double kp,
+  double kd,
+  const std::vector<double> & q_des,
+  const std::vector<double> & dq_des,
+  const std::vector<double> & q_meas,
+  const std::vector<double> & dq_meas,
+  Eigen::VectorXd & tau,
+  std::vector<double> & tau_g,
+  std::string * error)
+{
+  if (!dynamics.computeGravityTorque(joint_names, q_meas, tau_g, error)) {
+    return false;
+  }
+
+  const Eigen::Index n = static_cast<Eigen::Index>(tau_g.size());
+  Eigen::Map<const Eigen::VectorXd> tau_g_v(tau_g.data(), n);
+  Eigen::Map<const Eigen::VectorXd> q_des_v(q_des.data(), n);
+  Eigen::Map<const Eigen::VectorXd> dq_des_v(dq_des.data(), n);
+  Eigen::Map<const Eigen::VectorXd> q_meas_v(q_meas.data(), n);
+  Eigen::Map<const Eigen::VectorXd> dq_meas_v(dq_meas.data(), n);
+
+  tau = gravity_scale * tau_g_v +
+    kp * (q_des_v - q_meas_v) +
+    kd * (dq_des_v - dq_meas_v);
+  return true;
+}
+
+}  // namespace
+//==================================================================================================
+
 controller_interface::CallbackReturn JointSpaceGravityCompensationController::on_init()
 {
   auto_declare<std::vector<std::string>>("joints", {});
   auto_declare<std::string>("dynamics_backend", std::string("pinocchio"));
   auto_declare<std::string>("urdf_path", std::string(""));
+  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics.urdf"));
   auto_declare<std::string>("reference_trajectory_topic", std::string("/reference_trajectory"));
   auto_declare<double>("kp", 50.0);
   auto_declare<double>("kd", 5.0);
@@ -43,6 +84,8 @@ controller_interface::CallbackReturn JointSpaceGravityCompensationController::on
 
   dynamics_backend_ = get_node()->get_parameter("dynamics_backend").as_string();
   urdf_path_ = get_node()->get_parameter("urdf_path").as_string();
+  const std::string dynamics_urdf_filename =
+    get_node()->get_parameter("dynamics_urdf_filename").as_string();
   reference_trajectory_topic_ =
     get_node()->get_parameter("reference_trajectory_topic").as_string();
   kp_ = get_node()->get_parameter("kp").as_double();
@@ -64,7 +107,7 @@ controller_interface::CallbackReturn JointSpaceGravityCompensationController::on
   if (urdf_path_.empty()) {
     try {
       const std::string share = ament_index_cpp::get_package_share_directory("exo_description");
-      urdf_path_ = share + "/urdf/exo_dynamics.urdf";
+      urdf_path_ = share + "/urdf/" + dynamics_urdf_filename;
     } catch (const std::exception & e) {
       RCLCPP_ERROR(
         get_node()->get_logger(),
@@ -295,17 +338,22 @@ controller_interface::return_type JointSpaceGravityCompensationController::updat
     dq_meas[i] = *dq_opt;
   }
 
+  //===============================================================================================
+
   std::vector<double> tau_g;
   std::string g_err;
-  if (!dynamics_->computeGravityTorque(joint_names_, q_meas, tau_g, &g_err)) {
+  Eigen::VectorXd tau_vec;
+  if (!controlLaw(
+      *dynamics_, joint_names_, gravity_scale_, kp_, kd_, sp_ptr->positions, sp_ptr->velocities,
+      q_meas, dq_meas, tau_vec, tau_g, &g_err))
+  {
     RCLCPP_ERROR_THROTTLE(
       get_node()->get_logger(), *get_node()->get_clock(), 1000,
       "Gravity torque failed: %s", g_err.c_str());
     return controller_interface::return_type::ERROR;
   }
 
-  const Eigen::VectorXd tau_vec = computeGravityPdEffort(
-    gravity_scale_, kp_, kd_, tau_g, sp_ptr->positions, sp_ptr->velocities, q_meas, dq_meas);
+  //===============================================================================================
 
   for (size_t i = 0; i < joint_names_.size(); ++i) {
     if (!cmd_interfaces_[i].get().set_value(tau_vec(static_cast<Eigen::Index>(i)))) {

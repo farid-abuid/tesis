@@ -63,6 +63,7 @@ private:
   std::vector<double> effort_stiction_slope_per_joint_;
 
   std::vector<uint8_t> motor_ids_;
+  std::vector<double> joint_dir_sign_;
 
   int serial_fd_;
 

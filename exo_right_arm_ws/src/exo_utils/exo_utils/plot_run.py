@@ -8,7 +8,7 @@ from pathlib import Path
 
 import matplotlib
 
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -84,7 +84,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint position vs desired')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_pos_vs_desired.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if has_dq:
@@ -103,7 +102,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint velocity vs desired')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_vel_vs_desired.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if has_tau:
@@ -120,7 +118,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint commanded torque')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_tau_vs_cmd.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if _has_field(rows, f'{joints[0]}_q_cmd'):
@@ -140,7 +137,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint position command')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_position_command.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if _has_field(rows, f'{joints[0]}_dq_cmd'):
@@ -160,7 +156,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint velocity command')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_velocity_command.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if _has_field(rows, f'{joints[0]}_tau_cmd_in'):
@@ -183,7 +178,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Joint effort command')
         fig.tight_layout()
         fig.savefig(out_p / 'joint_effort_command.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     if has_q:
@@ -199,7 +193,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         ax.grid(True, axis='y', alpha=0.3)
         fig.tight_layout()
         fig.savefig(out_p / 'tracking_error_summary.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
     need = {'ee_x', 'ee_y', 'ee_z', 'ee_des_x', 'ee_des_y', 'ee_des_z'}
@@ -222,7 +215,6 @@ def generate_plots(csv_path: str, plot_dir: str) -> None:
         fig.suptitle('Task-space position vs desired')
         fig.tight_layout()
         fig.savefig(out_p / 'task_space_xyz_vs_desired.png', dpi=150)
-        plt.show()
         plt.close(fig)
 
 

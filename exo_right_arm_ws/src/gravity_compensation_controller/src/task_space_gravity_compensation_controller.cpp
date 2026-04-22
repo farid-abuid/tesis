@@ -1,8 +1,8 @@
 #include "gravity_compensation_controller/task_space_gravity_compensation_controller.hpp"
 #include "exo_utils/kinematics/kinematics_utils.hpp"
-#include "gravity_compensation_controller/gravity_compensation_common.hpp"
 #include "pluginlib/class_list_macros.hpp"
 
+#include <Eigen/Core>
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -13,11 +13,43 @@
 namespace gravity_compensation_controller
 {
 
+//==================================================================================================
+// Task-space control law (torque command in joint space)
+//==================================================================================================
+namespace
+{
+
+Eigen::VectorXd controlLaw(
+  double gravity_scale,
+  double kp,
+  double kd,
+  const std::vector<double> & tau_g,
+  const std::vector<double> & q_des,
+  const std::vector<double> & dq_des,
+  const std::vector<double> & q_meas,
+  const std::vector<double> & dq_meas)
+{
+  const Eigen::Index n = static_cast<Eigen::Index>(tau_g.size());
+  Eigen::Map<const Eigen::VectorXd> tau_g_v(tau_g.data(), n);
+  Eigen::Map<const Eigen::VectorXd> q_des_v(q_des.data(), n);
+  Eigen::Map<const Eigen::VectorXd> dq_des_v(dq_des.data(), n);
+  Eigen::Map<const Eigen::VectorXd> q_meas_v(q_meas.data(), n);
+  Eigen::Map<const Eigen::VectorXd> dq_meas_v(dq_meas.data(), n);
+
+  return gravity_scale * tau_g_v +
+    kp * (q_des_v - q_meas_v) +
+    kd * (dq_des_v - dq_meas_v);
+}
+
+}  // namespace
+//==================================================================================================
+
 controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_init()
 {
   auto_declare<std::vector<std::string>>("joints", {});
   auto_declare<std::string>("dynamics_backend", std::string("pinocchio"));
   auto_declare<std::string>("urdf_path", std::string(""));
+  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics.urdf"));
   auto_declare<std::string>("reference_trajectory_topic", std::string("/reference_trajectory"));
   auto_declare<std::string>("end_effector_frame", std::string("tool0"));
   auto_declare<double>("kp", 50.0);
@@ -44,6 +76,8 @@ controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_
 
   dynamics_backend_ = get_node()->get_parameter("dynamics_backend").as_string();
   urdf_path_ = get_node()->get_parameter("urdf_path").as_string();
+  const std::string dynamics_urdf_filename =
+    get_node()->get_parameter("dynamics_urdf_filename").as_string();
   reference_trajectory_topic_ =
     get_node()->get_parameter("reference_trajectory_topic").as_string();
   end_effector_frame_ = get_node()->get_parameter("end_effector_frame").as_string();
@@ -66,7 +100,7 @@ controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_
   if (urdf_path_.empty()) {
     try {
       const std::string share = ament_index_cpp::get_package_share_directory("exo_description");
-      urdf_path_ = share + "/urdf/exo_dynamics.urdf";
+      urdf_path_ = share + "/urdf/" + dynamics_urdf_filename;
     } catch (const std::exception & e) {
       RCLCPP_ERROR(
         get_node()->get_logger(),
@@ -308,7 +342,7 @@ controller_interface::return_type TaskSpaceGravityCompensationController::update
     return controller_interface::return_type::ERROR;
   }
 
-  const Eigen::VectorXd tau_vec = computeGravityPdEffort(
+  const Eigen::VectorXd tau_vec = controlLaw(
     gravity_scale_, kp_, kd_, tau_g, sp_ptr->positions, sp_ptr->velocities, q_meas, dq_meas);
 
   for (size_t i = 0; i < joint_names_.size(); ++i) {

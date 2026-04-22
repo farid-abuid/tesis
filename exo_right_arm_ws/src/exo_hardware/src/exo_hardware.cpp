@@ -24,9 +24,6 @@ struct __attribute__((packed)) MotorStatus2
     float angle;
 };
 
-// Hardware joint directions (index 0..5): joints 1 and 3 are reversed.
-static const int8_t kJointDirection[] = {1, -1, 1};
-
 static uint8_t computeChecksum(uint8_t *data, int len)
 {
     uint8_t cs = 0;
@@ -60,11 +57,6 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
   last_effort_command_ = effort_command_;
   motor_ids_.resize(n);
 
-  for(size_t i=0;i<n;i++)
-      motor_ids_[i] = i+1; // ALWAYS 1,2,3,4,5,6
-
-  // Optional effort-only low-level stiction compensator:
-  // tau_out = tau_in + tau_s * tanh(tau_in / slope).
   const auto get_hw_param = [&](const std::string & key, const std::string & fallback) {
     const auto it = info.hardware_parameters.find(key);
     if (it == info.hardware_parameters.end()) {
@@ -72,6 +64,37 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
     }
     return it->second;
   };
+
+  const auto parse_csv_ints = [](const std::string & csv) {
+    std::vector<int> vals;
+    std::stringstream ss(csv);
+    std::string item;
+    while (std::getline(ss, item, ',')) {
+      if (item.empty()) {
+        continue;
+      }
+      vals.push_back(std::stoi(item));
+    }
+    return vals;
+  };
+
+  const auto motor_id_csv = get_hw_param("motor_ids", "");
+  if (!motor_id_csv.empty()) {
+    const auto ids = parse_csv_ints(motor_id_csv);
+    for (size_t i = 0; i < n && i < ids.size(); ++i) {
+      motor_ids_[i] = static_cast<uint8_t>(ids[i]);
+    }
+    for (size_t i = ids.size(); i < n; ++i) {
+      motor_ids_[i] = static_cast<uint8_t>(i + 1);
+    }
+  } else {
+    for (size_t i = 0; i < n; i++) {
+      motor_ids_[i] = static_cast<uint8_t>(i + 1);
+    }
+  }
+
+  // Optional effort-only low-level stiction compensator:
+  // tau_out = tau_in + tau_s * tanh(tau_in / slope).
   effort_stiction_comp_enabled_ =
     (get_hw_param("effort_stiction_comp_enabled", "false") == "true");
   const auto parse_csv_doubles = [](const std::string & csv) {
@@ -107,6 +130,20 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
       effort_stiction_slope_per_joint_[i] = 0.05;
     }
   }
+
+  joint_dir_sign_.assign(n, 1.0);
+  static constexpr double kDefaultDirPattern[] = {1.0, -1.0, 1.0};
+  for (size_t i = 0; i < n; ++i) {
+    joint_dir_sign_[i] = kDefaultDirPattern[i % 3];
+  }
+  const auto dir_csv = get_hw_param("joint_directions", "");
+  if (!dir_csv.empty()) {
+    const auto dirs = parse_csv_doubles(dir_csv);
+    for (size_t i = 0; i < n && i < dirs.size(); ++i) {
+      joint_dir_sign_[i] = dirs[i];
+    }
+  }
+
   RCLCPP_INFO(
     rclcpp::get_logger("exo_hw"),
     "Effort stiction compensation: enabled=%s",
@@ -348,9 +385,8 @@ hardware_interface::return_type teensy_plugin::write(
           e + tau_s * std::tanh(e / slope);
         effort = static_cast<float>(compensated);
       }
-      if (i < (sizeof(kJointDirection) / sizeof(kJointDirection[0])))
-      {
-        effort *= static_cast<float>(kJointDirection[i]);
+      if (i < joint_dir_sign_.size()) {
+        effort *= static_cast<float>(joint_dir_sign_[i]);
       }
 
       memcpy(&buffer[idx], &id, 1);
@@ -414,8 +450,8 @@ hardware_interface::return_type teensy_plugin::read(
             continue;
 
         const float sign =
-            (idx < (int)(sizeof(kJointDirection) / sizeof(kJointDirection[0])))
-                ? static_cast<float>(kJointDirection[idx])
+            (idx >= 0 && static_cast<size_t>(idx) < joint_dir_sign_.size())
+                ? static_cast<float>(joint_dir_sign_[static_cast<size_t>(idx)])
                 : 1.0f;
 
         position_[idx] =
