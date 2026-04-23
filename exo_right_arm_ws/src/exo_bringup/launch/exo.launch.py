@@ -1,7 +1,7 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
@@ -51,6 +51,22 @@ def generate_launch_description():
         parameters=[{"robot_description": robot_description}],
         output="screen",
     )
+    joint_state_merger = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        parameters=[
+            {
+                "source_list": [
+                    "/right_joint_state_broadcaster/joint_states",
+                    "/left_joint_state_broadcaster/joint_states",
+                ]
+            }
+        ],
+        condition=IfCondition(
+            PythonExpression(["'", LaunchConfiguration("arms"), "' == 'dual'"])
+        ),
+        output="screen",
+    )
 
     control_node = Node(
         package="controller_manager",
@@ -89,6 +105,7 @@ def generate_launch_description():
             declare_left_mount_yaw,
             OpaqueFunction(function=launch_common.set_controller_yaml),
             robot_state_pub,
+            joint_state_merger,
             control_node,
             OpaqueFunction(function=launch_common.spawn_controllers),
             OpaqueFunction(function=launch_common.data_loggers),

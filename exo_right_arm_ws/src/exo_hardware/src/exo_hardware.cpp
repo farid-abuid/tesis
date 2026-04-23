@@ -359,6 +359,7 @@ hardware_interface::return_type teensy_plugin::write(
 
   const uint8_t n = effort_command_.size();
 
+
   uint8_t buffer[128];
   int idx = 0;
 
@@ -491,6 +492,7 @@ hardware_interface::return_type teensy_plugin::read(
       write_rate_hz, write_jitter_ms, write_dt_max_s_ * 1000.0,
       read_rate_hz, read_jitter_ms, read_dt_max_s_ * 1000.0,
       fresh_rate_hz, stale_pct);
+    //std::cout << "n: " << n << std::endl;
 
     stats_window_start_tp_ = now_tp;
     write_dt_sum_s_ = 0.0;

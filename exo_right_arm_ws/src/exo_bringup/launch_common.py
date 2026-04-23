@@ -9,7 +9,6 @@ from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
     PythonExpression,
-    TextSubstitution,
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -143,109 +142,77 @@ def data_loggers(context):
     enable = context.launch_configurations.get("enable_data_logger", "true").lower() == "true"
     if not enable:
         return []
-    arms = context.launch_configurations.get("arms", "single")
+    arms_mode = context.launch_configurations.get("arms", "single")
     mode = context.launch_configurations.get("control_mode", "effort")
+    if mode == "read_only":
+        return []
     sim_flag = context.launch_configurations.get("exo_in_gazebo", "false").lower() == "true"
     data_yaml = os.path.join(
         get_package_share_directory("exo_bringup"), "config", "data_logger.yaml"
     )
-    if arms == "dual" and mode not in (
-        "joint_space_gravity_compensation",
-        "task_space_gravity_compensation",
-    ):
-        return []
 
-    if arms == "dual" and mode in (
+    # Only gravity compensation controllers publish JointControlTelemetry + session Bool.
+    publishes_telemetry = mode in (
         "joint_space_gravity_compensation",
         "task_space_gravity_compensation",
-    ):
-        if mode == "joint_space_gravity_compensation":
-            left_ctrl = "left_joint_space_gravity_compensation_controller"
-            right_ctrl = "right_joint_space_gravity_compensation_controller"
+    )
+    is_forward = mode in ("effort", "position", "velocity")
+
+    if arms_mode == "dual":
+        arms = ["left", "right"]
+        left_ctrl = f"left_{mode}_controller"
+        right_ctrl = f"right_{mode}_controller"
+        if publishes_telemetry:
+            telemetry_topics = [
+                f"/left/{mode}_controller/telemetry",
+                f"/right/{mode}_controller/telemetry",
+            ]
+            session_topics = [
+                f"/left/{mode}_controller/logging/session",
+                f"/right/{mode}_controller/logging/session",
+            ]
         else:
-            left_ctrl = "left_task_space_gravity_compensation_controller"
-            right_ctrl = "right_task_space_gravity_compensation_controller"
-        left_extra = {"use_sim_time": True} if sim_flag else {}
-        right_extra = {"use_sim_time": True} if sim_flag else {}
-        left = Node(
-            package="exo_utils",
-            executable="exo_data_logger",
-            name="exo_data_logger_left",
-            parameters=[
-                data_yaml,
-                {
-                    "telemetry_topic": f"/left/{mode}_controller/telemetry",
-                    "session_topic": f"/left/{mode}_controller/logging/session",
-                    "lifecycle_transition_topic": f"/{left_ctrl}/transition_event",
-                    "position_command_topic": "/left/commands",
-                    "velocity_command_topic": "/left/commands",
-                    "effort_command_topic": "/left/commands",
-                    "joint_state_topic": "/left_joint_state_broadcaster/joint_states",
-                    **left_extra,
-                },
-            ],
-            output="screen",
+            telemetry_topics = ["", ""]
+            session_topics = ["", ""]
+        lifecycle_topics = [
+            f"/{left_ctrl}/transition_event",
+            f"/{right_ctrl}/transition_event",
+        ]
+        # spawner `--ros-args -r` does NOT propagate to controllers; subscribe to the real topics.
+        command_topics = (
+            [f"/{left_ctrl}/commands", f"/{right_ctrl}/commands"] if is_forward else ["", ""]
         )
-        right = Node(
-            package="exo_utils",
-            executable="exo_data_logger",
-            name="exo_data_logger_right",
-            parameters=[
-                data_yaml,
-                {
-                    "telemetry_topic": f"/right/{mode}_controller/telemetry",
-                    "session_topic": f"/right/{mode}_controller/logging/session",
-                    "lifecycle_transition_topic": f"/{right_ctrl}/transition_event",
-                    "position_command_topic": "/right/commands",
-                    "velocity_command_topic": "/right/commands",
-                    "effort_command_topic": "/right/commands",
-                    "joint_state_topic": "/right_joint_state_broadcaster/joint_states",
-                    **right_extra,
-                },
-            ],
-            output="screen",
-        )
-        return [left, right]
+        # Broadcasters use `use_local_topics: true` in dual configs.
+        joint_state_topics = [
+            "/left_joint_state_broadcaster/joint_states",
+            "/right_joint_state_broadcaster/joint_states",
+        ]
+    else:
+        arms = ["main"]
+        ctrl = f"{mode}_controller"
+        telemetry_topics = [f"/{ctrl}/telemetry"] if publishes_telemetry else [""]
+        session_topics = [f"/{ctrl}/logging/session"] if publishes_telemetry else [""]
+        lifecycle_topics = [f"/{ctrl}/transition_event"]
+        command_topics = [f"/{ctrl}/commands"] if is_forward else [""]
+        joint_state_topics = ["/joint_states"]
 
-    control_mode_lc = LaunchConfiguration("control_mode")
-    telemetry_topic = [
-        TextSubstitution(text="/"),
-        control_mode_lc,
-        TextSubstitution(text="_controller/telemetry"),
-    ]
-    session_topic = [
-        TextSubstitution(text="/"),
-        control_mode_lc,
-        TextSubstitution(text="_controller/logging/session"),
-    ]
-    lifecycle_topic = [
-        TextSubstitution(text="/"),
-        control_mode_lc,
-        TextSubstitution(text="_controller/transition_event"),
-    ]
-    command_topic = [
-        TextSubstitution(text="/"),
-        control_mode_lc,
-        TextSubstitution(text="_controller/commands"),
-    ]
-    single_extra = {"use_sim_time": True} if sim_flag else {}
+    extra = {"use_sim_time": True} if sim_flag else {}
     return [
         Node(
             package="exo_utils",
             executable="exo_data_logger",
             name="exo_data_logger",
             parameters=[
-                PathJoinSubstitution(
-                    [FindPackageShare("exo_bringup"), "config", "data_logger.yaml"]
-                ),
+                data_yaml,
                 {
-                    "telemetry_topic": telemetry_topic,
-                    "session_topic": session_topic,
-                    "lifecycle_transition_topic": lifecycle_topic,
-                    "position_command_topic": command_topic,
-                    "velocity_command_topic": command_topic,
-                    "effort_command_topic": command_topic,
-                    **single_extra,
+                    "arms": arms,
+                    "control_mode": mode,
+                    "telemetry_topics": telemetry_topics,
+                    "session_topics": session_topics,
+                    "lifecycle_transition_topics": lifecycle_topics,
+                    "command_topics": command_topics,
+                    "joint_state_topics": joint_state_topics,
+                    **extra,
                 },
             ],
             output="screen",
