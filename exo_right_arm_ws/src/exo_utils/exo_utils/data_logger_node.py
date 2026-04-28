@@ -237,20 +237,33 @@ class DataLoggerNode(Node):
         self._state[arm]['joint_names'] = names
         return names
 
+    def _column_joint_name(self, arm: str, joint: str) -> str:
+        # Make CSV joint columns self-describing: prefix the actual joint name with the
+        # arm tag whenever the arm is named (left/right/dual). Avoids double-prefixing
+        # when JointState messages already carry prefixed names (dual mode).
+        if arm == 'main':
+            return joint
+        prefix = f'{arm}_'
+        return joint if joint.startswith(prefix) else f'{prefix}{joint}'
+
     def _build_header(self) -> list[str]:
         mode = self._control_mode
         header = ['time_sec']
         for arm in self._arms:
             for j in self._ensure_joint_names(arm):
-                header += [f'{j}_q', f'{j}_dq', f'{j}_tau_meas']
+                jname = self._column_joint_name(arm, j)
+                header += [f'{jname}_q', f'{jname}_dq', f'{jname}_tau_meas']
                 if mode == 'position':
-                    header.append(f'{j}_q_cmd')
+                    header.append(f'{jname}_q_cmd')
                 elif mode == 'velocity':
-                    header.append(f'{j}_dq_cmd')
+                    header.append(f'{jname}_dq_cmd')
                 elif mode == 'effort':
-                    header.append(f'{j}_tau_cmd_in')
+                    header.append(f'{jname}_tau_cmd_in')
                 elif mode in _GRAV_COMP_MODES:
-                    header += [f'{j}_q_des', f'{j}_dq_des', f'{j}_tau_cmd', f'{j}_tau_ff']
+                    header += [
+                        f'{jname}_q_des', f'{jname}_dq_des',
+                        f'{jname}_tau_cmd', f'{jname}_tau_ff',
+                    ]
             if mode == 'task_space_gravity_compensation':
                 p = '' if arm == 'main' else f'{arm}_'
                 header += [

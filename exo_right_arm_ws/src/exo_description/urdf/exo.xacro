@@ -3,7 +3,8 @@
 
 <xacro:arg name="hardware" default="real"/>
 <xacro:arg name="controller_config" default="controllers_effort.yaml"/>
-<xacro:arg name="arms" default="single"/>
+<!-- arms: right (default), left, or dual. Single-arm modes use unprefixed joints. -->
+<xacro:arg name="arms" default="right"/>
 
 <!-- Optional fixed mounts (base_link) for each arm in dual mode (meters, radians). -->
 <xacro:arg name="right_mount_x" default="0"/>
@@ -49,9 +50,12 @@
     mount_x="${xacro.arg('left_mount_x')}" mount_y="${xacro.arg('left_mount_y')}" mount_z="${xacro.arg('left_mount_z')}"
     mount_roll="${xacro.arg('left_mount_roll')}" mount_pitch="${xacro.arg('left_mount_pitch')}" mount_yaw="${xacro.arg('left_mount_yaw')}"/>
 </xacro:if>
-<xacro:unless value="${xacro.arg('arms') == 'dual'}">
+<xacro:if value="${xacro.arg('arms') == 'right'}">
+  <xacro:exo_arm_right prefix="" mount_x="0" mount_y="0" mount_z="0" mount_roll="0" mount_pitch="0" mount_yaw="0"/>
+</xacro:if>
+<xacro:if value="${xacro.arg('arms') == 'left'}">
   <xacro:exo_arm_left prefix="" mount_x="0" mount_y="0" mount_z="0" mount_roll="0" mount_pitch="0" mount_yaw="0"/>
-</xacro:unless>
+</xacro:if>
 
 <ros2_control name="exo_system" type="system">
   <hardware>
@@ -65,10 +69,16 @@
           <param name="effort_stiction_tau_values">0.65,0.86,1.26,0.65,0.86,1.26</param>
           <param name="effort_stiction_slope_values">1, 1, 1, 1, 1, 1</param>
         </xacro:if>
-        <xacro:unless value="${xacro.arg('arms') == 'dual'}">
+        <xacro:if value="${xacro.arg('arms') == 'right'}">
           <param name="effort_stiction_tau_values">0.65,0.86,1.26</param>
           <param name="effort_stiction_slope_values">1, 1, 1</param>
-        </xacro:unless>
+        </xacro:if>
+        <xacro:if value="${xacro.arg('arms') == 'left'}">
+          <param name="motor_ids">4,5,6</param>
+          <param name="joint_directions">-1,1,-1</param>
+          <param name="effort_stiction_tau_values">0.65,0.86,1.26</param>
+          <param name="effort_stiction_slope_values">1, 1, 1</param>
+        </xacro:if>
     </xacro:if>
 
     <xacro:if value="${xacro.arg('hardware') == 'gazebo'}">

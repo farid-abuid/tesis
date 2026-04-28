@@ -1,0 +1,38 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_space_gravity_compensation_controller:
+      type: gravity_compensation_controller/JointSpaceGravityCompensationController
+
+joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - revolute_1
+      - revolute_2
+      - revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+
+joint_space_gravity_compensation_controller:
+  ros__parameters:
+    joints:
+      - revolute_1
+      - revolute_2
+      - revolute_3
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    dynamics_urdf_filename: exo_dynamics_left.urdf
+    reference_trajectory_topic: /reference_trajectory
+    kp: 5.0
+    kd: 1.0
+    gravity_scale: 1.0
+    publish_telemetry: true
+    telemetry_topic: /joint_space_gravity_compensation_controller/telemetry
+    logging_session_topic: /joint_space_gravity_compensation_controller/logging/session

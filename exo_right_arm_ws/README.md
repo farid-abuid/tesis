@@ -23,8 +23,14 @@ Launch files are in `src/exo_bringup/launch/`.
 
 ### Real hardware
 
+The `arms` argument selects the configuration:
+- `arms:=right` (default): right arm only, motors 1-3, unprefixed joints (`revolute_1..3`).
+- `arms:=left`: left arm only, motors 4-6, unprefixed joints.
+- `arms:=dual`: both arms, motors 1-6, prefixed joints (`right_revolute_*`, `left_revolute_*`).
+
 ```bash
 ros2 launch exo_bringup exo.launch.py control_mode:=effort enable_data_logger:=true
+ros2 launch exo_bringup exo.launch.py arms:=left control_mode:=effort enable_data_logger:=true
 ```
 
 Two arms (single `controller_manager`, topics under `/left` and `/right`):
@@ -41,6 +47,7 @@ Optional mount poses (passed to `exo.xacro`) are available in all launch files:
 
 ```bash
 ros2 launch exo_bringup sliders_rviz.launch.py
+ros2 launch exo_bringup sliders_rviz.launch.py arms:=left
 ros2 launch exo_bringup sliders_rviz.launch.py arms:=dual
 ```
 
@@ -48,6 +55,7 @@ ros2 launch exo_bringup sliders_rviz.launch.py arms:=dual
 
 ```bash
 ros2 launch exo_bringup gazebo.launch.py control_mode:=effort enable_data_logger:=true
+ros2 launch exo_bringup gazebo.launch.py arms:=left control_mode:=effort enable_data_logger:=true
 ```
 
 ```bash
@@ -56,7 +64,10 @@ ros2 launch exo_bringup gazebo.launch.py arms:=dual control_mode:=effort enable_
 
 ### Control modes
 
-`control_mode` maps to `controllers_<control_mode>.yaml` (single arm) or `controllers_<control_mode>_dual.yaml` when `arms:=dual`, under `src/exo_bringup/config/`.
+`control_mode` maps to controller YAMLs under `src/exo_bringup/config/`:
+- `arms:=right` (default) → `controllers_<control_mode>.yaml`
+- `arms:=left` → same `controllers_<control_mode>.yaml`, except `joint_space_gravity_compensation` and `task_space_gravity_compensation` use `controllers_<control_mode>_left.yaml` (which loads the left dynamics URDF).
+- `arms:=dual` → `controllers_<control_mode>_dual.yaml`.
 
 Available modes:
 - `read_only`
@@ -74,7 +85,7 @@ ros2 launch exo_bringup exo.launch.py control_mode:=read_only enable_data_logger
 
 ## Main command topics (publish)
 
-### Single arm (`arms:=single`, default)
+### Single arm (`arms:=right` default, or `arms:=left`)
 
 For group controllers, command order is: `[revolute_1, revolute_2, revolute_3]`.
 
@@ -209,6 +220,18 @@ All scripts run with `ros2 run exo_utils <executable>`.
 
 ### Data logger
 
+The launch files spawn `exo_data_logger` automatically when `enable_data_logger:=true`.
+It writes one CSV per controller activation under `~/exo_logs/<run_id>/data.csv`.
+
+CSV columns follow the active arm configuration:
+
+- `arms:=right` → `right_revolute_<n>_q`, `right_revolute_<n>_dq`, …, `right_ee_x/y/z` (when applicable).
+- `arms:=left` → `left_revolute_<n>_*`, `left_ee_*`.
+- `arms:=dual` → both sides interleaved (`left_revolute_*`, `right_revolute_*`, `left_ee_*`, `right_ee_*`).
+- Legacy logs without an arm tag (unprefixed `revolute_<n>_*`, `ee_*`) are still parsed by the plotter for back-compat.
+
+Run it standalone (rare; usually launched by the bringup):
+
 ```bash
 ros2 run exo_utils exo_data_logger
 ```
@@ -217,7 +240,20 @@ ros2 run exo_utils exo_data_logger
 
 ```bash
 ros2 run exo_utils exo_plot_run ~/exo_logs/<run_id>/data.csv
+# or, equivalently, as a Python module:
+python3 -m exo_utils.plot_run ~/exo_logs/<run_id>/data.csv --no-show
 ```
+
+By default plots land in `~/exo_logs/<run_id>/plots/`. Use `-o <dir>` to override.
+
+Output layout:
+
+- Single-arm runs (`arms:=right` / `arms:=left`): flat `plots/` directory with figures titled `[right] …` or `[left] …`.
+- Dual-arm runs: one subdirectory per arm (`plots/left/`, `plots/right/`), each with its own figures.
+- Legacy unprefixed CSVs: flat `plots/` with un-tagged titles (back-compat).
+
+Generated figures (only those whose columns are present in the CSV):
+`joint_position.png`, `joint_velocity.png`, `joint_torque.png`, `task_space_xyz.png`.
 
 ### DC motor identification
 
@@ -260,6 +296,20 @@ Record from `/left_joint_state_broadcaster/joint_states` or `/right_joint_state_
 
 ```bash
 ros2 run exo_utils exo_trajectory_recorder --ros-args -p joint_states_topic:=/left_joint_state_broadcaster/joint_states -p output_file:=~/recorded_trajs/left.csv
+```
+
+Replay a dual-mode CSV onto a single-arm bringup (`arms:=right` or `arms:=left`). Set
+`target_arm` to the side you want; the player keeps only those joints, strips the prefix, and
+publishes on the unprefixed (single-arm) topics:
+
+```bash
+# Bringup with right arm only
+ros2 launch exo_bringup exo.launch.py arms:=right control_mode:=joint_space_gravity_compensation
+
+# Replay only the right side of a dual-mode recording
+ros2 run exo_utils exo_trajectory_player --ros-args \
+  -p input_file:=~/recorded_trajs/dual.csv \
+  -p target_arm:=right
 ```
 
 Loop playback:

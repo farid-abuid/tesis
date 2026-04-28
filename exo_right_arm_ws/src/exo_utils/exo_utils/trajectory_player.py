@@ -25,6 +25,10 @@ class TrajectoryPlayerNode(Node):
                                '/left_position_controller/commands')
         self.declare_parameter('right_position_command_topic',
                                '/right_position_controller/commands')
+        # When playing a dual-mode CSV onto a single-arm bringup, set target_arm to 'left' or
+        # 'right' to keep only that side's joints, strip the prefix, and publish to the
+        # unprefixed (single-arm) topics.
+        self.declare_parameter('target_arm', '')
         self.declare_parameter('frequency', 0.0)
         self.declare_parameter('loop', False)
 
@@ -36,6 +40,12 @@ class TrajectoryPlayerNode(Node):
         self._input_path = Path(os.path.expanduser(input_file))
         self._freq_override = float(self.get_parameter('frequency').value)
         self._loop = bool(self.get_parameter('loop').value)
+        target_arm = str(self.get_parameter('target_arm').value).strip().lower()
+        if target_arm and target_arm not in ('left', 'right'):
+            self.get_logger().fatal(
+                f"target_arm must be '', 'left' or 'right' (got {target_arm!r})")
+            raise ValueError('trajectory_player: invalid target_arm')
+        self._target_arm = target_arm
 
         self._joint_names: list[str] = []
         self._rows: list[dict] = []
@@ -45,16 +55,31 @@ class TrajectoryPlayerNode(Node):
             self.get_logger().error(f'No data rows in {self._input_path}')
             raise ValueError('trajectory_player: empty CSV')
 
-        # Group joints by arm (prefix-based).
-        self._groups: dict[str, list[tuple[int, str]]] = {}
-        for i, j in enumerate(self._joint_names):
-            if j.startswith('left_'):
-                key = 'left'
-            elif j.startswith('right_'):
-                key = 'right'
-            else:
-                key = 'main'
-            self._groups.setdefault(key, []).append((i, j))
+        # Group joints by arm (prefix-based). Each entry is (csv_column_base, published_name);
+        # they differ only when target_arm is set, where the published name has the prefix
+        # stripped so a dual-mode CSV plays onto a single-arm bringup with unprefixed joints.
+        self._groups: dict[str, list[tuple[str, str]]] = {}
+        if self._target_arm:
+            prefix = f'{self._target_arm}_'
+            for j in self._joint_names:
+                if j.startswith(prefix):
+                    self._groups.setdefault('main', []).append((j, j[len(prefix):]))
+            if 'main' not in self._groups:
+                self.get_logger().fatal(
+                    f"No joints with prefix '{prefix}' in {self._input_path}")
+                raise ValueError('trajectory_player: target_arm has no matching joints')
+            self.get_logger().info(
+                f"target_arm='{self._target_arm}': filtered to "
+                f'{len(self._groups["main"])} joint(s); publishing on single-arm topics')
+        else:
+            for j in self._joint_names:
+                if j.startswith('left_'):
+                    key = 'left'
+                elif j.startswith('right_'):
+                    key = 'right'
+                else:
+                    key = 'main'
+                self._groups.setdefault(key, []).append((j, j))
 
         # Create publishers per group. Single-arm CSVs keep the legacy topic names.
         self._pubs: dict[str, tuple] = {}
@@ -121,14 +146,14 @@ class TrajectoryPlayerNode(Node):
         for key, joints in self._groups.items():
             traj_pub, pos_pub, _, _ = self._pubs[key]
             msg = JointTrajectory()
-            msg.joint_names = [name for _, name in joints]
+            msg.joint_names = [pub_name for _, pub_name in joints]
 
             pt = JointTrajectoryPoint()
             pt.positions = []
             pt.velocities = []
-            for _, j in joints:
-                pt.positions.append(float(row.get(f'{j}_pos', 0.0)))
-                pt.velocities.append(float(row.get(f'{j}_vel', 0.0)))
+            for csv_name, _ in joints:
+                pt.positions.append(float(row.get(f'{csv_name}_pos', 0.0)))
+                pt.velocities.append(float(row.get(f'{csv_name}_vel', 0.0)))
             pt.time_from_start = DurationMsg(sec=0, nanosec=0)
             msg.points = [pt]
 

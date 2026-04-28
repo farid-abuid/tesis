@@ -11,8 +11,8 @@ import launch_common
 def generate_launch_description():
     declare_arms = DeclareLaunchArgument(
         "arms",
-        default_value="single",
-        description="single: one arm (unprefixed joints). dual: left_ and right_ prefixed arms.",
+        default_value="right",
+        description="right or left: one arm (unprefixed joints). dual: left_ and right_ prefixed arms.",
     )
     declare_right_mount_x = DeclareLaunchArgument("right_mount_x", default_value="0")
     declare_right_mount_y = DeclareLaunchArgument("right_mount_y", default_value="-0.20")

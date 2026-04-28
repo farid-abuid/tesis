@@ -1,4 +1,4 @@
-"""Shared launch logic for single vs dual arm (controller YAML path, spawners, data loggers)."""
+"""Shared launch logic for left/right/dual arm (controller YAML path, spawners, data loggers)."""
 
 import os
 
@@ -14,13 +14,18 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
+# Modes that bake the dynamics URDF filename into the YAML; left needs its own variant.
+_GRAV_COMP_MODES = ("joint_space_gravity_compensation", "task_space_gravity_compensation")
+
+
 def _controller_yaml_name(context) -> str:
-    arms = context.launch_configurations.get("arms", "single")
+    arms = context.launch_configurations.get("arms", "right")
     mode = context.launch_configurations.get("control_mode", "effort")
-    name = f"controllers_{mode}.yaml"
     if arms == "dual":
-        name = f"controllers_{mode}_dual.yaml"
-    return name
+        return f"controllers_{mode}_dual.yaml"
+    if arms == "left" and mode in _GRAV_COMP_MODES:
+        return f"controllers_{mode}_left.yaml"
+    return f"controllers_{mode}.yaml"
 
 
 def set_controller_yaml(context):
@@ -44,7 +49,7 @@ def _controller_mode_to_stem(mode: str) -> str:
 
 
 def spawn_controllers(context):
-    arms = context.launch_configurations.get("arms", "single")
+    arms = context.launch_configurations.get("arms", "right")
     mode = context.launch_configurations.get("control_mode", "effort")
     nodes = []
     if arms == "dual":
@@ -142,7 +147,7 @@ def data_loggers(context):
     enable = context.launch_configurations.get("enable_data_logger", "true").lower() == "true"
     if not enable:
         return []
-    arms_mode = context.launch_configurations.get("arms", "single")
+    arms_mode = context.launch_configurations.get("arms", "right")
     mode = context.launch_configurations.get("control_mode", "effort")
     if mode == "read_only":
         return []
@@ -188,7 +193,9 @@ def data_loggers(context):
             "/right_joint_state_broadcaster/joint_states",
         ]
     else:
-        arms = ["main"]
+        # Tag the single arm with its side so the CSV columns and plots distinguish
+        # left vs right runs (the joint_state messages stay unprefixed).
+        arms = [arms_mode] if arms_mode in ("left", "right") else ["main"]
         ctrl = f"{mode}_controller"
         telemetry_topics = [f"/{ctrl}/telemetry"] if publishes_telemetry else [""]
         session_topics = [f"/{ctrl}/logging/session"] if publishes_telemetry else [""]
@@ -257,11 +264,19 @@ def robot_description_command(hardware: str, include_gazebo_controller_config: b
         LaunchConfiguration("left_mount_yaw"),
     ]
     if include_gazebo_controller_config:
+        # Suffix selection mirrors `_controller_yaml_name`: dual takes `_dual`, left grav-comp
+        # modes take `_left`, everything else uses the base single-arm config.
+        arms_str = LaunchConfiguration("arms")
+        mode_str = LaunchConfiguration("control_mode")
+        suffix_expr = PythonExpression([
+            "('_dual.yaml' if '", arms_str, "' == 'dual' "
+            "else ('_left.yaml' if ('", arms_str, "' == 'left' and '", mode_str,
+            "' in ('joint_space_gravity_compensation', 'task_space_gravity_compensation')) "
+            "else '.yaml'))"
+        ])
         parts += [
             " controller_config:=controllers_",
-            LaunchConfiguration("control_mode"),
-            PythonExpression(
-                ["'_dual.yaml' if '", LaunchConfiguration("arms"), "' == 'dual' else '.yaml'"]
-            ),
+            mode_str,
+            suffix_expr,
         ]
     return Command(parts)

@@ -1,7 +1,8 @@
 """Generate PNG plots from a telemetry CSV written by exo_data_logger.
 
 Behaviour:
-  - Single arm runs produce plots directly under ``plot_dir``.
+  - Single arm runs produce plots directly under ``plot_dir``. When the joints
+    are prefixed (``left_`` / ``right_``) the plot titles include the arm tag.
   - Dual arm runs (joints prefixed with ``left_`` / ``right_``) produce a
     subdirectory per arm with its own figures.
   - Only columns actually present in the CSV are plotted (no fake q_des/q_cmd).
@@ -220,7 +221,9 @@ def generate_plots(csv_path: str, plot_dir: str, show: bool = False) -> list[Pat
     for arm, arm_joints in groups.items():
         arm_joints.sort()
         arm_out = out_p / arm if multi_arm else out_p
-        label = arm if multi_arm else None
+        # Always tag plots with the arm when it has a name (left/right), even on
+        # single-arm runs. Legacy 'main' (unprefixed) runs stay unlabeled.
+        label = arm if (multi_arm or arm != 'main') else None
         saved += _generate_for_group(arm, arm_joints, t, rows, fieldnames, arm_out, label)
 
     if show and saved:
