@@ -93,7 +93,7 @@ void processCANRx(bool receivedConfirm[NUM_MOTORS]) {
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(460800);
 
   Can1.begin();
   Can1.setBaudRate(1000000);
