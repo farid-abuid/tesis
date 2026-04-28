@@ -445,9 +445,16 @@ hardware_interface::return_type teensy_plugin::read(
           break;
         }
 
-        int idx = status.motorID - 1;
-
-        if(idx < 0 || idx >= (int)n)
+        // Map the reported motorID back to the joint vector index via motor_ids_,
+        // since arm subsets (e.g. left-only) use non-contiguous IDs like {4,5,6}.
+        int idx = -1;
+        for (size_t k = 0; k < motor_ids_.size(); ++k) {
+            if (motor_ids_[k] == status.motorID) {
+                idx = static_cast<int>(k);
+                break;
+            }
+        }
+        if (idx < 0 || idx >= (int)n)
             continue;
 
         const float sign =

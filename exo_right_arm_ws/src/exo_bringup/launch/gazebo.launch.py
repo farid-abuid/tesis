@@ -28,7 +28,7 @@ def generate_launch_description():
     declare_arms = DeclareLaunchArgument(
         "arms",
         default_value="right",
-        description="right or left: one arm (unprefixed joints). dual: left_ and right_ prefixed arms.",
+        description="right, left, or dual. All modes use prefixed joints/topics (right_/left_).",
     )
     declare_right_mount_x = DeclareLaunchArgument("right_mount_x", default_value="0")
     declare_right_mount_y = DeclareLaunchArgument("right_mount_y", default_value="-0.20")
@@ -56,6 +56,21 @@ def generate_launch_description():
         parameters=[
             {
                 "robot_description": robot_description,
+                "use_sim_time": True,
+            }
+        ],
+        output="screen",
+    )
+    # Merge per-arm broadcasters into /joint_states so robot_state_publisher sees them.
+    joint_state_merger = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        parameters=[
+            {
+                "source_list": [
+                    "/right_joint_state_broadcaster/joint_states",
+                    "/left_joint_state_broadcaster/joint_states",
+                ],
                 "use_sim_time": True,
             }
         ],
@@ -120,6 +135,7 @@ def generate_launch_description():
             gz_sim,
             clock_bridge,
             robot_state_pub,
+            joint_state_merger,
             spawn_robot,
             OpaqueFunction(function=launch_common.spawn_controllers),
             OpaqueFunction(function=launch_common.data_loggers),
@@ -144,6 +160,7 @@ def generate_launch_description():
             declare_left_mount_pitch,
             declare_left_mount_yaw,
             OpaqueFunction(function=launch_common.gazebo_sim_flag),
+            OpaqueFunction(function=launch_common.set_gazebo_controller_config_names),
             kill_gz,
             start_sim,
         ]

@@ -57,10 +57,10 @@ controller_interface::CallbackReturn JointSpaceGravityCompensationController::on
   auto_declare<std::vector<std::string>>("joints", {});
   auto_declare<std::string>("dynamics_backend", std::string("pinocchio"));
   auto_declare<std::string>("urdf_path", std::string(""));
-  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics.urdf"));
+  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics_right.urdf"));
   auto_declare<std::string>("reference_trajectory_topic", std::string("/reference_trajectory"));
-  auto_declare<double>("kp", 50.0);
-  auto_declare<double>("kd", 5.0);
+  auto_declare<double>("kp", 5.0);
+  auto_declare<double>("kd", 1.0);
   auto_declare<double>("gravity_scale", 1.0);
   auto_declare<bool>("publish_telemetry", true);
   auto_declare<std::string>("telemetry_topic", std::string("telemetry"));

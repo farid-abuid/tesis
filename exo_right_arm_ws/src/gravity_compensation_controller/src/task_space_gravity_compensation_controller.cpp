@@ -49,7 +49,7 @@ controller_interface::CallbackReturn TaskSpaceGravityCompensationController::on_
   auto_declare<std::vector<std::string>>("joints", {});
   auto_declare<std::string>("dynamics_backend", std::string("pinocchio"));
   auto_declare<std::string>("urdf_path", std::string(""));
-  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics.urdf"));
+  auto_declare<std::string>("dynamics_urdf_filename", std::string("exo_dynamics_right.urdf"));
   auto_declare<std::string>("reference_trajectory_topic", std::string("/reference_trajectory"));
   auto_declare<std::string>("end_effector_frame", std::string("tool0"));
   auto_declare<double>("kp", 50.0);

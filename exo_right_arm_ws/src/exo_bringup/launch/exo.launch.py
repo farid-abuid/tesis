@@ -1,11 +1,25 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 import launch_common
+
+
+def _control_node(context):
+    """Build the controller_manager node, passing one YAML per active arm."""
+    yaml_paths = launch_common._controller_yaml_paths(context)
+    robot_description = launch_common.robot_description_command("real")
+    return [
+        Node(
+            package="controller_manager",
+            executable="ros2_control_node",
+            parameters=[{"robot_description": robot_description}, *yaml_paths],
+            output="screen",
+        )
+    ]
 
 
 def generate_launch_description():
@@ -20,7 +34,7 @@ def generate_launch_description():
     declare_arms = DeclareLaunchArgument(
         "arms",
         default_value="right",
-        description="right or left: one arm (unprefixed joints). dual: left_ and right_ prefixed arms.",
+        description="right, left, or dual. All modes use prefixed joints/topics (right_/left_).",
     )
     declare_enable_rviz = DeclareLaunchArgument(
         "enable_rviz",
@@ -51,6 +65,8 @@ def generate_launch_description():
         parameters=[{"robot_description": robot_description}],
         output="screen",
     )
+    # Always merge per-arm broadcasters into /joint_states (RViz, robot_state_publisher).
+    # Topics that aren't currently published just contribute nothing.
     joint_state_merger = Node(
         package="joint_state_publisher",
         executable="joint_state_publisher",
@@ -62,21 +78,9 @@ def generate_launch_description():
                 ]
             }
         ],
-        condition=IfCondition(
-            PythonExpression(["'", LaunchConfiguration("arms"), "' == 'dual'"])
-        ),
         output="screen",
     )
 
-    control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[
-            {"robot_description": robot_description},
-            LaunchConfiguration("exo_controller_yaml_path"),
-        ],
-        output="screen",
-    )
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -103,10 +107,9 @@ def generate_launch_description():
             declare_left_mount_roll,
             declare_left_mount_pitch,
             declare_left_mount_yaw,
-            OpaqueFunction(function=launch_common.set_controller_yaml),
             robot_state_pub,
             joint_state_merger,
-            control_node,
+            OpaqueFunction(function=_control_node),
             OpaqueFunction(function=launch_common.spawn_controllers),
             OpaqueFunction(function=launch_common.data_loggers),
             rviz_node,

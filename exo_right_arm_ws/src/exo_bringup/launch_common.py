@@ -1,4 +1,9 @@
-"""Shared launch logic for left/right/dual arm (controller YAML path, spawners, data loggers)."""
+"""Shared launch logic for left/right/dual arm bringups.
+
+Topic and joint naming is always prefixed (`left_` / `right_`); single-arm modes spawn
+exactly one side, dual loads both per-arm YAMLs and spawns both sides in one
+controller_manager.
+"""
 
 import os
 
@@ -8,135 +13,77 @@ from launch.substitutions import (
     Command,
     LaunchConfiguration,
     PathJoinSubstitution,
-    PythonExpression,
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
-# Modes that bake the dynamics URDF filename into the YAML; left needs its own variant.
 _GRAV_COMP_MODES = ("joint_space_gravity_compensation", "task_space_gravity_compensation")
 
 
-def _controller_yaml_name(context) -> str:
+def _active_arms(context) -> list[str]:
+    """Return the list of active arms ('left'/'right') for the current launch context."""
     arms = context.launch_configurations.get("arms", "right")
-    mode = context.launch_configurations.get("control_mode", "effort")
     if arms == "dual":
-        return f"controllers_{mode}_dual.yaml"
-    if arms == "left" and mode in _GRAV_COMP_MODES:
-        return f"controllers_{mode}_left.yaml"
-    return f"controllers_{mode}.yaml"
+        return ["left", "right"]
+    if arms in ("left", "right"):
+        return [arms]
+    raise ValueError(f"arms must be 'left', 'right', or 'dual' (got {arms!r})")
+
+
+def _controller_yaml_filename(arm: str, mode: str) -> str:
+    return f"controllers_{mode}_{arm}.yaml"
+
+
+def _controller_yaml_paths(context) -> list[str]:
+    mode = context.launch_configurations.get("control_mode", "effort")
+    cfg_dir = os.path.join(get_package_share_directory("exo_bringup"), "config")
+    return [os.path.join(cfg_dir, _controller_yaml_filename(a, mode)) for a in _active_arms(context)]
 
 
 def set_controller_yaml(context):
-    name = _controller_yaml_name(context)
-    path = os.path.join(get_package_share_directory("exo_bringup"), "config", name)
-    return [SetLaunchConfiguration("exo_controller_yaml_path", path)]
+    # Pass the YAML paths as a colon-separated string; the launch consumes them per-path.
+    paths = _controller_yaml_paths(context)
+    return [SetLaunchConfiguration("exo_controller_yaml_paths", os.pathsep.join(paths))]
 
 
 def gazebo_sim_flag(context):
     return [SetLaunchConfiguration("exo_in_gazebo", "true")]
 
 
-def set_gazebo_controller_config_name(context):
-    """Filename only, passed into exo.xacro as controller_config (gz_ros2_control)."""
-    name = _controller_yaml_name(context)
-    return [SetLaunchConfiguration("gz_controller_config_name", name)]
-
-
-def _controller_mode_to_stem(mode: str) -> str:
-    return f"{mode}_controller"
+def set_gazebo_controller_config_names(context):
+    """Set per-arm controller_config_<side> launch configs (filename only, used by exo.xacro)."""
+    arms = _active_arms(context)
+    mode = context.launch_configurations.get("control_mode", "effort")
+    left_name = _controller_yaml_filename("left", mode) if "left" in arms else ""
+    right_name = _controller_yaml_filename("right", mode) if "right" in arms else ""
+    return [
+        SetLaunchConfiguration("gz_controller_config_left", left_name),
+        SetLaunchConfiguration("gz_controller_config_right", right_name),
+    ]
 
 
 def spawn_controllers(context):
-    arms = context.launch_configurations.get("arms", "right")
+    arms = _active_arms(context)
     mode = context.launch_configurations.get("control_mode", "effort")
     nodes = []
-    if arms == "dual":
+    for arm in arms:
         nodes.append(
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=[
-                    "left_joint_state_broadcaster",
-                    "--ros-args",
-                    "-r",
-                    "/left_joint_state_broadcaster/joint_states:=/left/joint_states",
-                ],
+                arguments=[f"{arm}_joint_state_broadcaster"],
                 output="screen",
             )
         )
-        nodes.append(
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=[
-                    "right_joint_state_broadcaster",
-                    "--ros-args",
-                    "-r",
-                    "/right_joint_state_broadcaster/joint_states:=/right/joint_states",
-                ],
-                output="screen",
-            )
-        )
-        if mode == "read_only":
-            return nodes
-        dual_map = {
-            "effort": ("left_effort_controller", "right_effort_controller"),
-            "velocity": ("left_velocity_controller", "right_velocity_controller"),
-            "position": ("left_position_controller", "right_position_controller"),
-            "joint_space_gravity_compensation": (
-                "left_joint_space_gravity_compensation_controller",
-                "right_joint_space_gravity_compensation_controller",
-            ),
-            "task_space_gravity_compensation": (
-                "left_task_space_gravity_compensation_controller",
-                "right_task_space_gravity_compensation_controller",
-            ),
-        }
-        left_c, right_c = dual_map[mode]
-        nodes.append(
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=[
-                    left_c,
-                    "--ros-args",
-                    "-r",
-                    f"/{left_c}/commands:=/left/commands",
-                ],
-                output="screen",
-            )
-        )
-        nodes.append(
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=[
-                    right_c,
-                    "--ros-args",
-                    "-r",
-                    f"/{right_c}/commands:=/right/commands",
-                ],
-                output="screen",
-            )
-        )
+    if mode == "read_only":
         return nodes
-
-    nodes.append(
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["joint_state_broadcaster"],
-            output="screen",
-        )
-    )
-    if mode != "read_only":
+    for arm in arms:
         nodes.append(
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=[_controller_mode_to_stem(mode)],
+                arguments=[f"{arm}_{mode}_controller"],
                 output="screen",
             )
         )
@@ -147,7 +94,7 @@ def data_loggers(context):
     enable = context.launch_configurations.get("enable_data_logger", "true").lower() == "true"
     if not enable:
         return []
-    arms_mode = context.launch_configurations.get("arms", "right")
+    arms = _active_arms(context)
     mode = context.launch_configurations.get("control_mode", "effort")
     if mode == "read_only":
         return []
@@ -157,51 +104,26 @@ def data_loggers(context):
     )
 
     # Only gravity compensation controllers publish JointControlTelemetry + session Bool.
-    publishes_telemetry = mode in (
-        "joint_space_gravity_compensation",
-        "task_space_gravity_compensation",
-    )
+    publishes_telemetry = mode in _GRAV_COMP_MODES
     is_forward = mode in ("effort", "position", "velocity")
 
-    if arms_mode == "dual":
-        arms = ["left", "right"]
-        left_ctrl = f"left_{mode}_controller"
-        right_ctrl = f"right_{mode}_controller"
+    # Build per-arm topic lists with prefixed naming. Order matches `arms`.
+    telemetry_topics: list[str] = []
+    session_topics: list[str] = []
+    lifecycle_topics: list[str] = []
+    command_topics: list[str] = []
+    joint_state_topics: list[str] = []
+    for arm in arms:
+        ctrl = f"{arm}_{mode}_controller"
         if publishes_telemetry:
-            telemetry_topics = [
-                f"/left/{mode}_controller/telemetry",
-                f"/right/{mode}_controller/telemetry",
-            ]
-            session_topics = [
-                f"/left/{mode}_controller/logging/session",
-                f"/right/{mode}_controller/logging/session",
-            ]
+            telemetry_topics.append(f"/{arm}/{mode}_controller/telemetry")
+            session_topics.append(f"/{arm}/{mode}_controller/logging/session")
         else:
-            telemetry_topics = ["", ""]
-            session_topics = ["", ""]
-        lifecycle_topics = [
-            f"/{left_ctrl}/transition_event",
-            f"/{right_ctrl}/transition_event",
-        ]
-        # spawner `--ros-args -r` does NOT propagate to controllers; subscribe to the real topics.
-        command_topics = (
-            [f"/{left_ctrl}/commands", f"/{right_ctrl}/commands"] if is_forward else ["", ""]
-        )
-        # Broadcasters use `use_local_topics: true` in dual configs.
-        joint_state_topics = [
-            "/left_joint_state_broadcaster/joint_states",
-            "/right_joint_state_broadcaster/joint_states",
-        ]
-    else:
-        # Tag the single arm with its side so the CSV columns and plots distinguish
-        # left vs right runs (the joint_state messages stay unprefixed).
-        arms = [arms_mode] if arms_mode in ("left", "right") else ["main"]
-        ctrl = f"{mode}_controller"
-        telemetry_topics = [f"/{ctrl}/telemetry"] if publishes_telemetry else [""]
-        session_topics = [f"/{ctrl}/logging/session"] if publishes_telemetry else [""]
-        lifecycle_topics = [f"/{ctrl}/transition_event"]
-        command_topics = [f"/{ctrl}/commands"] if is_forward else [""]
-        joint_state_topics = ["/joint_states"]
+            telemetry_topics.append("")
+            session_topics.append("")
+        lifecycle_topics.append(f"/{ctrl}/transition_event")
+        command_topics.append(f"/{ctrl}/commands" if is_forward else "")
+        joint_state_topics.append(f"/{arm}_joint_state_broadcaster/joint_states")
 
     extra = {"use_sim_time": True} if sim_flag else {}
     return [
@@ -264,19 +186,10 @@ def robot_description_command(hardware: str, include_gazebo_controller_config: b
         LaunchConfiguration("left_mount_yaw"),
     ]
     if include_gazebo_controller_config:
-        # Suffix selection mirrors `_controller_yaml_name`: dual takes `_dual`, left grav-comp
-        # modes take `_left`, everything else uses the base single-arm config.
-        arms_str = LaunchConfiguration("arms")
-        mode_str = LaunchConfiguration("control_mode")
-        suffix_expr = PythonExpression([
-            "('_dual.yaml' if '", arms_str, "' == 'dual' "
-            "else ('_left.yaml' if ('", arms_str, "' == 'left' and '", mode_str,
-            "' in ('joint_space_gravity_compensation', 'task_space_gravity_compensation')) "
-            "else '.yaml'))"
-        ])
         parts += [
-            " controller_config:=controllers_",
-            mode_str,
-            suffix_expr,
+            " controller_config_left:=",
+            LaunchConfiguration("gz_controller_config_left"),
+            " controller_config_right:=",
+            LaunchConfiguration("gz_controller_config_right"),
         ]
     return Command(parts)

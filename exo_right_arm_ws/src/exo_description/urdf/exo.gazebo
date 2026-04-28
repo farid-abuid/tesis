@@ -6,7 +6,12 @@
   <plugin
     filename="libgz_ros2_control-system.so"
     name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-    <parameters>$(find exo_bringup)/config/${xacro.arg('controller_config')}</parameters>
+    <xacro:if value="${xacro.arg('controller_config_left') != ''}">
+      <parameters>$(find exo_bringup)/config/${xacro.arg('controller_config_left')}</parameters>
+    </xacro:if>
+    <xacro:if value="${xacro.arg('controller_config_right') != ''}">
+      <parameters>$(find exo_bringup)/config/${xacro.arg('controller_config_right')}</parameters>
+    </xacro:if>
   </plugin>
 </gazebo>
 
@@ -77,12 +82,11 @@
 </gazebo>
 </xacro:macro>
 
-<xacro:if value="${xacro.arg('arms') == 'dual'}">
+<xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'right'}">
   <xacro:exo_arm_gazebo prefix="right_"/>
+</xacro:if>
+<xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'left'}">
   <xacro:exo_arm_gazebo prefix="left_"/>
 </xacro:if>
-<xacro:unless value="${xacro.arg('arms') == 'dual'}">
-  <xacro:exo_arm_gazebo prefix=""/>
-</xacro:unless>
 
 </robot>

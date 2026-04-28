@@ -1,4 +1,4 @@
-"""Records joint states to CSV. Auto-detects single vs dual arm from live topics."""
+"""Records joint states to CSV. Auto-detects which arms are publishing joint_states."""
 
 import csv
 import os
@@ -10,12 +10,11 @@ from sensor_msgs.msg import JointState
 from std_srvs.srv import Trigger
 
 
-# Canonical broadcaster topics for dual-arm bringups (use_local_topics: true).
-_DUAL_TOPICS = (
-    '/left_joint_state_broadcaster/joint_states',
-    '/right_joint_state_broadcaster/joint_states',
-)
-_SINGLE_TOPIC = '/joint_states'
+# Per-arm broadcaster topics (use_local_topics: true on every arm bringup).
+_ARM_TOPICS = {
+    'left':  '/left_joint_state_broadcaster/joint_states',
+    'right': '/right_joint_state_broadcaster/joint_states',
+}
 
 
 class TrajectoryRecorderNode(Node):
@@ -44,7 +43,7 @@ class TrajectoryRecorderNode(Node):
         except rclpy.exceptions.ParameterUninitializedException:
             explicit_topics = []
 
-        # Resolve topic list: explicit > single param > auto-detect.
+        # Resolve topic list: explicit list > single param > auto-detect both arms.
         if explicit_topics:
             topics = explicit_topics
         elif single_topic:
@@ -78,13 +77,15 @@ class TrajectoryRecorderNode(Node):
             f'output={self._output_file}, topics={self._topics})')
 
     def _auto_detect_topics(self) -> list[str]:
-        # Give the ROS graph a moment to propagate before querying publishers.
+        # Subscribe to whichever per-arm broadcaster topics are alive on the graph.
         names_and_types = dict(self.get_topic_names_and_types())
-        dual_present = all(t in names_and_types for t in _DUAL_TOPICS)
-        if dual_present:
-            self.get_logger().info('Auto-detected dual-arm broadcasters')
-            return list(_DUAL_TOPICS)
-        return [_SINGLE_TOPIC]
+        active = [t for t in _ARM_TOPICS.values() if t in names_and_types]
+        if not active:
+            self.get_logger().warning(
+                'No arm broadcaster topics on graph; falling back to both '
+                f"({list(_ARM_TOPICS.values())})")
+            return list(_ARM_TOPICS.values())
+        return active
 
     def _on_joint_state(self, topic: str, msg: JointState) -> None:
         self._latest[topic] = msg
