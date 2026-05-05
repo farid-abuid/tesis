@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -10,18 +11,18 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "realtime_tools/realtime_buffer.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "sensor_msgs/msg/imu.hpp"
 #include "std_msgs/msg/bool.hpp"
 #include "trajectory_msgs/msg/joint_trajectory.hpp"
 
-namespace gravity_compensation_controller
+namespace fl_controller
 {
 
-/// Joint-space PD + gravity feedforward using joint trajectory setpoints
-/// (position/velocity references in joint coordinates).
-class JointSpaceGravityCompensationController : public controller_interface::ControllerInterface
+/// Feedback linearization: τ = M(q)*(q̈_des + Kp*e + Kd*ė) + C(q,q̇)*q̇ + g(q)
+class FlController : public controller_interface::ControllerInterface
 {
 public:
-  ~JointSpaceGravityCompensationController() override = default;
+  ~FlController() override = default;
 
   controller_interface::CallbackReturn on_init() override;
   controller_interface::CallbackReturn on_configure(
@@ -40,18 +41,17 @@ public:
 
 private:
   bool init_interfaces();
-
   void referenceTrajectoryCallback(const trajectory_msgs::msg::JointTrajectory::SharedPtr msg);
 
   struct TrajectorySetpoint
   {
     std::vector<double> positions;
     std::vector<double> velocities;
+    std::vector<double> accelerations;
     bool valid{false};
   };
 
   std::vector<std::string> joint_names_param_;
-
   std::vector<std::string> joint_names_;
   std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>> pos_interfaces_;
   std::vector<std::reference_wrapper<hardware_interface::LoanedStateInterface>> vel_interfaces_;
@@ -63,7 +63,6 @@ private:
   std::string reference_trajectory_topic_;
   double kp_{50.0};
   double kd_{5.0};
-  double gravity_scale_{1.0};
 
   std::unique_ptr<exo_utils::dynamics::DynamicsModel> dynamics_;
   realtime_tools::RealtimeBuffer<TrajectorySetpoint> setpoint_buffer_;
@@ -74,6 +73,10 @@ private:
   std::string logging_session_topic_;
   rclcpp::Publisher<exo_control_msgs::msg::JointControlTelemetry>::SharedPtr telemetry_pub_;
   rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr logging_session_pub_;
+
+  std::string imu_topic_;
+  rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
+  realtime_tools::RealtimeBuffer<std::array<double, 4>> imu_orientation_buf_;
 };
 
-}  // namespace gravity_compensation_controller
+}  // namespace fl_controller

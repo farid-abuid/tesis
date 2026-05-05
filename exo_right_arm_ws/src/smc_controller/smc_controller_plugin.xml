@@ -1,0 +1,8 @@
+<library path="smc_controller">
+  <class
+    name="smc_controller/SmcController"
+    type="smc_controller::SmcController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Sliding mode control: equivalent + switching term with tanh boundary layer.</description>
+  </class>
+</library>

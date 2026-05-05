@@ -30,9 +30,12 @@ class MotorStatus:
 class SerialMotorInterface:
     """Implements the Teensy frame format used in teensy_hardware.ino."""
 
-    def __init__(self, port: str, baudrate: int, timeout: float, motor_id: int):
+    def __init__(
+        self, port: str, baudrate: int, timeout: float, motor_id: int, retries: int = 3
+    ):
         self.motor_id = motor_id
         self.serial = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+        self.retries = max(1, retries)
 
     @staticmethod
     def _checksum(payload: bytes) -> int:
@@ -67,13 +70,27 @@ class SerialMotorInterface:
 
     def command_torque_and_read(self, tau_cmd: float) -> MotorStatus:
         frame = self._build_command(CMD_TORQUE, tau_cmd)
-        self.serial.write(frame)
-        status = self._read_status_frame()
-        
-        return status
+        last_error = None
+        for _ in range(self.retries):
+            self.serial.write(frame)
+            try:
+                status = self._read_status_frame()
+                if status.motor_id != self.motor_id:
+                    raise TimeoutError(
+                        f"Received motor_id={status.motor_id}, expected {self.motor_id}"
+                    )
+                return status
+            except TimeoutError as exc:
+                last_error = exc
+                self.serial.reset_input_buffer()
+        raise TimeoutError(f"Serial exchange failed after {self.retries} retries: {last_error}")
 
     def stop_motor(self, stop_hold_s: float = 0.2, repeats: int = 20) -> None:
-        self.command_torque_and_read(0.0)
+        _ = repeats
+        try:
+            self.command_torque_and_read(0.0)
+        except TimeoutError:
+            pass
         time.sleep(stop_hold_s)
            
 
@@ -97,7 +114,7 @@ def low_pass_filter(signal: np.ndarray, dt: float, cutoff_hz: float) -> np.ndarr
 def run_stiction_test(interface: SerialMotorInterface, args: argparse.Namespace) -> dict:
     thresholds = []
     for trial_idx in range(args.stiction_trials):
-        current = 0.6
+        current = args.stiction_start_torque
         start = time.monotonic()
         consecutive_motion = 0
         q0 = None
@@ -138,10 +155,8 @@ def run_stiction_test(interface: SerialMotorInterface, args: argparse.Namespace)
     }
 
 
-def run_sine_excitation(
-    interface: SerialMotorInterface, args: argparse.Namespace, stiction_mean: float
-) -> dict:
-    amp = max(args.sine_amplitude, 1.2 * stiction_mean)
+def run_sine_excitation(interface: SerialMotorInterface, args: argparse.Namespace) -> dict:
+    amp = args.sine_amplitude
     omega = 2.0 * math.pi * args.sine_frequency
     n_samples = int(args.sine_duration_s / args.dt)
     t0 = time.monotonic()
@@ -279,6 +294,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=str, default="motor_id_runs")
 
     parser.add_argument("--stiction-trials", type=int, default=0)
+    parser.add_argument("--stiction-start-torque", type=float, default=0.6)
     parser.add_argument("--stiction-ramp-rate", type=float, default=0.1)
     parser.add_argument("--stiction-max-time-s", type=float, default=20.0)
     parser.add_argument("--trial-settle-s", type=float, default=5.0)
@@ -311,7 +327,7 @@ def main() -> None:
         )
 
         print("Running sinusoidal excitation...")
-        raw = run_sine_excitation(interface, args, stiction["mean"])
+        raw = run_sine_excitation(interface, args)
 
         print("Estimating J, b, tau_c...")
         fit = estimate_params_regression(raw, args, stiction["mean"])

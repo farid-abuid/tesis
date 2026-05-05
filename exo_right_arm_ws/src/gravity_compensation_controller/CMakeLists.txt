@@ -11,6 +11,7 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(trajectory_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(exo_control_msgs REQUIRED)
 find_package(exo_utils REQUIRED)
@@ -19,8 +20,7 @@ find_package(ament_index_cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 add_library(gravity_compensation_controller SHARED
-  src/joint_space_gravity_compensation_controller.cpp
-  src/task_space_gravity_compensation_controller.cpp
+  src/gravity_compensation_controller.cpp
 )
 
 target_include_directories(gravity_compensation_controller PUBLIC
@@ -40,6 +40,7 @@ ament_target_dependencies(gravity_compensation_controller
   pluginlib
   rclcpp
   std_msgs
+  sensor_msgs
   exo_control_msgs
   trajectory_msgs
   realtime_tools

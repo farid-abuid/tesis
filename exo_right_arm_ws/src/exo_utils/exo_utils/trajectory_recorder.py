@@ -57,6 +57,8 @@ class TrajectoryRecorderNode(Node):
         self._csv_file = None
         self._csv_writer = None
         self._joint_names: list[str] = []
+        self._prev_vel: dict[str, float] = {}
+        self._prev_time: float | None = None
 
         for topic in self._topics:
             self.create_subscription(
@@ -107,7 +109,7 @@ class TrajectoryRecorderNode(Node):
                 return
             header = ['time_sec']
             for j in self._joint_names:
-                header += [f'{j}_pos', f'{j}_vel']
+                header += [f'{j}_pos', f'{j}_vel', f'{j}_acc']
             self._csv_writer.writerow(header)
 
         # Build a combined name -> (pos, vel) lookup from the latest per-topic msgs.
@@ -118,11 +120,20 @@ class TrajectoryRecorderNode(Node):
                 vel = msg.velocity[i] if i < len(msg.velocity) else 0.0
                 combined[name] = (float(pos), float(vel))
 
+        dt = (t - self._prev_time) if (self._prev_time is not None and t > self._prev_time) else None
         row = [t]
         for j in self._joint_names:
             pos, vel = combined.get(j, (0.0, 0.0))
-            row += [pos, vel]
+            if dt is not None:
+                acc = (vel - self._prev_vel.get(j, vel)) / dt
+            else:
+                acc = 0.0
+            row += [pos, vel, acc]
         self._csv_writer.writerow(row)
+
+        self._prev_time = t
+        for j in self._joint_names:
+            self._prev_vel[j] = combined.get(j, (0.0, 0.0))[1]
 
     def _resolve_joint_names(self) -> list[str]:
         # Union of joint names across all cached messages, preserving topic order.
@@ -147,6 +158,8 @@ class TrajectoryRecorderNode(Node):
         self._csv_file = open(self._output_file, 'w', newline='')
         self._csv_writer = csv.writer(self._csv_file)
         self._joint_names = []
+        self._prev_vel = {}
+        self._prev_time = None
         self._recording = True
         self._timer.reset()
         self.get_logger().info(f'Recording started -> {self._output_file}')

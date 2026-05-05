@@ -27,7 +27,7 @@ def generate_launch_description():
     )
     declare_arms = DeclareLaunchArgument(
         "arms",
-        default_value="right",
+        default_value="dual",
         description="right, left, or dual. All modes use prefixed joints/topics (right_/left_).",
     )
     declare_right_mount_x = DeclareLaunchArgument("right_mount_x", default_value="0")

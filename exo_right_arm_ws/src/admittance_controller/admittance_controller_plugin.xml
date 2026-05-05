@@ -1,0 +1,8 @@
+<library path="admittance_controller">
+  <class
+    name="admittance_controller/AdmittanceController"
+    type="admittance_controller::AdmittanceController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Joint-space admittance: virtual compliance model maps external torque to trajectory correction.</description>
+  </class>
+</library>

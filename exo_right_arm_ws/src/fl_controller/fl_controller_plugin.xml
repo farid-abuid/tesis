@@ -1,0 +1,8 @@
+<library path="fl_controller">
+  <class
+    name="fl_controller/FlController"
+    type="fl_controller::FlController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Feedback linearization: tau = M(q)*(qdd_des + Kp*e + Kd*de) + C(q,dq)*dq + g(q).</description>
+  </class>
+</library>

@@ -18,7 +18,15 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
-_GRAV_COMP_MODES = ("joint_space_gravity_compensation", "task_space_gravity_compensation")
+_GRAV_COMP_MODES = (
+    "gravity_compensation",
+    "fl",
+    "smc",
+    "mrac",
+    "mpc",
+    "admittance",
+    "impedance",
+)
 
 
 def _active_arms(context) -> list[str]:
@@ -32,7 +40,7 @@ def _active_arms(context) -> list[str]:
 
 
 def _controller_yaml_filename(arm: str, mode: str) -> str:
-    return f"controllers_{mode}_{arm}.yaml"
+    return os.path.join(mode, f"controllers_{arm}.yaml")
 
 
 def _controller_yaml_paths(context) -> list[str]:

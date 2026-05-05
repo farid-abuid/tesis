@@ -77,8 +77,10 @@ ament_python_install_package(${PROJECT_NAME})
 
 install(PROGRAMS
   scripts/exo_data_logger
+  scripts/exo_imu_node
   scripts/exo_plot_run
   scripts/exo_dc_motor_id
+  scripts/exo_dc_motor_stiction_id
   scripts/exo_teensy_serial_rtt
   scripts/exo_trajectory_recorder
   scripts/exo_trajectory_player

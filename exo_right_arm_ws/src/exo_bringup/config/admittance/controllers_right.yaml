@@ -1,0 +1,47 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    right_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    right_admittance_controller:
+      type: admittance_controller/AdmittanceController
+
+right_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+right_admittance_controller:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    dynamics_urdf_filename: exo_dynamics_right.urdf
+    reference_trajectory_topic: /right/reference_trajectory
+    # Inner FL servo gains (tracks q_des + q_v)
+    kp: 50.0
+    kd: 5.0
+    # Virtual compliance: Md·q̈_v + Bd·q̇_v + Kd·q_v = τ_ext
+    md: 1.0      # desired inertia (kg·m²) — lower → more compliant
+    bd: 10.0     # desired damping (N·m·s/rad)
+    kd_adm: 0.0  # desired stiffness (N·m/rad); 0 = pure admittance (no position restoring)
+    # External joint torque source (Float64MultiArray, n elements in Nm).
+    # Leave empty to disable external force input (pure trajectory tracking).
+    ext_torque_topic: /right/ext_torque
+    publish_telemetry: true
+    telemetry_topic: /right/admittance_controller/telemetry
+    logging_session_topic: /right/admittance_controller/logging/session
+    imu_topic: /right/imu

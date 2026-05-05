@@ -1,0 +1,24 @@
+# Teensy 4.1 USB serial aliases for the exoskeleton bringup.
+#
+# Install:
+#   sudo cp 99-teensy-motor.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+# CDC interface numbering (ENV{ID_USB_INTERFACE_NUM}):
+#   00  ->  Serial      (motor commands / feedback)     -> /dev/teensy_motor
+#   02  ->  SerialUSB1  (IMU orientation stream)        -> /dev/teensy_imu  + /dev/teensy_debug
+#   04  ->  SerialUSB2  (diagnostics / printf)          -> no alias yet
+
+SUBSYSTEM=="tty", \
+ATTRS{idVendor}=="16c0", \
+ATTRS{idProduct}=="048b", \
+ATTRS{serial}=="17330680", \
+ENV{ID_USB_INTERFACE_NUM}=="00", \
+SYMLINK+="teensy_motor"
+
+SUBSYSTEM=="tty", \
+ATTRS{idVendor}=="16c0", \
+ATTRS{idProduct}=="048b", \
+ATTRS{serial}=="17330680", \
+ENV{ID_USB_INTERFACE_NUM}=="02", \
+SYMLINK+="teensy_debug teensy_imu"

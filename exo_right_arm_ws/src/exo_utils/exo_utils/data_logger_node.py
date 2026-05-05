@@ -16,10 +16,6 @@ from std_msgs.msg import Bool, Float64MultiArray
 from std_srvs.srv import Trigger
 
 
-# Control modes that imply a JointControlTelemetry publisher and q_des/dq_des references.
-_GRAV_COMP_MODES = ('joint_space_gravity_compensation', 'task_space_gravity_compensation')
-
-
 class DataLoggerNode(Node):
     def __init__(self) -> None:
         super().__init__('exo_data_logger')
@@ -63,6 +59,10 @@ class DataLoggerNode(Node):
         self._command_topics = _list('command_topics')
         self._joint_state_topics = _list('joint_state_topics')
 
+        # True whenever at least one arm has a JointControlTelemetry publisher configured.
+        # Used to decide which CSV columns to emit (q_des/dq_des/tau_cmd/tau_ff).
+        self._has_telemetry = any(self._telemetry_topics)
+
         # Per-arm latest state (joint-aligned arrays come from telemetry/joint_state/commands).
         self._state: dict[str, dict] = {
             arm: {
@@ -71,7 +71,6 @@ class DataLoggerNode(Node):
                 'q_ref': [], 'dq_ref': [],
                 'tau_cmd': [], 'tau_ff': [],
                 'q_cmd': [], 'dq_cmd': [], 'tau_cmd_in': [],
-                'ee_actual': [], 'ee_desired': [],
                 'active': False,
             }
             for arm in self._arms
@@ -179,10 +178,6 @@ class DataLoggerNode(Node):
             st['tau_cmd'] = [float(v) for v in msg.effort_command]
         if len(msg.effort_feedforward) > 0:
             st['tau_ff'] = [float(v) for v in msg.effort_feedforward]
-        if len(msg.operational_position_actual) >= 3:
-            st['ee_actual'] = [float(v) for v in msg.operational_position_actual[:3]]
-        if len(msg.operational_position_desired) >= 3:
-            st['ee_desired'] = [float(v) for v in msg.operational_position_desired[:3]]
 
     def _on_command(self, arm: str, msg: Float64MultiArray) -> None:
         # Interpret command meaning from control_mode; never fan out to unrelated slots.
@@ -259,17 +254,11 @@ class DataLoggerNode(Node):
                     header.append(f'{jname}_dq_cmd')
                 elif mode == 'effort':
                     header.append(f'{jname}_tau_cmd_in')
-                elif mode in _GRAV_COMP_MODES:
+                elif self._has_telemetry:
                     header += [
                         f'{jname}_q_des', f'{jname}_dq_des',
                         f'{jname}_tau_cmd', f'{jname}_tau_ff',
                     ]
-            if mode == 'task_space_gravity_compensation':
-                p = '' if arm == 'main' else f'{arm}_'
-                header += [
-                    f'{p}ee_x', f'{p}ee_y', f'{p}ee_z',
-                    f'{p}ee_des_x', f'{p}ee_des_y', f'{p}ee_des_z',
-                ]
         return header
 
     def _build_row(self, t_sec: float) -> list:
@@ -294,14 +283,9 @@ class DataLoggerNode(Node):
                     row.append(_at(st['dq_cmd'], i))
                 elif mode == 'effort':
                     row.append(_at(st['tau_cmd_in'], i))
-                elif mode in _GRAV_COMP_MODES:
+                elif self._has_telemetry:
                     row += [_at(st['q_ref'], i), _at(st['dq_ref'], i),
                             _at(st['tau_cmd'], i), _at(st['tau_ff'], i)]
-            if mode == 'task_space_gravity_compensation':
-                ee = st['ee_actual']
-                ed = st['ee_desired']
-                row += [_at(ee, 0), _at(ee, 1), _at(ee, 2),
-                        _at(ed, 0), _at(ed, 1), _at(ed, 2)]
         return row
 
     # ---- Run lifecycle ----

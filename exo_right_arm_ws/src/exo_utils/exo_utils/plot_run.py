@@ -118,7 +118,7 @@ def _plot_stack(
     return True
 
 
-def _plot_task_space(
+def _plot_ee_xyz(
     t: np.ndarray,
     rows: list[dict[str, str]],
     fieldnames: set[str],
@@ -185,14 +185,14 @@ def _generate_for_group(
             ('_tau_meas', 'tau_meas'),
             ('_tau_cmd', 'tau_cmd'),
             ('_tau_cmd_in', 'tau_cmd_in'),
-            ('_tau_ff', 'tau_ff'),
+            # ('_tau_ff', 'tau_ff'),
         ],
         tau_path, f'{prefix_txt}Joint torque', ylabel_unit='N·m',
     ):
         saved.append(tau_path)
 
-    ee_path = out_dir / 'task_space_xyz.png'
-    if _plot_task_space(t, rows, fieldnames, ee_prefix, ee_path, f'{prefix_txt}Task-space position vs desired'):
+    ee_path = out_dir / 'ee_position_xyz.png'
+    if _plot_ee_xyz(t, rows, fieldnames, ee_prefix, ee_path, f'{prefix_txt}EE position vs desired'):
         saved.append(ee_path)
 
     return saved

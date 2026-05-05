@@ -1,0 +1,8 @@
+<library path="mrac_controller">
+  <class
+    name="mrac_controller/MracController"
+    type="mrac_controller::MracController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Model reference adaptive control (Slotine-Li): computed-torque law with online parameter adaptation.</description>
+  </class>
+</library>

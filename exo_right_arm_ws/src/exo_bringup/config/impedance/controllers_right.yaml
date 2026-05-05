@@ -1,0 +1,46 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    right_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    right_impedance_controller:
+      type: impedance_controller/ImpedanceController
+
+right_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+right_impedance_controller:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    dynamics_urdf_filename: exo_dynamics_right.urdf
+    reference_trajectory_topic: /right/reference_trajectory
+    # Desired inertia Md (kg·m²). Shapes apparent joint inertia: lower → more backdrivable.
+    m_desired: 1.0
+    # Impedance stiffness K (N·m/rad)
+    kp_imp: 100.0
+    # Impedance damping D (N·m·s/rad). Critical damping: D = 2*sqrt(K*Md)
+    kd_imp: 20.0
+    # External joint torque source (Float64MultiArray, n elements in Nm).
+    # Leave empty to disable; use measured torques from a sensor or estimator.
+    ext_torque_topic: /right/ext_torque
+    publish_telemetry: true
+    telemetry_topic: /right/impedance_controller/telemetry
+    logging_session_topic: /right/impedance_controller/logging/session
+    imu_topic: /right/imu

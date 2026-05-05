@@ -77,8 +77,7 @@ Available modes:
 - `effort`
 - `velocity`
 - `position`
-- `joint_space_gravity_compensation`
-- `task_space_gravity_compensation`
+- `gravity_compensation`
 
 Example read-only launch:
 
@@ -161,17 +160,15 @@ ros2 control list_hardware_interfaces
 ### Gravity compensation telemetry
 
 ```bash
-ros2 topic echo /right/joint_space_gravity_compensation_controller/telemetry --once
-ros2 topic echo /right/task_space_gravity_compensation_controller/telemetry --once
-ros2 topic echo /left/joint_space_gravity_compensation_controller/telemetry  --once
-ros2 topic echo /left/task_space_gravity_compensation_controller/telemetry   --once
+ros2 topic echo /right/gravity_compensation_controller/telemetry --once
+ros2 topic echo /left/gravity_compensation_controller/telemetry  --once
 ```
 
 ### Logger session/lifecycle topics
 
 ```bash
-ros2 topic echo /right/joint_space_gravity_compensation_controller/logging/session
-ros2 topic echo /right_joint_space_gravity_compensation_controller/transition_event
+ros2 topic echo /right/gravity_compensation_controller/logging/session
+ros2 topic echo /right_gravity_compensation_controller/transition_event
 ```
 
 ## Dual-arm verification checklist
@@ -234,7 +231,7 @@ Output layout:
 - Dual-arm runs: one subdirectory per arm (`plots/left/`, `plots/right/`), each with its own figures.
 
 Generated figures (only those whose columns are present in the CSV):
-`joint_position.png`, `joint_velocity.png`, `joint_torque.png`, `task_space_xyz.png`.
+`joint_position.png`, `joint_velocity.png`, `joint_torque.png`, `ee_position_xyz.png` (only when `*_ee_*` columns exist in the CSV).
 
 ### DC motor identification
 

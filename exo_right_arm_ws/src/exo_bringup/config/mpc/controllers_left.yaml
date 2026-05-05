@@ -1,0 +1,42 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    left_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    left_mpc_controller:
+      type: mpc_controller/MpcController
+
+left_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - left_revolute_1
+      - left_revolute_2
+      - left_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+left_mpc_controller:
+  ros__parameters:
+    joints:
+      - left_revolute_1
+      - left_revolute_2
+      - left_revolute_3
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    dynamics_urdf_filename: exo_dynamics_left.urdf
+    reference_trajectory_topic: /left/reference_trajectory
+    horizon: 10
+    dt: 0.002
+    q_cost: 100.0
+    dq_cost: 1.0
+    u_cost: 0.01
+    publish_telemetry: true
+    telemetry_topic: /left/mpc_controller/telemetry
+    logging_session_topic: /left/mpc_controller/logging/session
+    imu_topic: /left/imu

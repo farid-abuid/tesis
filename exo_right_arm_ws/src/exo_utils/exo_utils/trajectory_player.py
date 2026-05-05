@@ -96,10 +96,14 @@ class TrajectoryPlayerNode(Node):
                 return
             fields = list(reader.fieldnames)
             seen: list[str] = []
+            acc_joints: set[str] = set()
             for col in fields:
                 if col.endswith('_pos'):
                     seen.append(col[:-4])
+                elif col.endswith('_acc'):
+                    acc_joints.add(col[:-4])
             self._joint_names = seen
+            self._has_acc = bool(acc_joints)
             self._rows = list(reader)
 
     def _publish_tick(self) -> None:
@@ -121,9 +125,13 @@ class TrajectoryPlayerNode(Node):
             pt = JointTrajectoryPoint()
             pt.positions = []
             pt.velocities = []
+            if self._has_acc:
+                pt.accelerations = []
             for joint_name in joints:
                 pt.positions.append(float(row.get(f'{joint_name}_pos', 0.0)))
                 pt.velocities.append(float(row.get(f'{joint_name}_vel', 0.0)))
+                if self._has_acc:
+                    pt.accelerations.append(float(row.get(f'{joint_name}_acc', 0.0)))
             pt.time_from_start = DurationMsg(sec=0, nanosec=0)
             msg.points = [pt]
 

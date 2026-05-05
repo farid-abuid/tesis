@@ -1,0 +1,8 @@
+<library path="mpc_controller">
+  <class
+    name="mpc_controller/MpcController"
+    type="mpc_controller::MpcController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Model predictive control: FL inner loop with precomputed unconstrained finite-horizon MPC gain.</description>
+  </class>
+</library>

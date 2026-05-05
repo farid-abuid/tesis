@@ -6,8 +6,8 @@ controller_manager:
     left_joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    left_task_space_gravity_compensation_controller:
-      type: gravity_compensation_controller/TaskSpaceGravityCompensationController
+    left_impedance_controller:
+      type: impedance_controller/ImpedanceController
 
 left_joint_state_broadcaster:
   ros__parameters:
@@ -21,7 +21,7 @@ left_joint_state_broadcaster:
       - effort
     use_local_topics: true
 
-left_task_space_gravity_compensation_controller:
+left_impedance_controller:
   ros__parameters:
     joints:
       - left_revolute_1
@@ -31,10 +31,11 @@ left_task_space_gravity_compensation_controller:
     urdf_path: ""
     dynamics_urdf_filename: exo_dynamics_left.urdf
     reference_trajectory_topic: /left/reference_trajectory
-    end_effector_frame: left_Componente5_v1_1
-    kp: 50.0
-    kd: 5.0
-    gravity_scale: 1.0
+    m_desired: 1.0
+    kp_imp: 100.0
+    kd_imp: 20.0
+    ext_torque_topic: /left/ext_torque
     publish_telemetry: true
-    telemetry_topic: /left/task_space_gravity_compensation_controller/telemetry
-    logging_session_topic: /left/task_space_gravity_compensation_controller/logging/session
+    telemetry_topic: /left/impedance_controller/telemetry
+    logging_session_topic: /left/impedance_controller/logging/session
+    imu_topic: /left/imu

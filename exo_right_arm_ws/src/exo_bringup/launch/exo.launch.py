@@ -40,18 +40,18 @@ def generate_launch_description():
         "enable_rviz",
         default_value="true",
     )
-    declare_right_mount_x = DeclareLaunchArgument("right_mount_x", default_value="0")
+    declare_right_mount_x = DeclareLaunchArgument("right_mount_x", default_value="0.0")
     declare_right_mount_y = DeclareLaunchArgument("right_mount_y", default_value="-0.20")
-    declare_right_mount_z = DeclareLaunchArgument("right_mount_z", default_value="0")
-    declare_right_mount_roll = DeclareLaunchArgument("right_mount_roll", default_value="0")
-    declare_right_mount_pitch = DeclareLaunchArgument("right_mount_pitch", default_value="0")
-    declare_right_mount_yaw = DeclareLaunchArgument("right_mount_yaw", default_value="0")
-    declare_left_mount_x = DeclareLaunchArgument("left_mount_x", default_value="0")
+    declare_right_mount_z = DeclareLaunchArgument("right_mount_z", default_value="0.0")
+    declare_right_mount_roll = DeclareLaunchArgument("right_mount_roll", default_value="0.0")
+    declare_right_mount_pitch = DeclareLaunchArgument("right_mount_pitch", default_value="0.0")
+    declare_right_mount_yaw = DeclareLaunchArgument("right_mount_yaw", default_value="0.0")
+    declare_left_mount_x = DeclareLaunchArgument("left_mount_x", default_value="0.0")
     declare_left_mount_y = DeclareLaunchArgument("left_mount_y", default_value="0.20")
-    declare_left_mount_z = DeclareLaunchArgument("left_mount_z", default_value="0")
-    declare_left_mount_roll = DeclareLaunchArgument("left_mount_roll", default_value="0")
-    declare_left_mount_pitch = DeclareLaunchArgument("left_mount_pitch", default_value="0")
-    declare_left_mount_yaw = DeclareLaunchArgument("left_mount_yaw", default_value="0")
+    declare_left_mount_z = DeclareLaunchArgument("left_mount_z", default_value="0.0")
+    declare_left_mount_roll = DeclareLaunchArgument("left_mount_roll", default_value="0.0")
+    declare_left_mount_pitch = DeclareLaunchArgument("left_mount_pitch", default_value="0.0")
+    declare_left_mount_yaw = DeclareLaunchArgument("left_mount_yaw", default_value="0.0")
     enable_rviz = LaunchConfiguration("enable_rviz")
 
     robot_description = launch_common.robot_description_command("real")
@@ -89,6 +89,25 @@ def generate_launch_description():
         output="screen",
     )
 
+    imu_node = Node(
+        package="exo_utils",
+        executable="exo_imu_node",
+        name="exo_imu_node",
+        parameters=[
+            {
+                "arms": LaunchConfiguration("arms"),
+                "port": "/dev/teensy_imu",
+                "right_mount_x": LaunchConfiguration("right_mount_x"),
+                "right_mount_y": LaunchConfiguration("right_mount_y"),
+                "right_mount_z": LaunchConfiguration("right_mount_z"),
+                "left_mount_x": LaunchConfiguration("left_mount_x"),
+                "left_mount_y": LaunchConfiguration("left_mount_y"),
+                "left_mount_z": LaunchConfiguration("left_mount_z"),
+            }
+        ],
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             declare_controller_arg,
@@ -112,6 +131,7 @@ def generate_launch_description():
             OpaqueFunction(function=_control_node),
             OpaqueFunction(function=launch_common.spawn_controllers),
             OpaqueFunction(function=launch_common.data_loggers),
+            imu_node,
             rviz_node,
         ]
     )

@@ -1,10 +1,13 @@
 #include <FlexCAN_T4.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
 
 #define HEADER1 0xAA
 #define HEADER2 0x55
 #define MAX_MOTORS 8
 
-bool print_diagnostics = true;
+bool print_diagnostics = false;
 
 const float Kt = 1.9;
 
@@ -26,6 +29,8 @@ static inline void canWriteBoth(const CAN_message_t &msg)
 
 constexpr uint32_t DT_US = 500;
 static uint32_t last = 0;
+constexpr uint32_t IMU_DT_US = 10000; // 100 Hz
+static uint32_t last_imu_sample = 0;
 
 const float max_current = 3.0; // Amps
 bool send_command = false;
@@ -37,6 +42,15 @@ struct __attribute__((packed)) MotorStatus2 {
     float iq;
     float speed;
     float angle;
+};
+
+struct __attribute__((packed)) ImuRpyStatus {
+    float roll1;
+    float pitch1;
+    float yaw1;
+    float roll2;
+    float pitch2;
+    float yaw2;
 };
 
 float motorCmd[MAX_MOTORS];
@@ -78,6 +92,12 @@ uint32_t t_cmd_sent_us[MAX_MOTORS];
 
 
 //========================
+
+// Sensor #1 on Wire  (pins 18/19), address 0x28
+Adafruit_BNO055 bno1 = Adafruit_BNO055(55, 0x28, &Wire);
+
+// Sensor #2 on Wire1 (pins 16/17), address 0x28
+Adafruit_BNO055 bno2 = Adafruit_BNO055(56, 0x28, &Wire1);
 
 static inline uint8_t computeChecksum(uint8_t *data, int len)
 {
@@ -136,7 +156,7 @@ void handleSerialInput()
             break;
 
         case READ_PACKET:
-            //SerialUSB1.println("Packet received");
+            //SerialUSB2.println("Packet received");
             
             rxBuf[rxIndex++] = b;
 
@@ -144,7 +164,7 @@ void handleSerialInput()
             {
                 cmd_type = (rxBuf[0] >> 4) & 0x0F;
                 n_motors = rxBuf[0] & 0x0F;
-                //SerialUSB1.println(cmd_type);
+                //SerialUSB1.println(n_motors);
                 if (n_motors > MAX_MOTORS)
                 {
                     parserState = WAIT_HEADER1;
@@ -396,11 +416,55 @@ void canSystemCloseBreakAll()
     canWriteBoth(msg);
 }
 
+void sendImuRpy100Hz()
+{
+    return;
+    uint32_t now = micros();
+    if (now - last_imu_sample < IMU_DT_US)
+        return;
+
+    last_imu_sample = now;
+
+    // Read Euler angles from both sensors and stream as CSV: r1,p1,y1,r2,p2,y2
+    sensors_event_t event1;
+    bno1.getEvent(&event1);
+
+    sensors_event_t event2;
+    bno2.getEvent(&event2);
+
+    ImuRpyStatus imuData;
+    imuData.roll1 = event1.orientation.x;
+    imuData.pitch1 = event1.orientation.y;
+    imuData.yaw1 = event1.orientation.z;
+    imuData.roll2 = event2.orientation.x;
+    imuData.pitch2 = event2.orientation.y;
+    imuData.yaw2 = event2.orientation.z;
+
+    SerialUSB1.write(HEADER1);
+    SerialUSB1.write(HEADER2);
+    SerialUSB1.write((uint8_t *)&imuData, sizeof(ImuRpyStatus));
+}
+
 
 void setup()
 {
     Serial.begin(460800);     // telemetry
-    SerialUSB1.begin(460800); // diagnostics
+    SerialUSB1.begin(460800); // imus
+    SerialUSB2.begin(460800); // diagnostics
+
+    Wire.begin();   // I2C bus 0
+    Wire1.begin();  // I2C bus 1
+   if (!bno1.begin()) {
+        SerialUSB2.println("BNO055 #1 not found — check wiring!");
+        //while (1);
+    }
+    if (!bno2.begin()) {
+        SerialUSB2.println("BNO055 #2 not found — check wiring!");
+        //while (1);
+    }
+//
+    bno1.setExtCrystalUse(true);
+    bno2.setExtCrystalUse(true);
 
     Can1.begin();
     Can1.setBaudRate(1000000);
@@ -418,6 +482,8 @@ void setup()
 
 void loop()
 {
+    sendImuRpy100Hz();
+
     uint32_t now = micros();
 
     uint32_t loop_dt = now - last;
@@ -513,10 +579,10 @@ void loop()
     for (int i = 0; i < n_motors; i++)
     {
         Serial.write((uint8_t*)&motorData[i], sizeof(MotorStatus2));
-        //SerialUSB1.print("ID=");
-        //SerialUSB1.println(motorData[i].motorID);
-        //SerialUSB1.print("angle=");
-        SerialUSB1.println(motorData[i].angle);
+        //SerialUSB2.print("ID=");
+        //SerialUSB2.println(motorData[i].motorID);
+        //SerialUSB2.print("angle=");
+        //SerialUSB2.println(motorData[i].angle);
         iqSum += (motorData[i].iq / Kt);
     }
 
@@ -525,26 +591,26 @@ void loop()
 
     if (diag_counter >= DIAG_DECIMATION && print_diagnostics == true)
     {
-        SerialUSB1.print("iqTotal=");
-        SerialUSB1.println(iqSum);
+        SerialUSB2.print("iqTotal=");
+        SerialUSB2.println(iqSum);
         /*
         uint32_t rt_avg_us = roundtrip_sum_us / DIAG_DECIMATION;
         uint32_t motor_avg_us = (motor_lat_count > 0) ? (motor_lat_sum_us / motor_lat_count) : 0;
 
-        SerialUSB1.print("roundtrip_us avg:");
-        SerialUSB1.print(rt_avg_us);
-        SerialUSB1.print(" max:");
-        SerialUSB1.print(roundtrip_max_us);
-        SerialUSB1.print(" | motor_CAN_us avg:");
-        SerialUSB1.print(motor_avg_us);
-        SerialUSB1.print(" max:");
-        SerialUSB1.print(motor_lat_max_us);
-        SerialUSB1.print(" n:");
-        SerialUSB1.print(motor_lat_count);
-        SerialUSB1.print(" | loop_dt_us:");
-        SerialUSB1.print(last_loop_time);
-        SerialUSB1.print(" overruns:");
-        SerialUSB1.println(loop_overruns);
+        SerialUSB2.print("roundtrip_us avg:");
+        SerialUSB2.print(rt_avg_us);
+        SerialUSB2.print(" max:");
+        SerialUSB2.print(roundtrip_max_us);
+        SerialUSB2.print(" | motor_CAN_us avg:");
+        SerialUSB2.print(motor_avg_us);
+        SerialUSB2.print(" max:");
+        SerialUSB2.print(motor_lat_max_us);
+        SerialUSB2.print(" n:");
+        SerialUSB2.print(motor_lat_count);
+        SerialUSB2.print(" | loop_dt_us:");
+        SerialUSB2.print(last_loop_time);
+        SerialUSB2.print(" overruns:");
+        SerialUSB2.println(loop_overruns);
         */
         diag_counter = 0;
         roundtrip_sum_us = 0;
