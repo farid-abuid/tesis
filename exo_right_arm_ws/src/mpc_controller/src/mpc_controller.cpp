@@ -12,6 +12,14 @@
 
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
+// Set to 1 to enable debug prints from the control law, 0 to silence.
+#define DBG_ENABLED 0
+#if DBG_ENABLED
+#  define dbg(x) do { std::cerr << "[mpc] " << x << "\n"; } while(0)
+#else
+#  define dbg(x) do {} while(0)
+#endif
+
 namespace mpc_controller
 {
 
@@ -224,11 +232,9 @@ controller_interface::CallbackReturn MpcController::on_configure(
     "MPC gain built: n=%d N=%d dt=%.3f q_cost=%.1f dq_cost=%.2f u_cost=%.3f",
     n, horizon_, dt_, q_cost_, dq_cost_, u_cost_);
 
-  TrajectorySetpoint init;
-  init.positions.assign(joint_names_param_.size(), 0.0);
-  init.velocities.assign(joint_names_param_.size(), 0.0);
-  init.valid = true;
-  setpoint_buffer_.writeFromNonRT(init);
+  // Seed an invalid setpoint so the controller holds the current measured pose
+  // until a reference trajectory is explicitly published.
+  setpoint_buffer_.writeFromNonRT(TrajectorySetpoint{});
 
   RCLCPP_INFO(
     get_node()->get_logger(),
@@ -395,11 +401,6 @@ controller_interface::return_type MpcController::update(
   const rclcpp::Time & time,
   const rclcpp::Duration &)
 {
-  TrajectorySetpoint * sp_ptr = setpoint_buffer_.readFromRT();
-  if (!sp_ptr->valid || sp_ptr->positions.size() != joint_names_.size()) {
-    return controller_interface::return_type::ERROR;
-  }
-
   std::vector<double> q_meas(joint_names_.size());
   std::vector<double> dq_meas(joint_names_.size());
   for (size_t i = 0; i < joint_names_.size(); ++i) {
@@ -408,6 +409,17 @@ controller_interface::return_type MpcController::update(
     if (!q_opt || !dq_opt) return controller_interface::return_type::ERROR;
     q_meas[i] = *q_opt;
     dq_meas[i] = *dq_opt;
+  }
+
+  TrajectorySetpoint * sp_ptr = setpoint_buffer_.readFromRT();
+  TrajectorySetpoint hold_sp;
+  if (!sp_ptr->valid || sp_ptr->positions.size() != joint_names_.size()) {
+    // No reference trajectory yet — hold the current measured pose.
+    hold_sp.positions = q_meas;
+    hold_sp.velocities.assign(joint_names_.size(), 0.0);
+    hold_sp.accelerations.assign(joint_names_.size(), 0.0);
+    hold_sp.valid = true;
+    sp_ptr = &hold_sp;
   }
 
   //===============================================================================================

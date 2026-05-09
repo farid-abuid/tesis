@@ -297,6 +297,13 @@ ros2 run exo_utils exo_trajectory_player --ros-args \
   -p input_file:=~/recorded_trajs/my_traj.csv -p loop:=true
 ```
 
+Hold last setpoint after playback ends (controllers keep tracking the final pose instead of reverting to measured position):
+
+```bash
+ros2 run exo_utils exo_trajectory_player --ros-args \
+  -p input_file:=~/recorded_trajs/my_traj.csv -p hold_last:=true
+```
+
 ## Common troubleshooting
 
 ### Package not found

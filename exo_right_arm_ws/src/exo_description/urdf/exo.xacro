@@ -7,6 +7,8 @@
 <xacro:arg name="controller_config_right" default=""/>
 <!-- arms: right (default), left, or dual. All three modes use prefixed joints. -->
 <xacro:arg name="arms" default="right"/>
+<!-- Set to true to include collision geometry and joint friction/damping (simulation only). -->
+<xacro:arg name="joint_dynamics" default="false"/>
 
 <!-- Optional fixed mounts (base_link) for each arm in dual mode (meters, radians). -->
 <xacro:arg name="right_mount_x" default="0"/>
@@ -46,12 +48,14 @@
 <xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'right'}">
   <xacro:exo_arm_right prefix="right_"
     mount_x="${xacro.arg('right_mount_x')}" mount_y="${xacro.arg('right_mount_y')}" mount_z="${xacro.arg('right_mount_z')}"
-    mount_roll="${xacro.arg('right_mount_roll')}" mount_pitch="${xacro.arg('right_mount_pitch')}" mount_yaw="${xacro.arg('right_mount_yaw')}"/>
+    mount_roll="${xacro.arg('right_mount_roll')}" mount_pitch="${xacro.arg('right_mount_pitch')}" mount_yaw="${xacro.arg('right_mount_yaw')}"
+    joint_dynamics="${xacro.arg('joint_dynamics')}"/>
 </xacro:if>
 <xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'left'}">
   <xacro:exo_arm_left prefix="left_"
     mount_x="${xacro.arg('left_mount_x')}" mount_y="${xacro.arg('left_mount_y')}" mount_z="${xacro.arg('left_mount_z')}"
-    mount_roll="${xacro.arg('left_mount_roll')}" mount_pitch="${xacro.arg('left_mount_pitch')}" mount_yaw="${xacro.arg('left_mount_yaw')}"/>
+    mount_roll="${xacro.arg('left_mount_roll')}" mount_pitch="${xacro.arg('left_mount_pitch')}" mount_yaw="${xacro.arg('left_mount_yaw')}"
+    joint_dynamics="${xacro.arg('joint_dynamics')}"/>
 </xacro:if>
 
 <ros2_control name="exo_system" type="system">
@@ -88,19 +92,25 @@
   <xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'right'}">
     <joint name="right_revolute_1">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-1.53</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
     <joint name="right_revolute_2">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-2.82</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
     <joint name="right_revolute_3">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-2.00</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
@@ -108,19 +118,25 @@
   <xacro:if value="${xacro.arg('arms') == 'dual' or xacro.arg('arms') == 'left'}">
     <joint name="left_revolute_1">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-1.53</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
     <joint name="left_revolute_2">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-2.82</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
     <joint name="left_revolute_3">
       <command_interface name="effort"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-2.00</param>
+      </state_interface>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>

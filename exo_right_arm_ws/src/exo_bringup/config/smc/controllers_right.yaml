@@ -31,10 +31,10 @@ right_smc_controller:
     urdf_path: ""
     dynamics_urdf_filename: exo_dynamics_right.urdf
     reference_trajectory_topic: /right/reference_trajectory
-    lambda: 10.0
-    k_switch: 15.0
+    lambda: 25.0
+    k_switch: 100.0
     k_p: 10.0
-    phi: 0.1
+    phi: 15.0
     publish_telemetry: true
     telemetry_topic: /right/smc_controller/telemetry
     logging_session_topic: /right/smc_controller/logging/session

@@ -42,6 +42,11 @@ def generate_launch_description():
     declare_left_mount_roll = DeclareLaunchArgument("left_mount_roll", default_value="0")
     declare_left_mount_pitch = DeclareLaunchArgument("left_mount_pitch", default_value="0")
     declare_left_mount_yaw = DeclareLaunchArgument("left_mount_yaw", default_value="0")
+    declare_joint_dynamics = DeclareLaunchArgument(
+        "joint_dynamics",
+        default_value="true",
+        description="Enable collision geometry and joint friction/damping in simulation.",
+    )
 
     robot_description = ParameterValue(
         launch_common.robot_description_command(
@@ -159,6 +164,7 @@ def generate_launch_description():
             declare_left_mount_roll,
             declare_left_mount_pitch,
             declare_left_mount_yaw,
+            declare_joint_dynamics,
             OpaqueFunction(function=launch_common.gazebo_sim_flag),
             OpaqueFunction(function=launch_common.set_gazebo_controller_config_names),
             kill_gz,

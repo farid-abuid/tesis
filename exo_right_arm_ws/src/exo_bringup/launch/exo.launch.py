@@ -52,6 +52,11 @@ def generate_launch_description():
     declare_left_mount_roll = DeclareLaunchArgument("left_mount_roll", default_value="0.0")
     declare_left_mount_pitch = DeclareLaunchArgument("left_mount_pitch", default_value="0.0")
     declare_left_mount_yaw = DeclareLaunchArgument("left_mount_yaw", default_value="0.0")
+    declare_joint_dynamics = DeclareLaunchArgument(
+        "joint_dynamics",
+        default_value="false",
+        description="Enable collision geometry and joint friction/damping (simulation only).",
+    )
     enable_rviz = LaunchConfiguration("enable_rviz")
 
     robot_description = launch_common.robot_description_command("real")
@@ -126,6 +131,7 @@ def generate_launch_description():
             declare_left_mount_roll,
             declare_left_mount_pitch,
             declare_left_mount_yaw,
+            declare_joint_dynamics,
             robot_state_pub,
             joint_state_merger,
             OpaqueFunction(function=_control_node),

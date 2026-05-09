@@ -192,6 +192,8 @@ def robot_description_command(hardware: str, include_gazebo_controller_config: b
         LaunchConfiguration("left_mount_pitch"),
         " left_mount_yaw:=",
         LaunchConfiguration("left_mount_yaw"),
+        " joint_dynamics:=",
+        LaunchConfiguration("joint_dynamics"),
     ]
     if include_gazebo_controller_config:
         parts += [

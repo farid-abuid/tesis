@@ -4,6 +4,8 @@ import csv
 import os
 from pathlib import Path
 
+import numpy as np
+
 import rclpy
 from rclpy.node import Node
 from builtin_interfaces.msg import Duration as DurationMsg
@@ -24,6 +26,10 @@ class TrajectoryPlayerNode(Node):
                                '/right_position_controller/commands')
         self.declare_parameter('frequency', 0.0)
         self.declare_parameter('loop', False)
+        self.declare_parameter('hold_last', True)
+        # Moving-average window applied to acceleration columns at load time.
+        # 0 = disabled. Larger values smooth more (e.g. 25 = 50 ms at 500 Hz).
+        self.declare_parameter('acc_filter_window', 0)
 
         input_file = self.get_parameter('input_file').value
         if not input_file:
@@ -33,6 +39,9 @@ class TrajectoryPlayerNode(Node):
         self._input_path = Path(os.path.expanduser(input_file))
         self._freq_override = float(self.get_parameter('frequency').value)
         self._loop = bool(self.get_parameter('loop').value)
+        self._hold_last = bool(self.get_parameter('hold_last').value)
+        self._hold_logged = False
+        self._acc_filter_window = int(self.get_parameter('acc_filter_window').value)
         self._joint_names: list[str] = []
         self._rows: list[dict] = []
         self._load_csv()
@@ -87,7 +96,8 @@ class TrajectoryPlayerNode(Node):
         )
         self.get_logger().info(
             f'Trajectory player: {len(self._rows)} points at {freq:.1f} Hz '
-            f'from {self._input_path} [{summary}] (loop={self._loop})')
+            f'from {self._input_path} [{summary}] '
+            f'(loop={self._loop}, hold_last={self._hold_last})')
 
     def _load_csv(self) -> None:
         with self._input_path.open(newline='') as f:
@@ -96,27 +106,47 @@ class TrajectoryPlayerNode(Node):
                 return
             fields = list(reader.fieldnames)
             seen: list[str] = []
-            acc_joints: set[str] = set()
+            acc_cols: list[str] = []
             for col in fields:
                 if col.endswith('_pos'):
                     seen.append(col[:-4])
                 elif col.endswith('_acc'):
-                    acc_joints.add(col[:-4])
+                    acc_cols.append(col)
             self._joint_names = seen
-            self._has_acc = bool(acc_joints)
+            self._has_acc = bool(acc_cols)
             self._rows = list(reader)
+
+        w = self._acc_filter_window
+        if self._has_acc and w > 1 and self._rows:
+            kernel = np.ones(w) / w
+            for col in acc_cols:
+                raw = np.array([float(r[col]) for r in self._rows])
+                smoothed = np.convolve(raw, kernel, mode='same')
+                for i, row in enumerate(self._rows):
+                    row[col] = smoothed[i]
+            self.get_logger().info(
+                f'Acceleration columns smoothed with window={w} samples')
 
     def _publish_tick(self) -> None:
         if self._current_idx >= len(self._rows):
             if self._loop:
                 self._current_idx = 0
+            elif self._hold_last:
+                if not self._hold_logged:
+                    self.get_logger().info(
+                        'Trajectory playback finished — holding last setpoint')
+                    self._hold_logged = True
+                self._publish_row(self._rows[-1])
+                return
             else:
                 self._timer.cancel()
                 self.get_logger().info('Trajectory playback finished')
                 return
 
-        row = self._rows[self._current_idx]
+        self._publish_row(self._rows[self._current_idx])
+        self._current_idx += 1
 
+    def _publish_row(self, row: dict) -> None:
         for key, joints in self._groups.items():
             traj_pub, pos_pub, _, _ = self._pubs[key]
             msg = JointTrajectory()
@@ -139,8 +169,6 @@ class TrajectoryPlayerNode(Node):
             pos_msg = Float64MultiArray()
             pos_msg.data = list(pt.positions)
             pos_pub.publish(pos_msg)
-
-        self._current_idx += 1
 
 
 def main(args=None) -> None:
