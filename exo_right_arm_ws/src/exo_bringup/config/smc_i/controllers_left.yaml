@@ -6,8 +6,8 @@ controller_manager:
     left_joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    left_smc_controller:
-      type: smc_controller/SmcController
+    left_smc_i_controller:
+      type: smc_i_controller/SmcIController
 
 left_joint_state_broadcaster:
   ros__parameters:
@@ -21,7 +21,7 @@ left_joint_state_broadcaster:
       - effort
     use_local_topics: true
 
-left_smc_controller:
+left_smc_i_controller:
   ros__parameters:
     joints:
       - left_revolute_1
@@ -35,7 +35,8 @@ left_smc_controller:
     k_switch: 100.0
     k_p: 10.0
     phi: 15.0
+    i_clamp: 0.1
     publish_telemetry: true
-    telemetry_topic: /left/smc_controller/telemetry
-    logging_session_topic: /left/smc_controller/logging/session
+    telemetry_topic: /left/smc_i_controller/telemetry
+    logging_session_topic: /left/smc_i_controller/logging/session
     imu_topic: /left/imu

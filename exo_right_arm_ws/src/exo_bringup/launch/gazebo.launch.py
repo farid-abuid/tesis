@@ -47,6 +47,29 @@ def generate_launch_description():
         default_value="true",
         description="Enable collision geometry and joint friction/damping in simulation.",
     )
+    # Simulation-only mass disturbances (kg). Added to the link's nominal mass in
+    # the Gazebo robot description; the pre-built dynamics URDFs used by
+    # model-based controllers are not regenerated, so the dynamic model is unaware.
+    sim_mass_args = [
+        DeclareLaunchArgument(f"{side}_extra_mass_component_{i}", default_value="0.0",
+                              description=f"Extra mass [kg] added to {side}_component_{i} in Gazebo only.")
+        for side in ("right", "left")
+        for i in (1, 2, 3, 4)
+    ] + [
+        DeclareLaunchArgument(f"{side}_payload_mass", default_value="0.0",
+                              description=f"End-effector payload [kg] added to {side}_component_4 in Gazebo only.")
+        for side in ("right", "left")
+    ] + [
+        DeclareLaunchArgument(
+            "extra_mass_radius", default_value="0.05",
+            description="Sphere radius [m] used for the inertia contribution of every "
+                        "extra mass (sim only). Δ_ixx = Δ_iyy = Δ_izz = (2/5)·m·r²."),
+        DeclareLaunchArgument(
+            "sim_disturbance", default_value="",
+            description="YAML preset (stem or path) under config/sim_disturbance/ that "
+                        "populates the per-link extra masses, payloads and radius. "
+                        "Empty (default) disables all disturbances."),
+    ]
 
     robot_description = ParameterValue(
         launch_common.robot_description_command(
@@ -165,6 +188,8 @@ def generate_launch_description():
             declare_left_mount_pitch,
             declare_left_mount_yaw,
             declare_joint_dynamics,
+            *sim_mass_args,
+            OpaqueFunction(function=launch_common.apply_sim_disturbance),
             OpaqueFunction(function=launch_common.gazebo_sim_flag),
             OpaqueFunction(function=launch_common.set_gazebo_controller_config_names),
             kill_gz,

@@ -1,0 +1,8 @@
+<library path="smc_i_controller">
+  <class
+    name="smc_i_controller/SmcIController"
+    type="smc_i_controller::SmcIController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Sliding mode control with integral action on the tracking error and tanh boundary layer.</description>
+  </class>
+</library>

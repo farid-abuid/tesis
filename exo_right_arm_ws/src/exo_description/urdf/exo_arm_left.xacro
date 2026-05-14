@@ -1,8 +1,17 @@
 <?xml version="1.0" ?>
 <robot name="exo_arm_left" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:macro name="exo_arm_left" params="prefix mount_x mount_y mount_z mount_roll mount_pitch mount_yaw joint_dynamics:=false">
+<xacro:macro name="exo_arm_left" params="prefix mount_x mount_y mount_z mount_roll mount_pitch mount_yaw joint_dynamics:=false
+  m_extra_component_1:=0 m_extra_component_2:=0 m_extra_component_3:=0 m_extra_component_4:=0 m_payload:=0
+  extra_mass_radius:=0.05">
 <xacro:property name="arm_base_link" value="${prefix + 'base_link' if prefix != '' else 'base_link'}"/>
+<!-- Each extra mass is modeled as a uniform solid sphere centered at the link's
+     existing COM; contribution to ixx/iyy/izz is (2/5)*m*r^2. Off-diagonals are
+     unaffected because the sphere is symmetric about the same COM. -->
+<xacro:property name="_di_c1" value="${0.4 * m_extra_component_1 * extra_mass_radius * extra_mass_radius}"/>
+<xacro:property name="_di_c2" value="${0.4 * m_extra_component_2 * extra_mass_radius * extra_mass_radius}"/>
+<xacro:property name="_di_c3" value="${0.4 * m_extra_component_3 * extra_mass_radius * extra_mass_radius}"/>
+<xacro:property name="_di_c4" value="${0.4 * (m_extra_component_4 + m_payload) * extra_mass_radius * extra_mass_radius}"/>
 
 <xacro:if value="${prefix != ''}">
   <joint name="${prefix}mount_joint" type="fixed">
@@ -61,8 +70,8 @@
 <link name="${prefix}component_1">
   <inertial>
     <origin xyz="0.017291080002229037 0.002735639742798342 0.08182000531860147" rpy="0 0 0"/>
-    <mass value="0.13580987071810816"/>
-    <inertia ixx="0.000224" iyy="0.000337" izz="0.000165" ixy="4e-06" iyz="-2e-06" ixz="-0.000101"/>
+    <mass value="${0.13580987071810816 + m_extra_component_1}"/>
+    <inertia ixx="${0.000224 + _di_c1}" iyy="${0.000337 + _di_c1}" izz="${0.000165 + _di_c1}" ixy="4e-06" iyz="-2e-06" ixz="-0.000101"/>
   </inertial>
   <visual>
     <origin xyz="0.097353 -0.00061 0.063136" rpy="0 0 0"/>
@@ -107,8 +116,8 @@
 <link name="${prefix}component_2">
   <inertial>
     <origin xyz="0.02130252609513996 -0.06354392139822984 -0.004297968633705511" rpy="0 0 0"/>
-    <mass value="0.06901401596668413"/>
-    <inertia ixx="0.000158" iyy="2.6e-05" izz="0.000182" ixy="5e-05" iyz="5e-06" ixz="-2e-06"/>
+    <mass value="${0.06901401596668413 + m_extra_component_2}"/>
+    <inertia ixx="${0.000158 + _di_c2}" iyy="${2.6e-05 + _di_c2}" izz="${0.000182 + _di_c2}" ixy="5e-05" iyz="5e-06" ixz="-2e-06"/>
   </inertial>
   <visual>
     <origin xyz="0.010353 -0.00424 -0.040801" rpy="0 0 0"/>
@@ -130,8 +139,8 @@
 <link name="${prefix}component_3">
   <inertial>
     <origin xyz="0.03615700401627118 -0.08448867239925995 -0.008977979556696391" rpy="0 0 0"/>
-    <mass value="0.25726311190565365"/>
-    <inertia ixx="0.001177" iyy="0.000369" izz="0.001416" ixy="0.0004" iyz="2.1e-05" ixz="3.6e-05"/>
+    <mass value="${0.25726311190565365 + m_extra_component_3}"/>
+    <inertia ixx="${0.001177 + _di_c3}" iyy="${0.000369 + _di_c3}" izz="${0.001416 + _di_c3}" ixy="0.0004" iyz="2.1e-05" ixz="3.6e-05"/>
   </inertial>
   <visual>
     <origin xyz="-0.007995 0.050713 -0.030712" rpy="0 0 0"/>
@@ -176,8 +185,8 @@
 <link name="${prefix}component_4">
   <inertial>
     <origin xyz="-0.08439620971621951 0.0033097944704012505 -0.008999385990610932" rpy="0 0 0"/>
-    <mass value="0.07092471532695957"/>
-    <inertia ixx="4.2e-05" iyy="0.000201" izz="0.000218" ixy="1.3e-05" iyz="-1e-05" ixz="-2.2e-05"/>
+    <mass value="${0.07092471532695957 + m_extra_component_4 + m_payload}"/>
+    <inertia ixx="${4.2e-05 + _di_c4}" iyy="${0.000201 + _di_c4}" izz="${0.000218 + _di_c4}" ixy="1.3e-05" iyz="-1e-05" ixz="-2.2e-05"/>
   </inertial>
   <visual>
     <origin xyz="-0.079795 0.264831 -0.043287" rpy="0 0 0"/>

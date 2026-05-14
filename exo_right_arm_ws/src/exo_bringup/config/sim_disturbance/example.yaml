@@ -1,0 +1,24 @@
+# Simulation-only mass disturbances (kg). All entries are optional; omitted keys
+# fall back to the launch-arg default (0.0 mass, 0.05 m radius). Loaded by
+# `gazebo.launch.py` when `sim_disturbance:=<file>` is passed; the pre-built
+# dynamics URDF used by model-based controllers is never regenerated, so the
+# controller's dynamic model stays unaware of these perturbations.
+#
+# Each extra mass is modeled as a uniform solid sphere centered at the link's
+# existing COM; its inertia contribution is Δ_ixx = Δ_iyy = Δ_izz = (2/5)·m·r².
+
+extra_mass_radius: 0.05  # shared sphere radius [m] for all extras below
+
+right:
+  component_1: 0.0
+  component_2: 0.0
+  component_3: 0.3
+  component_4: 0.0
+  payload: 2.5            # end-effector payload [kg]
+
+left:
+  component_1: 0.0
+  component_2: 0.0
+  component_3: 0.0
+  component_4: 0.0
+  payload: 2.5

@@ -7,6 +7,7 @@ controller_manager.
 
 import os
 
+import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import SetLaunchConfiguration
 from launch.substitutions import (
@@ -26,6 +27,7 @@ _GRAV_COMP_MODES = (
     "mpc",
     "admittance",
     "impedance",
+    "smc_i"
 )
 
 
@@ -57,6 +59,46 @@ def set_controller_yaml(context):
 
 def gazebo_sim_flag(context):
     return [SetLaunchConfiguration("exo_in_gazebo", "true")]
+
+
+def apply_sim_disturbance(context):
+    """Translate `sim_disturbance:=<spec>` into the per-link launch configs.
+
+    `spec` can be: empty (disabled, no-op), a bare filename / stem looked up in
+    `share/exo_bringup/config/sim_disturbance/`, or an absolute path. Any key
+    missing from the YAML keeps its launch-arg default.
+    """
+    spec = context.launch_configurations.get("sim_disturbance", "").strip()
+    if not spec:
+        return []
+    if not os.path.isabs(spec):
+        cfg_dir = os.path.join(
+            get_package_share_directory("exo_bringup"), "config", "sim_disturbance"
+        )
+        candidate = spec if spec.endswith(".yaml") else f"{spec}.yaml"
+        spec = os.path.join(cfg_dir, candidate)
+    with open(spec) as f:
+        data = yaml.safe_load(f) or {}
+    actions = []
+    if "extra_mass_radius" in data:
+        actions.append(
+            SetLaunchConfiguration("extra_mass_radius", str(data["extra_mass_radius"]))
+        )
+    for side in ("right", "left"):
+        side_block = data.get(side) or {}
+        for i in (1, 2, 3, 4):
+            key = f"component_{i}"
+            if key in side_block:
+                actions.append(
+                    SetLaunchConfiguration(
+                        f"{side}_extra_mass_{key}", str(side_block[key])
+                    )
+                )
+        if "payload" in side_block:
+            actions.append(
+                SetLaunchConfiguration(f"{side}_payload_mass", str(side_block["payload"]))
+            )
+    return actions
 
 
 def set_gazebo_controller_config_names(context):
@@ -157,8 +199,25 @@ def data_loggers(context):
     ]
 
 
+_SIM_MASS_ARGS = (
+    "right_extra_mass_component_1",
+    "right_extra_mass_component_2",
+    "right_extra_mass_component_3",
+    "right_extra_mass_component_4",
+    "right_payload_mass",
+    "left_extra_mass_component_1",
+    "left_extra_mass_component_2",
+    "left_extra_mass_component_3",
+    "left_extra_mass_component_4",
+    "left_payload_mass",
+    "extra_mass_radius",
+)
+
+
 def robot_description_command(hardware: str, include_gazebo_controller_config: bool = False):
-    """hardware: 'real' or 'gazebo'."""
+    """hardware: 'real' or 'gazebo'. When hardware == 'gazebo', per-link sim mass
+    disturbance args are forwarded so Gazebo's robot sees them; the pre-built
+    dynamics URDFs used by model-based controllers are unaffected."""
     arms = LaunchConfiguration("arms")
     parts = [
         "xacro ",
@@ -195,6 +254,9 @@ def robot_description_command(hardware: str, include_gazebo_controller_config: b
         " joint_dynamics:=",
         LaunchConfiguration("joint_dynamics"),
     ]
+    if hardware == "gazebo":
+        for name in _SIM_MASS_ARGS:
+            parts += [f" {name}:=", LaunchConfiguration(name)]
     if include_gazebo_controller_config:
         parts += [
             " controller_config_left:=",

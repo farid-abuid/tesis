@@ -1,0 +1,42 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    right_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    right_smc_i_controller:
+      type: smc_i_controller/SmcIController
+
+right_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+right_smc_i_controller:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    dynamics_backend: pinocchio
+    urdf_path: ""
+    dynamics_urdf_filename: exo_dynamics_right.urdf
+    reference_trajectory_topic: /right/reference_trajectory
+    lambda: 25.0
+    k_switch: 100.0
+    k_p: 10.0
+    phi: 15.0
+    i_clamp: 0.1
+    publish_telemetry: true
+    telemetry_topic: /right/smc_i_controller/telemetry
+    logging_session_topic: /right/smc_i_controller/logging/session
+    imu_topic: /right/imu

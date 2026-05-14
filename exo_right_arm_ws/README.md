@@ -59,6 +59,65 @@ ros2 launch exo_bringup gazebo.launch.py arms:=left control_mode:=effort enable_
 ros2 launch exo_bringup gazebo.launch.py arms:=dual control_mode:=effort enable_data_logger:=false
 ```
 
+### Simulation-only mass disturbances (Gazebo)
+
+`gazebo.launch.py` can inject extra masses into the Gazebo robot to test
+controller robustness against modeling error. The pre-built dynamics URDF
+(`exo_dynamics_{right,left}.urdf`) consumed by model-based controllers is
+**not** regenerated, so the controller's dynamic model stays unaware of these
+perturbations.
+
+Where mass can be added (per arm):
+- `component_1`, `component_2`, `component_3`, `component_4` — link extras
+- `payload` — extra mass at the end-effector (added on top of `component_4`)
+
+Each extra mass is modeled as a uniform solid sphere centered at the link's
+existing COM, so its inertia contribution is
+`Δ_ixx = Δ_iyy = Δ_izz = (2/5)·m·r²` with a shared radius `extra_mass_radius`
+(default `0.05 m`). Motor links are intentionally excluded.
+
+#### Preset YAML (recommended)
+
+Presets live under `src/exo_bringup/config/sim_disturbance/`. Schema (all keys
+optional — omitted keys fall back to launch-arg defaults):
+
+```yaml
+extra_mass_radius: 0.05   # shared sphere radius [m]
+right:
+  component_1: 0.0
+  component_2: 0.0
+  component_3: 0.3
+  component_4: 0.0
+  payload: 2.5            # end-effector payload [kg]
+left:
+  payload: 2.5
+```
+
+Enable a preset by stem or absolute path:
+
+```bash
+ros2 launch exo_bringup gazebo.launch.py control_mode:=smc sim_disturbance:=example
+ros2 launch exo_bringup gazebo.launch.py control_mode:=smc \
+  sim_disturbance:=/tmp/my_disturbance.yaml
+```
+
+Drop new YAML files into the same directory and rebuild `exo_bringup` to make
+them discoverable as new stems.
+
+#### Per-arg override (no YAML)
+
+```bash
+ros2 launch exo_bringup gazebo.launch.py control_mode:=smc \
+  right_payload_mass:=1.5 \
+  right_extra_mass_component_3:=0.3 \
+  extra_mass_radius:=0.07
+```
+
+When both are provided, the YAML wins over CLI args.
+
+Defaults: `sim_disturbance:=""` (disabled, all 0); every per-link arg defaults
+to `0.0`; `extra_mass_radius:=0.05`.
+
 ### Control modes
 
 `control_mode` selects one YAML per active arm under `src/exo_bringup/config/`.
