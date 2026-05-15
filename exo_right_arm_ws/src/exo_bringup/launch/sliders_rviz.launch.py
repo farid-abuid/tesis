@@ -56,6 +56,13 @@ def generate_launch_description():
         output="screen",
     )
 
+    fk_marker_node = Node(
+        package="exo_utils",
+        executable="exo_fk_marker_node",
+        name="exo_fk_marker",
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             declare_arms,
@@ -74,5 +81,6 @@ def generate_launch_description():
             robot_state_pub,
             joint_state_pub_gui,
             rviz_node,
+            fk_marker_node,
         ]
     )

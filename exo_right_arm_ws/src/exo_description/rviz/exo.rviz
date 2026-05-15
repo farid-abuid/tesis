@@ -6,6 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
+        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 542
   - Class: rviz_common/Selection
@@ -61,54 +63,98 @@ Visualization Manager:
       Enabled: true
       Links:
         All Links Enabled: true
-        Componente2_v1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Componente3_v1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Componente4_v1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Componente5_v1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        Motor1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Motor2_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        Motor3_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
           Value: true
+        left_component_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_component_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_component_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_component_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_motor_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_motor_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_motor_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_component_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_component_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_component_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_component_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_motor_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_motor_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_motor_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Mass Properties:
         Inertia: false
         Mass: false
@@ -117,30 +163,81 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: FK End-Effector
+      Namespaces:
+        exo_fk_left: true
+        exo_fk_right: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /fk_marker
+      Value: true
     - Class: rviz_default_plugins/TF
       Enabled: true
       Filter (blacklist): ""
       Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
-        All Enabled: true
-        Componente2_v1_1:
-          Value: true
-        Componente3_v1_1:
-          Value: true
-        Componente4_v1_1:
-          Value: true
-        Componente5_v1_1:
-          Value: true
-        Motor1_1:
-          Value: true
-        Motor2_1:
-          Value: true
-        Motor3_1:
-          Value: true
-        base:
-          Value: true
+        All Enabled: false
         base_link:
+          Value: true
+        left_base_link:
+          Value: true
+        left_component_1:
+          Value: true
+        left_component_2:
+          Value: true
+        left_component_3:
+          Value: true
+        left_component_4:
+          Value: true
+        left_dh_0:
+          Value: false
+        left_dh_1:
+          Value: false
+        left_dh_2:
+          Value: false
+        left_dh_3:
+          Value: false
+        left_dh_ee:
+          Value: false
+        left_motor_1:
+          Value: true
+        left_motor_2:
+          Value: true
+        left_motor_3:
+          Value: true
+        right_base_link:
+          Value: true
+        right_component_1:
+          Value: true
+        right_component_2:
+          Value: true
+        right_component_3:
+          Value: true
+        right_component_4:
+          Value: true
+        right_dh_0:
+          Value: false
+        right_dh_1:
+          Value: false
+        right_dh_2:
+          Value: false
+        right_dh_3:
+          Value: false
+        right_dh_ee:
+          Value: false
+        right_motor_1:
+          Value: true
+        right_motor_2:
+          Value: true
+        right_motor_3:
+          Value: true
+        world:
           Value: true
       Marker Scale: 0.5
       Name: TF
@@ -148,16 +245,38 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        base:
+        world:
           base_link:
-            Motor1_1:
-              Componente2_v1_1:
-                Motor2_1:
-                  Componente3_v1_1:
-                    Componente4_v1_1:
-                      Motor3_1:
-                        Componente5_v1_1:
-                          {}
+            left_base_link:
+              left_dh_0:
+                left_dh_1:
+                  left_dh_2:
+                    left_dh_3:
+                      left_dh_ee:
+                        {}
+              left_motor_1:
+                left_component_1:
+                  left_motor_2:
+                    left_component_2:
+                      left_component_3:
+                        left_motor_3:
+                          left_component_4:
+                            {}
+            right_base_link:
+              right_dh_0:
+                right_dh_1:
+                  right_dh_2:
+                    right_dh_3:
+                      right_dh_ee:
+                        {}
+              right_motor_1:
+                right_component_1:
+                  right_motor_2:
+                    right_component_2:
+                      right_component_3:
+                        right_motor_3:
+                          right_component_4:
+                            {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -221,10 +340,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7903988361358643
+      Pitch: 0.42039936780929565
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6653823852539062
+      Yaw: 5.613564491271973
     Saved: ~
 Window Geometry:
   Displays:

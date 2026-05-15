@@ -9,6 +9,11 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(pinocchio REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 find_library(RBDL_LIBRARY NAMES rbdl RBDL DOC "RBDL shared library")
 find_path(RBDL_INCLUDE_DIR NAMES rbdl/rbdl.h DOC "RBDL headers")
@@ -49,12 +54,27 @@ if(HAVE_RBDL)
   target_link_libraries(exo_utils PRIVATE ${RBDL_LIBRARY} urdf::urdf)
 endif()
 
+add_executable(exo_fk_marker_node src/nodes/fk_marker_node.cpp)
+ament_target_dependencies(exo_fk_marker_node
+  rclcpp
+  sensor_msgs
+  visualization_msgs
+  geometry_msgs
+  tf2_ros
+)
+target_link_libraries(exo_fk_marker_node exo_utils)
+
 install(
   TARGETS exo_utils
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
+)
+
+install(
+  TARGETS exo_fk_marker_node
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY include/ DESTINATION include)

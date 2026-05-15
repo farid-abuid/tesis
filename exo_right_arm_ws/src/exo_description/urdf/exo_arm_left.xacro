@@ -206,14 +206,14 @@
 </link>
 
 <joint name="${prefix}revolute_1" type="revolute">
-  <origin xyz="-0.094353 0.00061 -0.063136" rpy="0 0 0"/>
+  <origin xyz="-0.094353 0.00061 -0.063136" rpy="-1.5358897 0 0"/>
   <parent link="${arm_base_link}"/>
   <child link="${prefix}motor_1"/>
   <axis xyz="1.0 0.0 0.0"/>
   <xacro:if value="${joint_dynamics}">
   <dynamics damping="0.012" friction="0.1184"/>
   </xacro:if>
-  <limit lower="-3.14" upper="0" effort="20" velocity="11"/>
+  <limit lower="-1.6041" upper="1.5359" effort="20" velocity="11"/>
 </joint>
 
 <joint name="${prefix}fixed_1" type="fixed">
@@ -229,14 +229,14 @@
 </joint>
 
 <joint name="${prefix}revolute_2" type="revolute">
-  <origin xyz="0.0 -0.000105 -0.002998" rpy="0 0 0"/>
+  <origin xyz="0.0 -0.000105 -0.002998" rpy="0.0679119 0.0113622 2.8101676"/>
   <parent link="${prefix}motor_2"/>
   <child link="${prefix}component_2"/>
   <axis xyz="0.0 -0.034899 -0.999391"/>
   <xacro:if value="${joint_dynamics}">
   <dynamics damping="0.012" friction="0.1184"/>
   </xacro:if>
-  <limit lower="-3.3" upper="0" effort="20" velocity="11"/>
+  <limit lower="-0.4900" upper="2.8100" effort="20" velocity="11"/>
 </joint>
 
 <joint name="${prefix}fixed_3" type="fixed">
@@ -246,14 +246,14 @@
 </joint>
 
 <joint name="${prefix}revolute_3" type="revolute">
-  <origin xyz="0.071795 -0.214215 0.009576" rpy="0 0 0"/>
+  <origin xyz="0.071795 -0.214215 0.009576" rpy="0.0499166 0.0254288 2.0945769"/>
   <parent link="${prefix}component_3"/>
   <child link="${prefix}motor_3"/>
   <axis xyz="-0.001694 -0.032292 -0.999477"/>
   <xacro:if value="${joint_dynamics}">
   <dynamics damping="0.012" friction="0.1184"/>
   </xacro:if>
-  <limit lower="-2.08" upper="0" effort="20" velocity="11"/>
+  <limit lower="0" upper="2.0944" effort="20" velocity="11"/>
 </joint>
 
 <joint name="${prefix}fixed_4" type="fixed">
