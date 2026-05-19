@@ -46,6 +46,7 @@ bool controlLaw(
   const std::vector<double> & dq,
   Eigen::VectorXd & tau,
   std::vector<double> & tau_g,
+  Eigen::VectorXd & s_out,
   std::string * error)
 {
   const Eigen::Index n = static_cast<Eigen::Index>(names.size());
@@ -84,6 +85,7 @@ bool controlLaw(
   }
 
   tau = M * (v - lambda * de + ddq_des_v) + C * dq_v + g_v;
+  s_out = s;
   return true;
 }
 
@@ -393,10 +395,11 @@ controller_interface::return_type SmcIController::update(
   std::vector<double> tau_g;
   std::string ctrl_err;
   Eigen::VectorXd tau_vec;
+  Eigen::VectorXd s_vec;
   if (!controlLaw(
       *dynamics_, joint_names_, lambda_, k_p_, k_switch_, phi_, integral_error_,
       sp_ptr->positions, sp_ptr->velocities, sp_ptr->accelerations,
-      q_meas, dq_meas, tau_vec, tau_g, &ctrl_err))
+      q_meas, dq_meas, tau_vec, tau_g, s_vec, &ctrl_err))
   {
     RCLCPP_ERROR_THROTTLE(
       get_node()->get_logger(), *get_node()->get_clock(), 1000,
@@ -427,11 +430,16 @@ controller_interface::return_type SmcIController::update(
     bool any_effort = false;
     for (auto * es : effort_state_) { if (es) { any_effort = true; break; } }
     if (any_effort) msg.effort_measured.resize(n);
+    msg.sliding_surface.resize(n);
+    msg.integral_error.resize(n);
+    msg.sliding_lambda = lambda_;
     for (size_t i = 0; i < n; ++i) {
       msg.position[i] = q_meas[i];
       msg.velocity[i] = dq_meas[i];
       msg.position_reference[i] = sp_ptr->positions[i];
       msg.velocity_reference[i] = sp_ptr->velocities[i];
+      msg.sliding_surface[i] = s_vec(static_cast<Eigen::Index>(i));
+      msg.integral_error[i] = integral_error_(static_cast<Eigen::Index>(i));
       msg.effort_feedforward[i] = tau_g[i];
       msg.effort_command[i] = tau_vec(static_cast<Eigen::Index>(i));
       if (any_effort && effort_state_[i]) {

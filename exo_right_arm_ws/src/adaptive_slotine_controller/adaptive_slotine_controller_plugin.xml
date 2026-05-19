@@ -1,0 +1,8 @@
+<library path="adaptive_slotine_controller">
+  <class
+    name="adaptive_slotine_controller/AdaptiveSlotineController"
+    type="adaptive_slotine_controller::AdaptiveSlotineController"
+    base_class_type="controller_interface::ControllerInterface">
+    <description>Slotine-Li adaptive control: regressor-based torque law with online barycentric parameter adaptation.</description>
+  </class>
+</library>

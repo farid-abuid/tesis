@@ -71,6 +71,9 @@ class DataLoggerNode(Node):
                 'q_ref': [], 'dq_ref': [],
                 'tau_cmd': [], 'tau_ff': [],
                 'q_cmd': [], 'dq_cmd': [], 'tau_cmd_in': [],
+                # Sliding-mode / adaptive diagnostics (empty until telemetry arrives).
+                's': [], 'int_e': [], 'lambda': None,
+                'theta': [], 'theta0': [],
                 'active': False,
             }
             for arm in self._arms
@@ -81,6 +84,7 @@ class DataLoggerNode(Node):
         self._csv_file = None
         self._csv_writer = None
         self._header: list[str] | None = None
+        self._diag: dict[str, dict] = {}
         self._run_dir: Path | None = None
         self._run_start = None
         self._sample_timer = None
@@ -178,6 +182,15 @@ class DataLoggerNode(Node):
             st['tau_cmd'] = [float(v) for v in msg.effort_command]
         if len(msg.effort_feedforward) > 0:
             st['tau_ff'] = [float(v) for v in msg.effort_feedforward]
+        if len(msg.sliding_surface) > 0:
+            st['s'] = [float(v) for v in msg.sliding_surface]
+            st['lambda'] = float(msg.sliding_lambda)
+        if len(msg.integral_error) > 0:
+            st['int_e'] = [float(v) for v in msg.integral_error]
+        if len(msg.adaptive_parameters) > 0:
+            st['theta'] = [float(v) for v in msg.adaptive_parameters]
+        if len(msg.adaptive_parameters_initial) > 0:
+            st['theta0'] = [float(v) for v in msg.adaptive_parameters_initial]
 
     def _on_command(self, arm: str, msg: Float64MultiArray) -> None:
         # Interpret command meaning from control_mode; never fan out to unrelated slots.
@@ -241,10 +254,31 @@ class DataLoggerNode(Node):
         prefix = f'{arm}_'
         return joint if joint.startswith(prefix) else f'{prefix}{joint}'
 
+    def _arm_prefix(self, arm: str) -> str:
+        return '' if arm == 'main' else f'{arm}_'
+
+    def _compute_diag_caps(self) -> None:
+        """Latch which sliding/adaptive diagnostics each arm publishes.
+
+        Called once when the CSV header is built; the same capability set then
+        drives both header and row construction so they stay aligned.
+        """
+        self._diag = {}
+        for arm in self._arms:
+            st = self._state[arm]
+            self._diag[arm] = {
+                's': bool(st['s']),
+                'int_e': bool(st['int_e']),
+                'lam': st['lambda'] is not None,
+                'ntheta': len(st['theta']),
+            }
+
     def _build_header(self) -> list[str]:
         mode = self._control_mode
+        self._compute_diag_caps()
         header = ['time_sec']
         for arm in self._arms:
+            cap = self._diag[arm]
             for j in self._ensure_joint_names(arm):
                 jname = self._column_joint_name(arm, j)
                 header += [f'{jname}_q', f'{jname}_dq', f'{jname}_tau_meas']
@@ -259,6 +293,16 @@ class DataLoggerNode(Node):
                         f'{jname}_q_des', f'{jname}_dq_des',
                         f'{jname}_tau_cmd', f'{jname}_tau_ff',
                     ]
+                if cap['s']:
+                    header.append(f'{jname}_s')
+                if cap['lam']:
+                    header.append(f'{jname}_lambda')
+                if cap['int_e']:
+                    header.append(f'{jname}_int_e')
+            pfx = self._arm_prefix(arm)
+            for k in range(cap['ntheta']):
+                header.append(f'{pfx}theta_{k}')
+                header.append(f'{pfx}theta0_{k}')
         return header
 
     def _build_row(self, t_sec: float) -> list:
@@ -273,6 +317,7 @@ class DataLoggerNode(Node):
         row: list = [f'{t_sec:.6f}']
         for arm in self._arms:
             st = self._state[arm]
+            cap = self._diag.get(arm, {'s': False, 'int_e': False, 'lam': False, 'ntheta': 0})
             names = st['joint_names']
             n = len(names)
             for i in range(n):
@@ -286,6 +331,16 @@ class DataLoggerNode(Node):
                 elif self._has_telemetry:
                     row += [_at(st['q_ref'], i), _at(st['dq_ref'], i),
                             _at(st['tau_cmd'], i), _at(st['tau_ff'], i)]
+                if cap['s']:
+                    row.append(_at(st['s'], i))
+                if cap['lam']:
+                    lam = st['lambda']
+                    row.append(lam if lam is not None else '')
+                if cap['int_e']:
+                    row.append(_at(st['int_e'], i))
+            for k in range(cap['ntheta']):
+                row.append(_at(st['theta'], k))
+                row.append(_at(st['theta0'], k))
         return row
 
     # ---- Run lifecycle ----

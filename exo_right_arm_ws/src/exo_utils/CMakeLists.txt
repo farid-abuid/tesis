@@ -14,6 +14,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(ament_index_cpp REQUIRED)
 
 find_library(RBDL_LIBRARY NAMES rbdl RBDL DOC "RBDL shared library")
 find_path(RBDL_INCLUDE_DIR NAMES rbdl/rbdl.h DOC "RBDL headers")
@@ -29,6 +30,7 @@ endif()
 
 add_library(exo_utils SHARED
   src/dynamics/dynamics_backend.cpp
+  src/dynamics/regressor.cpp
   src/kinematics/kinematics_utils.cpp
 )
 
@@ -64,6 +66,10 @@ ament_target_dependencies(exo_fk_marker_node
 )
 target_link_libraries(exo_fk_marker_node exo_utils)
 
+add_executable(exo_regressor_check src/nodes/regressor_check.cpp)
+ament_target_dependencies(exo_regressor_check ament_index_cpp)
+target_link_libraries(exo_regressor_check exo_utils Eigen3::Eigen)
+
 install(
   TARGETS exo_utils
   EXPORT export_${PROJECT_NAME}
@@ -73,7 +79,7 @@ install(
 )
 
 install(
-  TARGETS exo_fk_marker_node
+  TARGETS exo_fk_marker_node exo_regressor_check
   DESTINATION lib/${PROJECT_NAME}
 )
 

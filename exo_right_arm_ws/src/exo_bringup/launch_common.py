@@ -27,7 +27,8 @@ _GRAV_COMP_MODES = (
     "mpc",
     "admittance",
     "impedance",
-    "smc_i"
+    "smc_i",
+    "adaptive_slotine",
 )
 
 

@@ -1,0 +1,87 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500
+    thread_priority: 80
+
+    right_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    right_adaptive_slotine_controller:
+      type: adaptive_slotine_controller/AdaptiveSlotineController
+
+right_joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    interfaces:
+      - position
+      - velocity
+      - effort
+    use_local_topics: true
+
+right_adaptive_slotine_controller:
+  ros__parameters:
+    joints:
+      - right_revolute_1
+      - right_revolute_2
+      - right_revolute_3
+    arm: right
+    reference_trajectory_topic: /right/reference_trajectory
+    gravity: 9.81
+    # Slotine-Li gains. -Kd·s is NOT inertia-scaled, so the discrete-stability
+    # bound kd ≲ 2·I_eff/Δt (Δt=2ms @ 500Hz) is per-joint: the light distal
+    # joint 3 (I_eff~1e-3) needs kd≲1, joints 1-2 (~10x inertia) tolerate more.
+    # A single scalar that's stable for j1 Nyquist-oscillates j3 -> the ±11
+    # relay you saw. Scalar lambda/kd below are the fallback/broadcast; the
+    # *_per_joint arrays override and are what's actually used here.
+    # Kp_eff(j) = kd(j)·λ(j),  Kd_eff(j) = kd(j).
+    lambda: 3.0
+    kd: 1.5
+    lambda_per_joint: [4.0, 4.0, 3.0]
+    kd_per_joint:     [6.0, 4.0, 0.3]
+    # First-order velocity low-pass [Hz] (0 = off). Belt-and-suspenders against
+    # the Nyquist limit cycle; raise cutoff for less lag, lower to damp more.
+    velocity_lpf_cutoff: 0.0
+    # Match the real joint effort limit so the controller's own clip coincides
+    # with the plant's (no hidden Gazebo-side saturation relay).
+    tau_max: 20.0
+    # --- Robust adaptation (bounds θ̂ against drift in the 12/30 unidentifiable
+    #     barycentric directions; see exo_regressor_check) ---
+    # σ-modification: leak θ̂ back toward the physical prior θ̂₀ (0 = off).
+    leakage_sigma: 0.1
+    # Freeze the data term -ΓYᵀs when ‖s‖ < this (rad/s) so noise can't drift θ̂.
+    s_deadband: 0.02
+    # Hard-clamp θ̂ to a box around θ̂₀: half-width = max(rel·|θ̂₀|, abs).
+    projection_enabled: false
+    projection_rel: 0.5
+    projection_abs: 0.05
+    # Per-link adaptation gain (Γ = diag(repmat(gamma_per_link, 1, 3))).
+    # Order: [m, mx, my, mz, Jxx, Jyy, Jzz, Jxy, Jxz, Jyz].
+    # Adaptation ON (Slotine-Li). [0,...,0] = frozen feedforward+PD only.
+    # Conservative start; σ-mod/deadband/projection above keep θ̂ bounded.
+    #gamma_per_link: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    # Adapt mass + first moments only; inertia (idx 5-10) frozen at the
+    # URDF-derived seed — weakly excited in slow/assistive motion, so adapting
+    # it only invites drift (esp. with leakage/projection off). Restore the
+    # 1.0e-4 entries if you run fast, high-acceleration trajectories.
+    gamma_per_link: [0.05, 0.05, 0.05, 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    # Initial θ̂ seed: per-link physical parameters in the DH link frames,
+    # extracted from exo_dynamics_right.urdf via:
+    #   ros2 run exo_utils exo_regressor_check --arm right --seed-from-urdf
+    # Inertia entries are about the COM, in link-frame axes.
+    link_mass  : [0.77651585, 0.32630645, 0.4074824]
+    com_x      : [-0.00029537124, -0.15177237, -0.15304136]
+    com_y      : [0.0760886, -0.024051777, -0.019420931]
+    com_z      : [0.067758461, 0.082970654, 0.0017685129]
+    inertia_ixx: [0.005861787, 0.00023934933, 0.00033140925]
+    inertia_iyy: [0.0035346926, 0.0018959825, 0.00089402166]
+    inertia_izz: [0.0026956159, 0.0019671419, 0.00079880707]
+    inertia_ixy: [3.1199237e-05, 9.6001615e-05, 8.1037033e-05]
+    inertia_ixz: [-2.528663e-05, 0.00011349467, 0.00019849073]
+    inertia_iyz: [0.0026276735, -4.8674026e-05, -3.8307929e-05]
+    publish_telemetry: true
+    telemetry_topic: /right/adaptive_slotine_controller/telemetry
+    logging_session_topic: /right/adaptive_slotine_controller/logging/session
