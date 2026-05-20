@@ -68,7 +68,14 @@ def apply_sim_disturbance(context):
     `spec` can be: empty (disabled, no-op), a bare filename / stem looked up in
     `share/exo_bringup/config/sim_disturbance/`, or an absolute path. Any key
     missing from the YAML keeps its launch-arg default.
+
+    Must only be called from gazebo.launch.py — raises at launch time otherwise.
     """
+    if context.launch_configurations.get("exo_in_gazebo", "") != "true":
+        raise RuntimeError(
+            "apply_sim_disturbance must only be used with gazebo.launch.py, "
+            "not with the real-hardware launch file."
+        )
     spec = context.launch_configurations.get("sim_disturbance", "").strip()
     if not spec:
         return []

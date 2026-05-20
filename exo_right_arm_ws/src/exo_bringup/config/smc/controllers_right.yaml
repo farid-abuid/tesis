@@ -34,7 +34,7 @@ right_smc_controller:
     lambda: 25.0
     k_switch: 100.0
     k_p: 10.0
-    phi: 15.0
+    phi: 20.0
     publish_telemetry: true
     telemetry_topic: /right/smc_controller/telemetry
     logging_session_topic: /right/smc_controller/logging/session

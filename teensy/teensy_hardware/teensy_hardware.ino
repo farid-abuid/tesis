@@ -11,7 +11,7 @@ bool print_diagnostics = false;
 
 const float Kt = 1.9;
 
-const uint8_t torqueLimits[MAX_MOTORS] = {50, 50, 20, 50, 50, 20};
+const uint8_t torqueLimits[MAX_MOTORS] = {70, 50, 20, 70, 50, 20};
 
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can1;
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> Can2;
@@ -393,6 +393,20 @@ void canShutdownAll()
     canWriteBoth(msg);
 }
 
+void canSetZeroPosition(uint8_t motorID)
+{
+    CAN_message_t msg;
+    msg.id  = motorID + 0x140;
+    msg.len = 8;
+
+    memset(msg.buf, 0, 8);
+    msg.buf[0] = 0x64;
+
+    if (useCan2(motorID))
+        Can2.write(msg);
+    else
+        Can1.write(msg);
+}
 
 void canSystemReleaseBreakAll()
 {
@@ -474,8 +488,11 @@ void setup()
 
     //SerialUSB1.println();
     //SerialUSB1.println("Program Start");
-    canSetZeroPositionAll();
+    //canSetZeroPosition(3);
+    //canSetZeroPositionAll();
     delay(50);
+
+
     canSystemResetAll();
     delay(50);
 }

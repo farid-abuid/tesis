@@ -144,6 +144,14 @@ hardware_interface::CallbackReturn teensy_plugin::on_init(
     }
   }
 
+  motor_angle_offset_rad_.assign(n, 0.0);
+  static constexpr double kDeg2Rad = M_PI / 180.0;
+  static constexpr double kDefaultMotorAngleOffsetDeg[] = {88.0, 161.0, 115.0};
+  for (size_t i = 0; i < n; ++i) {
+    motor_angle_offset_rad_[i] =
+      kDefaultMotorAngleOffsetDeg[i % 3] * kDeg2Rad;
+  }
+
   RCLCPP_INFO(
     rclcpp::get_logger("exo_hw"),
     "Effort stiction compensation: enabled=%s",
@@ -372,23 +380,24 @@ hardware_interface::return_type teensy_plugin::write(
   for(size_t i=0;i<n;i++)
   {
       uint8_t id = motor_ids_[i];
-      float effort = static_cast<float>((*active_commands)[i]);
-      if (!std::isfinite(effort))
-      {
-        effort = 0.0f;
+      double cmd = (*active_commands)[i];
+      if (!std::isfinite(cmd)) {
+        cmd = 0.0;
       }
       if (cmd_type == 1 && effort_stiction_comp_enabled_)
       {
         const double tau_s = effort_stiction_tau_per_joint_[i];
         const double slope = effort_stiction_slope_per_joint_[i];
-        const double e = static_cast<double>(effort);
         const double compensated =
-          e + tau_s * std::tanh(e / slope);
-        effort = static_cast<float>(compensated);
+          cmd + tau_s * std::tanh(cmd / slope);
+        cmd = compensated;
       }
-      if (i < joint_dir_sign_.size()) {
-        effort *= static_cast<float>(joint_dir_sign_[i]);
+      if (cmd_type == 3 && i < motor_angle_offset_rad_.size()) {
+        cmd = joint_dir_sign_[i] * (cmd - motor_angle_offset_rad_[i]);
+      } else if (i < joint_dir_sign_.size()) {
+        cmd *= joint_dir_sign_[i];
       }
+      const float effort = static_cast<float>(cmd);
 
       memcpy(&buffer[idx], &id, 1);
       idx += 1;
@@ -463,7 +472,7 @@ hardware_interface::return_type teensy_plugin::read(
                 : 1.0f;
 
         position_[idx] =
-            sign * status.angle;
+            sign * status.angle + motor_angle_offset_rad_[static_cast<size_t>(idx)];
 
         velocity_[idx] =
             sign * status.speed;

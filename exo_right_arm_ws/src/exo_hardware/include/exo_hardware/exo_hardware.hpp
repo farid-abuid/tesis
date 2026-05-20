@@ -64,6 +64,7 @@ private:
 
   std::vector<uint8_t> motor_ids_;
   std::vector<double> joint_dir_sign_;
+  std::vector<double> motor_angle_offset_rad_;
 
   int serial_fd_;
 
