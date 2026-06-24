@@ -1,0 +1,7 @@
+venv/
+recordings/
+__pycache__/
+*.pyc
+
+# recorded EMG datasets (kept local, too large for git)
+datasets/
