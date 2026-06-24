@@ -30,37 +30,58 @@ left_adaptive_slotine_controller:
     arm: left
     reference_trajectory_topic: /left/reference_trajectory
     gravity: 9.81
-    # Slotine-Li gains (sim_adaptive_slotine_li.m defaults: Lambda=5, Kd=20).
-    lambda: 5.0
-    kd: 20.0
-    tau_max: 10.0
-    # --- Robust adaptation (bounds θ̂ against drift in the unidentifiable
+    # Slotine-Li gains. -Kd·s is NOT inertia-scaled, so the discrete-stability
+    # bound kd ≲ 2·I_eff/Δt (Δt=2ms @ 500Hz) is per-joint: the light distal
+    # joint 3 (I_eff~1e-3) needs kd≲1, joints 1-2 (~10x inertia) tolerate more.
+    # A single scalar that's stable for j1 Nyquist-oscillates j3 -> the ±11
+    # relay you saw. Scalar lambda/kd below are the fallback/broadcast; the
+    # *_per_joint arrays override and are what's actually used here.
+    # Kp_eff(j) = kd(j)·λ(j),  Kd_eff(j) = kd(j).
+    lambda: 3.0
+    kd: 1.5
+    lambda_per_joint: [4.0, 4.0, 3.0]
+    kd_per_joint:     [6.0, 4.0, 0.3]
+    # First-order velocity low-pass [Hz] (0 = off). Belt-and-suspenders against
+    # the Nyquist limit cycle; raise cutoff for less lag, lower to damp more.
+    velocity_lpf_cutoff: 0.0
+    # Match the real joint effort limit so the controller's own clip coincides
+    # with the plant's (no hidden Gazebo-side saturation relay).
+    tau_max: 20.0
+    # --- Robust adaptation (bounds θ̂ against drift in the 12/30 unidentifiable
     #     barycentric directions; see exo_regressor_check) ---
     # σ-modification: leak θ̂ back toward the physical prior θ̂₀ (0 = off).
     leakage_sigma: 0.1
     # Freeze the data term -ΓYᵀs when ‖s‖ < this (rad/s) so noise can't drift θ̂.
     s_deadband: 0.02
     # Hard-clamp θ̂ to a box around θ̂₀: half-width = max(rel·|θ̂₀|, abs).
-    projection_enabled: true
+    projection_enabled: false
     projection_rel: 0.5
     projection_abs: 0.05
     # Per-link adaptation gain (Γ = diag(repmat(gamma_per_link, 1, 3))).
-    # Order: [m, mx, my, mz, Jxx, Jyy, Jzz, Jxy, Jxz, Jyz]
-    gamma_per_link: [1.0, 1.0, 1.0, 1.0, 1.0e-3, 1.0e-3, 1.0e-3, 1.0e-3, 1.0e-3, 1.0e-3]
-    # Initial θ̂ seed: per-link physical parameters (one entry per link, links 1..3).
-    # Replace with the left arm's identified values.
-    # NOTE: exo_left_Y in exo_utils is a placeholder — generate the left-arm
-    # robot_Y.m and paste it in before launching this controller.
-    link_mass:    [0.5,   1.0,   0.3]
-    com_x:        [0.0,  -0.23, -0.10]
-    com_y:        [0.0,   0.0,   0.0]
-    com_z:        [0.17,  0.0,   0.0]
-    inertia_ixx:  [0.00077, 0.00052, 0.0]
-    inertia_iyy:  [0.00623, 0.00739, 0.00063]
-    inertia_izz:  [0.00623, 0.00739, 0.00063]
-    inertia_ixy:  [0.0, 0.0, 0.0]
-    inertia_ixz:  [0.0, 0.0, 0.0]
-    inertia_iyz:  [0.0, 0.0, 0.0]
+    # Order: [m, mx, my, mz, Jxx, Jyy, Jzz, Jxy, Jxz, Jyz].
+    # Adaptation ON (Slotine-Li). [0,...,0] = frozen feedforward+PD only.
+    # Conservative start; σ-mod/deadband/projection above keep θ̂ bounded.
+    #gamma_per_link: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    # Adapt mass + first moments only; inertia (idx 5-10) frozen at the
+    # URDF-derived seed — weakly excited in slow/assistive motion, so adapting
+    # it only invites drift (esp. with leakage/projection off). Restore the
+    # 1.0e-4 entries if you run fast, high-acceleration trajectories.
+    gamma_per_link: [0.05, 0.05, 0.05, 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    # Initial θ̂ seed: per-link physical parameters in the DH link frames,
+    # extracted from exo_dynamics_left.urdf via:
+    #   ros2 run exo_utils exo_regressor_check --arm left --seed-from-urdf
+    # Inertia entries are about the COM, in link-frame axes.
+    link_mass  : [0.80892527, 0.32627713, 0.40748241]
+    com_x      : [-0.00069266059, -0.15177291, -0.15227425]
+    com_y      : [-0.077235629, -0.023629926, -0.019220691]
+    com_z      : [-0.068976472, -0.083761393, -0.0027681632]
+    inertia_ixx: [0.0058943737, 0.00023723147, 0.00033045558]
+    inertia_iyy: [0.0035742713, 0.0018942321, 0.00088509806]
+    inertia_izz: [0.002691303, 0.0019671783, 0.00078950343]
+    inertia_ixy: [1.5773168e-06, 9.4640225e-05, 7.4224167e-05]
+    inertia_ixz: [-1.0474333e-05, -0.00010903629, -0.00018946815]
+    inertia_iyz: [0.0025927344, 4.8265643e-05, 3.1709965e-05]
     publish_telemetry: true
     telemetry_topic: /left/adaptive_slotine_controller/telemetry
     logging_session_topic: /left/adaptive_slotine_controller/logging/session

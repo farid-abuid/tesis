@@ -41,8 +41,7 @@ RegressorMatrix exo_right_Y(
   double g);
 
 /// Left-arm Slotine-Li regressor Y(q, qd, qd_r, qdd_r, g).
-/// Placeholder until the left-arm robot_Y.m is generated and pasted in
-/// (see regressor.cpp). Returns zeros while unimplemented.
+/// Ported verbatim from MATLAB robot_Y.m (left-arm DH + base transform).
 RegressorMatrix exo_left_Y(
   const Eigen::Vector3d & q,
   const Eigen::Vector3d & qd,

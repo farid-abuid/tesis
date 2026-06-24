@@ -292,6 +292,48 @@ Output layout:
 Generated figures (only those whose columns are present in the CSV):
 `joint_position.png`, `joint_velocity.png`, `joint_torque.png`, `ee_position_xyz.png` (only when `*_ee_*` columns exist in the CSV).
 
+`exo_plot_run` also writes `plots/metrics.csv` (the tracking-error metrics below)
+on every run; pass `--no-metrics` to skip it.
+
+### Tracking-error metrics (IAE / ISE / ITAE / ITSE)
+
+```bash
+ros2 run exo_utils exo_metrics ~/exo_logs/<run_id>/data.csv
+# or, equivalently, as a Python module:
+python3 -m exo_utils.metrics ~/exo_logs/<run_id>/data.csv --no-write
+```
+
+Computes the four integral tracking-error metrics offline from the logged CSV,
+per joint (plus a `TOTAL` row per arm). The error is `e = q_des - q`, integrated
+against the actual `time_sec` timestamps (trapezoidal rule, robust to loop
+jitter). Only joints that have a `*_q_des` column are evaluated.
+
+| Metric | Definition | Emphasis |
+|---|---|---|
+| `IAE`  | ∫\|e\| dt    | Neutral total error; all errors weighted equally |
+| `ISE`  | ∫e² dt      | Penalizes large errors (transients/overshoot) |
+| `ITAE` | ∫t·\|e\| dt  | Penalizes late errors (slow settling / convergence) |
+| `ITSE` | ∫t·e² dt    | Penalizes large *and* late errors (strictest) |
+
+The `t` weight in ITAE/ITSE is reset to `0` at the start of the evaluation
+window, so windowing/trimming does not artificially reward shorter runs. ITAE/ITSE
+are most meaningful for runs with a real transient → steady regime (regulation,
+move-to-pose, adaptive-controller convergence); for steady continuous tracking
+prefer IAE/ISE.
+
+Output goes to `metrics.csv` next to the input (`-o <path>` to override; the CSV
+also includes `n`, `t_start`, `t_end`, `duration`). Windowing options:
+
+```bash
+ros2 run exo_utils exo_metrics ... --trim 2           # drop first 2 s (startup transient)
+ros2 run exo_utils exo_metrics ... --start 5 --end 25 # evaluate only time_sec ∈ [5, 25]
+ros2 run exo_utils exo_metrics ... --no-write         # print table only
+```
+
+> Metrics are only comparable across controllers when computed over the same
+> reference trajectory, duration, and window/trim. To compare across different
+> run lengths, normalize each integral by `duration`.
+
 ### DC motor identification
 
 ```bash

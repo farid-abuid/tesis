@@ -465,16 +465,10 @@ RegressorMatrix exo_right_Y(
 }
 
 //==================================================================================================
-// LEFT ARM regressor -- PLACEHOLDER.
-//
-// Generate the left-arm regressor exactly as the right one was made: set the
-// left-arm DH table and base transform T_base in euler_lagrange_sym.m, run
-// build_regressor.m to produce a left robot_Y.m, then transcribe its body here
-// (same mechanical .* -> *, ./ -> / translation and the [mt1..mt8] -> 3x30
-// column-major reshape as exo_right_Y above). Flip EXO_LEFT_Y_IMPLEMENTED to 1
-// once done.
+// LEFT ARM regressor -- ported verbatim from MATLAB robot_Y.m
+// (Symbolic Math Toolbox export; left-arm DH + base transform baked in).
 //==================================================================================================
-#define EXO_LEFT_Y_IMPLEMENTED 0
+#define EXO_LEFT_Y_IMPLEMENTED 1
 
 bool exoLeftYImplemented()
 {
@@ -488,16 +482,353 @@ RegressorMatrix exo_left_Y(
   const Eigen::Vector3d & in4,
   double g)
 {
-#if EXO_LEFT_Y_IMPLEMENTED
-  // >>> PASTE generated left robot_Y body here (see note above) <<<
-#else
-  (void)in1;
-  (void)in2;
-  (void)in3;
-  (void)in4;
-  (void)g;
-  return RegressorMatrix::Zero();
-#endif
+  const double q1 = in1(0), q2 = in1(1), q3 = in1(2);
+  const double qd1 = in2(0), qd2 = in2(1), qd3 = in2(2);
+  const double qdr1 = in3(0), qdr2 = in3(1), qdr3 = in3(2);
+  const double qddr1 = in4(0), qddr2 = in4(1), qddr3 = in4(2);
+
+  const double t2 = cos(q1);
+  const double t3 = cos(q2);
+  const double t4 = cos(q3);
+  const double t5 = sin(q1);
+  const double t6 = sin(q2);
+  const double t7 = sin(q3);
+  const double t8 = q2 + q3;
+  const double t9 = q2 * 2.0;
+  const double t10 = q3 * 2.0;
+  const double t18 = -q1;
+  const double t20 = qddr1 * (3.0 / 4.0);
+  const double t29 = cos(3.1416);
+  const double t30 = cos(1.5708);
+  const double t31 = sin(3.1416);
+  const double t32 = sin(1.5708);
+  const double t33 = q3 + 3.1416;
+  const double t34 = q3 + 1.5708;
+  const double t35 = qddr2 * 3.348e-1;
+  const double t36 = qddr3 * 3.348e-1;
+  const double t48 = q3 - 3.1416;
+  const double t49 = q1 - 1.5708;
+  const double t50 = q3 - 1.5708;
+  const double t107 = qddr3 * 2.802276e-2;
+  const double t11 = cos(t9);
+  const double t12 = cos(t10);
+  const double t13 = sin(t9);
+  const double t14 = sin(t10);
+  const double t15 = cos(t8);
+  const double t16 = q1 + t8;
+  const double t17 = sin(t8);
+  const double t19 = q2 + t8;
+  const double t23 = t8 * 2.0;
+  const double t24 = t8 + t18;
+  const double t37 = cos(t33);
+  const double t38 = cos(t34);
+  const double t39 = qddr1 * t30;
+  const double t40 = qddr2 * t30;
+  const double t41 = qddr3 * t30;
+  const double t42 = t8 + 3.1416;
+  const double t43 = t8 + 1.5708;
+  const double t44 = sin(t33);
+  const double t45 = sin(t34);
+  const double t46 = t30 * t30;
+  const double t51 = cos(t48);
+  const double t52 = cos(t49);
+  const double t53 = cos(t50);
+  const double t55 = t8 - 3.1416;
+  const double t56 = t8 - 1.5708;
+  const double t57 = sin(t48);
+  const double t58 = sin(t49);
+  const double t59 = sin(t50);
+  const double t64 = t29 - 1.0;
+  const double t78 = t29 / 4.0;
+  const double t82 = t3 * t4 * t32;
+  const double t83 = t3 * t7 * t32;
+  const double t84 = t4 * t6 * t32;
+  const double t86 = t6 * t7 * t32;
+  const double t102 = (t3 * t4 * t31) / 2.0;
+  const double t103 = (t3 * t7 * t31) / 2.0;
+  const double t104 = (t4 * t6 * t31) / 2.0;
+  const double t106 = (t6 * t7 * t31) / 2.0;
+  const double t122 = qddr1 * t6 * t31 * 2.833e-1;
+  const double t123 = qddr2 * t6 * t32 * 2.833e-1;
+  const double t134 = qd2 * qdr1 * t3 * t31 * 1.4165e-1;
+  const double t151 = qd1 * qdr1 * t3 * t4 * t31 * 5.695e-2;
+  const double t152 = qd1 * qdr1 * t3 * t7 * t31 * 5.695e-2;
+  const double t153 = qd1 * qdr1 * t4 * t6 * t31 * 5.695e-2;
+  const double t154 = qd1 * qdr1 * t6 * t7 * t31 * 5.695e-2;
+  const double t176 = qd1 * qdr1 * t3 * t4 * t31 * 9.53343e-3;
+  const double t177 = qd1 * qdr1 * t6 * t7 * t31 * 9.53343e-3;
+  const double t204 = g * t3 * t32 * 7.590994202538612e-9;
+  const double t21 = cos(t19);
+  const double t22 = sin(t19);
+  const double t25 = cos(t23);
+  const double t26 = sin(t23);
+  const double t27 = t11 / 4.0;
+  const double t28 = t13 / 4.0;
+  const double t60 = cos(t42);
+  const double t61 = cos(t43);
+  const double t62 = sin(t42);
+  const double t63 = sin(t43);
+  const double t66 = t19 + 3.1416;
+  const double t67 = cos(t55);
+  const double t68 = cos(t56);
+  const double t69 = t16 - 3.1416;
+  const double t70 = t16 - 1.5708;
+  const double t71 = sin(t55);
+  const double t72 = sin(t56);
+  const double t81 = qddr1 * t78;
+  const double t85 = t11 * 1.4165e-1;
+  const double t87 = t19 - 3.1416;
+  const double t88 = t13 * 1.4165e-1;
+  const double t90 = t23 + 3.1416;
+  const double t92 = t24 + 3.1416;
+  const double t93 = t24 + 1.5708;
+  const double t95 = t23 - 3.1416;
+  const double t98 = -t86;
+  const double t105 = (qddr1 * t64) / 2.0;
+  const double t109 = t13 * t29 * (-1.0 / 4.0);
+  const double t111 = -t106;
+  const double t112 = t39 * 3.348e-1;
+  const double t113 = qd1 * qdr1 * t11 * t12 * 8.37e-2;
+  const double t114 = qd1 * qdr1 * t11 * t14 * 8.37e-2;
+  const double t115 = qd1 * qdr1 * t12 * t13 * 8.37e-2;
+  const double t117 = qd1 * qdr1 * t13 * t14 * 8.37e-2;
+  const double t118 = t13 * 2.00647225e-2;
+  const double t131 = -t122;
+  const double t132 = -t123;
+  const double t133 = g * t32 * t58;
+  const double t142 = t13 * t29 * (-1.4165e-1);
+  const double t143 = qddr1 * t86 * 1.139e-1;
+  const double t144 = -t134;
+  const double t146 = qddr1 * t82 * 1.139e-1;
+  const double t147 = t11 * t29 * (-1.4165e-1);
+  const double t148 = qddr1 * t83 * 1.139e-1;
+  const double t149 = qddr1 * t84 * 1.139e-1;
+  const double t156 = -t151;
+  const double t157 = qd1 * qdr1 * t11 * t14 * 7.00569e-3;
+  const double t158 = qd1 * qdr1 * t12 * t13 * 7.00569e-3;
+  const double t164 = t83 + t84;
+  const double t165 = qddr1 * t83 * 1.906686e-2;
+  const double t166 = qddr1 * t84 * 1.906686e-2;
+  const double t167 = qd1 * qdr1 * t11 * t12 * t29 * (-8.37e-2);
+  const double t168 = qd1 * qdr1 * t11 * t14 * t29 * (-8.37e-2);
+  const double t169 = qd1 * qdr1 * t12 * t13 * t29 * (-8.37e-2);
+  const double t171 = t13 * t29 * (-2.00647225e-2);
+  const double t182 = -t176;
+  const double t184 = t103 + t104;
+  const double t188 = qd1 * qdr1 * t11 * t14 * t29 * (-7.00569e-3);
+  const double t189 = qd1 * qdr1 * t12 * t13 * t29 * (-7.00569e-3);
+  const double t198 = g * t15 * t32 * 2.679489658502863e-8;
+  const double t199 = g * t17 * t32 * 2.679489658502863e-8;
+  const double t205 = g * t15 * t32 * 4.485465688333793e-9;
+  const double t47 = t25 / 2.0;
+  const double t54 = (qddr1 * t25) / 4.0;
+  const double t73 = (qd1 * qdr1 * t26) / 4.0;
+  const double t74 = (qd1 * qdr2 * t26) / 4.0;
+  const double t75 = (qd2 * qdr1 * t26) / 4.0;
+  const double t76 = (qd1 * qdr3 * t26) / 4.0;
+  const double t77 = (qd3 * qdr1 * t26) / 4.0;
+  const double t79 = cos(t66);
+  const double t80 = sin(t66);
+  const double t91 = cos(t87);
+  const double t94 = sin(t87);
+  const double t96 = cos(t90);
+  const double t97 = sin(t90);
+  const double t100 = cos(t95);
+  const double t101 = sin(t95);
+  const double t108 = t27 * t29;
+  const double t110 = -t105;
+  const double t120 = -t117;
+  const double t130 = t29 * t88;
+  const double t150 = -t143;
+  const double t155 = t28 + t109;
+  const double t162 = t29 * t117;
+  const double t170 = t29 * t118;
+  const double t172 = qd2 * t164;
+  const double t173 = qd3 * t164;
+  const double t174 = qddr1 * t164;
+  const double t175 = t82 + t98;
+  const double t187 = t102 + t111;
+  const double t190 = qd1 * t184;
+  const double t194 = t88 + t142;
+  const double t196 = t85 + t147;
+  const double t197 = t118 + t171;
+  const double t201 = -t199;
+  const double t65 = -t47;
+  const double t89 = -t73;
+  const double t116 = t96 / 4.0;
+  const double t119 = t100 / 4.0;
+  const double t121 = (qddr1 * t96) / 8.0;
+  const double t124 = (qddr1 * t100) / 8.0;
+  const double t125 = (qd1 * qdr1 * t97) / 8.0;
+  const double t126 = (qd1 * qdr2 * t97) / 8.0;
+  const double t127 = (qd2 * qdr1 * t97) / 8.0;
+  const double t128 = (qd1 * qdr3 * t97) / 8.0;
+  const double t129 = (qd3 * qdr1 * t97) / 8.0;
+  const double t135 = (qd1 * qdr1 * t101) / 8.0;
+  const double t137 = (qd1 * qdr2 * t101) / 8.0;
+  const double t138 = (qd2 * qdr1 * t101) / 8.0;
+  const double t139 = (qd1 * qdr3 * t101) / 8.0;
+  const double t140 = (qd3 * qdr1 * t101) / 8.0;
+  const double t163 = qd1 * qdr1 * t155;
+  const double t178 = qd2 * t175;
+  const double t179 = qd3 * t175;
+  const double t180 = qddr1 * t175;
+  const double t181 = -t174;
+  const double t191 = qd1 * t187;
+  const double t192 = qdr1 * t190;
+  const double t210 = t172 + t173 + t190;
+  const double t136 = -t125;
+  const double t145 = -t135;
+  const double t183 = -t180;
+  const double t193 = qdr1 * t191;
+  const double t195 = -t192;
+  const double t200 = t65 + t116 + t119;
+  const double t207 = qddr2 + qddr3 + t39 + t89 + t125 + t135;
+  const double t211 = t178 + t179 + t191;
+  const double t202 = qd1 * qdr1 * t200;
+  const double t206 = t181 + t193;
+  const double t208 = t183 + t195;
+  const double t209 = qddr2 + qddr3 + t39 + t73 + t136 + t145;
+  const double t203 = -t202;
+
+  const double et1 = qddr1 * 8.76978425e-2 + t40 * 1.0828165e-1 + t41 * 2.802276e-2 + qddr1 * t4 * 7.113663e-2 + qddr1 * t11 * 2.00647225e-2 + qddr1 * t29 * 2.05838075e-2 + qddr2 * t83 * 1.906686e-2 + qddr2 * t84 * 1.906686e-2 + qddr3 * t83 * 1.906686e-2 + qddr3 * t84 * 1.906686e-2;
+  const double et2 = t4 * t40 * 9.484884e-2 + t4 * t41 * 4.742442e-2 + g * t2 * t32 * t32 * 1.139e-1 + g * t5 * t82 * 1.674e-1 - g * t5 * t86 * 1.674e-1 - qd1 * qdr3 * t7 * 3.5568315e-2 - qd3 * qdr1 * t7 * 3.5568315e-2 - qd1 * qdr2 * t13 * 2.00647225e-2 - qd2 * qdr1 * t13 * 2.00647225e-2 + qd2 * qdr2 * t82 * 1.906686e-2;
+  const double et3 = qd2 * qdr3 * t82 * 1.906686e-2 + qd3 * qdr2 * t82 * 1.906686e-2 + qd3 * qdr3 * t82 * 1.906686e-2 - qd2 * qdr2 * t86 * 1.906686e-2 - qd2 * qdr3 * t86 * 1.906686e-2 - qd3 * qdr2 * t86 * 1.906686e-2 - qd3 * qdr3 * t86 * 1.906686e-2 + qd1 * qdr2 * t170 + qd2 * qdr1 * t170 + qddr1 * t4 * t11 * 2.371221e-2 - qddr1 * t7 * t13 * 2.371221e-2;
+  const double et4 = qddr1 * t11 * t12 * 7.00569e-3 - qddr1 * t13 * t14 * 7.00569e-3 + qddr1 * t4 * t29 * 2.371221e-2 + qddr1 * t6 * t31 * 3.226787e-2 + qddr2 * t6 * t32 * 3.226787e-2 - qddr1 * t11 * t29 * 2.00647225e-2 + g * t2 * t3 * t30 * 2.833e-1 + g * t3 * t5 * t32 * 2.833e-1 - g * t5 * t6 * t46 * 2.833e-1 - g * t5 * t30 * t32 * 1.139e-1;
+  const double et5 = g * t2 * t30 * t83 * 1.674e-1 + g * t2 * t30 * t84 * 1.674e-1 - qd1 * qdr2 * t4 * t13 * 2.371221e-2 - qd2 * qdr1 * t4 * t13 * 2.371221e-2 - qd1 * qdr2 * t7 * t11 * 2.371221e-2 - qd1 * qdr3 * t4 * t13 * 1.1856105e-2 - qd2 * qdr1 * t7 * t11 * 2.371221e-2 - qd3 * qdr1 * t4 * t13 * 1.1856105e-2 - qd1 * qdr3 * t7 * t11 * 1.1856105e-2;
+  const double et6 = qd3 * qdr1 * t7 * t11 * (-1.1856105e-2) - qd1 * qdr2 * t11 * t14 * 7.00569e-3 - qd1 * qdr2 * t12 * t13 * 7.00569e-3 - qd2 * qdr1 * t11 * t14 * 7.00569e-3 - qd2 * qdr1 * t12 * t13 * 7.00569e-3 - qd1 * qdr3 * t11 * t14 * 7.00569e-3 - qd1 * qdr3 * t12 * t13 * 7.00569e-3 - qd3 * qdr1 * t11 * t14 * 7.00569e-3;
+  const double et7 = qd3 * qdr1 * t12 * t13 * (-7.00569e-3) + qd1 * qdr2 * t3 * t31 * 1.6133935e-2 + qd2 * qdr1 * t3 * t31 * 1.6133935e-2 + qd2 * qdr2 * t3 * t32 * 3.226787e-2 - qd1 * qdr3 * t7 * t29 * 1.1856105e-2 - qd3 * qdr1 * t7 * t29 * 1.1856105e-2 - qd2 * qdr3 * t7 * t30 * 4.742442e-2 - qd3 * qdr2 * t7 * t30 * 4.742442e-2;
+  const double et8 = qd3 * qdr3 * t7 * t30 * (-4.742442e-2) + qddr1 * t3 * t7 * t31 * 1.906686e-2 + qddr1 * t4 * t6 * t31 * 1.906686e-2 - qddr1 * t4 * t11 * t29 * 2.371221e-2 + qddr1 * t7 * t13 * t29 * 2.371221e-2 - qddr1 * t11 * t12 * t29 * 7.00569e-3 + qddr1 * t13 * t14 * t29 * 7.00569e-3 + g * t2 * t3 * t4 * t30 * 1.674e-1 - g * t2 * t6 * t7 * t30 * 1.674e-1;
+  const double et9 = g * t3 * t5 * t7 * t46 * (-1.674e-1) - g * t4 * t5 * t6 * t46 * 1.674e-1 + g * t2 * t6 * t30 * t32 * 2.833e-1 + qd1 * qdr2 * t3 * t4 * t31 * 9.53343e-3 + qd2 * qdr1 * t3 * t4 * t31 * 9.53343e-3 + qd1 * qdr3 * t3 * t4 * t31 * 9.53343e-3 + qd3 * qdr1 * t3 * t4 * t31 * 9.53343e-3 - qd1 * qdr2 * t6 * t7 * t31 * 9.53343e-3 - qd2 * qdr1 * t6 * t7 * t31 * 9.53343e-3;
+  const double et10 = qd1 * qdr3 * t6 * t7 * t31 * (-9.53343e-3) - qd3 * qdr1 * t6 * t7 * t31 * 9.53343e-3 + qd1 * qdr2 * t4 * t13 * t29 * 2.371221e-2 + qd2 * qdr1 * t4 * t13 * t29 * 2.371221e-2 + qd1 * qdr2 * t7 * t11 * t29 * 2.371221e-2 + qd1 * qdr3 * t4 * t13 * t29 * 1.1856105e-2 + qd2 * qdr1 * t7 * t11 * t29 * 2.371221e-2 + qd3 * qdr1 * t4 * t13 * t29 * 1.1856105e-2;
+  const double et11 = qd1 * qdr3 * t7 * t11 * t29 * 1.1856105e-2 + qd3 * qdr1 * t7 * t11 * t29 * 1.1856105e-2 + qd1 * qdr2 * t11 * t14 * t29 * 7.00569e-3 + qd1 * qdr2 * t12 * t13 * t29 * 7.00569e-3 + qd2 * qdr1 * t11 * t14 * t29 * 7.00569e-3 + qd2 * qdr1 * t12 * t13 * t29 * 7.00569e-3 + qd1 * qdr3 * t11 * t14 * t29 * 7.00569e-3 + qd1 * qdr3 * t12 * t13 * t29 * 7.00569e-3;
+  const double et12 = qd3 * qdr1 * t11 * t14 * t29 * 7.00569e-3 + qd3 * qdr1 * t12 * t13 * t29 * 7.00569e-3;
+  const double et13 = qddr1 * 2.511e-1 + qddr1 * t4 * 4.2495e-1 + qddr1 * t21 * 1.4165e-1 + qddr1 * t25 * 8.37e-2 + qddr1 * t29 * 8.37e-2 + qddr1 * t37 * 7.0825e-2 + qddr2 * t38 * 2.833e-1 + qddr3 * t38 * 1.4165e-1 + qddr1 * t51 * 7.0825e-2 + qddr2 * t53 * 2.833e-1 + qddr3 * t53 * 1.4165e-1 - qddr1 * t60 * 5.695e-2 - qddr2 * t61 * 5.695e-2 - qddr3 * t61 * 5.695e-2 + qddr1 * t67 * 5.695e-2;
+  const double et14 = qddr2 * t68 * 5.695e-2 + qddr3 * t68 * 5.695e-2 - qddr1 * t79 * 7.0825e-2 - qddr1 * t91 * 7.0825e-2 - qddr1 * t96 * 4.185e-2 - qddr1 * t100 * 4.185e-2 + t30 * t35 + t30 * t36 + (g * cos(t16)) / 4.0 - (g * cos(t24)) / 4.0 + (g * cos(t69)) / 4.0 + (g * cos(t70)) / 2.0 - (g * cos(t92)) / 4.0 + (g * cos(t93)) / 2.0 - qd1 * qdr3 * t7 * 2.12475e-1 - qd3 * qdr1 * t7 * 2.12475e-1 - qd1 * qdr2 * t22 * 1.4165e-1 - qd2 * qdr1 * t22 * 1.4165e-1;
+  const double et15 = qd1 * qdr3 * t22 * (-7.0825e-2) - qd3 * qdr1 * t22 * 7.0825e-2 - qd1 * qdr2 * t26 * 8.37e-2 - qd2 * qdr1 * t26 * 8.37e-2 - qd1 * qdr3 * t26 * 8.37e-2 - qd3 * qdr1 * t26 * 8.37e-2 - qd1 * qdr3 * t44 * 3.54125e-2 - qd3 * qdr1 * t44 * 3.54125e-2 - qd2 * qdr3 * t45 * 1.4165e-1 - qd3 * qdr2 * t45 * 1.4165e-1 - qd3 * qdr3 * t45 * 1.4165e-1 - qd1 * qdr3 * t57 * 3.54125e-2 - qd3 * qdr1 * t57 * 3.54125e-2;
+  const double et16 = qd2 * qdr3 * t59 * (-1.4165e-1) - qd3 * qdr2 * t59 * 1.4165e-1 + qd1 * qdr2 * t62 * 2.8475e-2 + qd2 * qdr1 * t62 * 2.8475e-2 - qd3 * qdr3 * t59 * 1.4165e-1 + qd1 * qdr3 * t62 * 2.8475e-2 + qd3 * qdr1 * t62 * 2.8475e-2 + qd2 * qdr2 * t63 * 5.695e-2 + qd2 * qdr3 * t63 * 5.695e-2 + qd3 * qdr2 * t63 * 5.695e-2 + qd3 * qdr3 * t63 * 5.695e-2 - qd1 * qdr2 * t71 * 2.8475e-2 - qd2 * qdr1 * t71 * 2.8475e-2;
+  const double et17 = qd1 * qdr3 * t71 * (-2.8475e-2) - qd3 * qdr1 * t71 * 2.8475e-2 - qd2 * qdr2 * t72 * 5.695e-2 - qd2 * qdr3 * t72 * 5.695e-2 - qd3 * qdr2 * t72 * 5.695e-2 - qd3 * qdr3 * t72 * 5.695e-2 + qd1 * qdr2 * t80 * 7.0825e-2 + qd2 * qdr1 * t80 * 7.0825e-2 + qd1 * qdr3 * t80 * 3.54125e-2 + qd3 * qdr1 * t80 * 3.54125e-2 + qd1 * qdr2 * t94 * 7.0825e-2 + qd2 * qdr1 * t94 * 7.0825e-2 + qd1 * qdr3 * t94 * 3.54125e-2;
+  const double et18 = qd3 * qdr1 * t94 * 3.54125e-2 + qd1 * qdr2 * t97 * 4.185e-2 + qd2 * qdr1 * t97 * 4.185e-2 + qd1 * qdr3 * t97 * 4.185e-2 + qd3 * qdr1 * t97 * 4.185e-2 + qd1 * qdr2 * t101 * 4.185e-2 + qd2 * qdr1 * t101 * 4.185e-2 + qd1 * qdr3 * t101 * 4.185e-2 + qd3 * qdr1 * t101 * 4.185e-2;
+  const double et19 = qddr1 * t7 * (-4.2495e-1) - qddr1 * t22 * 1.4165e-1 - qddr1 * t26 * 8.37e-2 - qddr1 * t44 * 7.0825e-2 - qddr2 * t45 * 2.833e-1 - qddr3 * t45 * 1.4165e-1 - qddr1 * t57 * 7.0825e-2 - qddr2 * t59 * 2.833e-1 - qddr3 * t59 * 1.4165e-1 + qddr1 * t62 * 5.695e-2 + qddr2 * t63 * 5.695e-2 + qddr3 * t63 * 5.695e-2 - qddr1 * t71 * 5.695e-2 - qddr2 * t72 * 5.695e-2;
+  const double et20 = qddr3 * t72 * (-5.695e-2) + qddr1 * t80 * 7.0825e-2 + qddr1 * t94 * 7.0825e-2 + qddr1 * t97 * 4.185e-2 + qddr1 * t101 * 4.185e-2 - (g * sin(t16)) / 4.0 + (g * sin(t24)) / 4.0 - (g * sin(t69)) / 4.0 - (g * sin(t70)) / 2.0 + (g * sin(t92)) / 4.0 - (g * sin(t93)) / 2.0 - qd1 * qdr3 * t4 * 2.12475e-1 - qd3 * qdr1 * t4 * 2.12475e-1 - qd1 * qdr2 * t21 * 1.4165e-1 - qd2 * qdr1 * t21 * 1.4165e-1 - qd1 * qdr3 * t21 * 7.0825e-2;
+  const double et21 = qd3 * qdr1 * t21 * (-7.0825e-2) - qd1 * qdr2 * t25 * 8.37e-2 - qd2 * qdr1 * t25 * 8.37e-2 - qd1 * qdr3 * t25 * 8.37e-2 - qd3 * qdr1 * t25 * 8.37e-2 - qd1 * qdr3 * t37 * 3.54125e-2 - qd3 * qdr1 * t37 * 3.54125e-2 - qd2 * qdr3 * t38 * 1.4165e-1 - qd3 * qdr2 * t38 * 1.4165e-1 - qd3 * qdr3 * t38 * 1.4165e-1 - qd1 * qdr3 * t51 * 3.54125e-2 - qd3 * qdr1 * t51 * 3.54125e-2 - qd2 * qdr3 * t53 * 1.4165e-1;
+  const double et22 = qd3 * qdr2 * t53 * (-1.4165e-1) - qd3 * qdr3 * t53 * 1.4165e-1 + qd1 * qdr2 * t60 * 2.8475e-2 + qd2 * qdr1 * t60 * 2.8475e-2 + qd1 * qdr3 * t60 * 2.8475e-2 + qd3 * qdr1 * t60 * 2.8475e-2 + qd2 * qdr2 * t61 * 5.695e-2 + qd2 * qdr3 * t61 * 5.695e-2 + qd3 * qdr2 * t61 * 5.695e-2 + qd3 * qdr3 * t61 * 5.695e-2 - qd1 * qdr2 * t67 * 2.8475e-2 - qd2 * qdr1 * t67 * 2.8475e-2 - qd1 * qdr3 * t67 * 2.8475e-2;
+  const double et23 = qd3 * qdr1 * t67 * (-2.8475e-2) - qd2 * qdr2 * t68 * 5.695e-2 - qd2 * qdr3 * t68 * 5.695e-2 - qd3 * qdr2 * t68 * 5.695e-2 - qd3 * qdr3 * t68 * 5.695e-2 + qd1 * qdr2 * t79 * 7.0825e-2 + qd2 * qdr1 * t79 * 7.0825e-2 + qd1 * qdr3 * t79 * 3.54125e-2 + qd3 * qdr1 * t79 * 3.54125e-2 + qd1 * qdr2 * t91 * 7.0825e-2 + qd2 * qdr1 * t91 * 7.0825e-2 + qd1 * qdr3 * t91 * 3.54125e-2 + qd3 * qdr1 * t91 * 3.54125e-2;
+  const double et24 = qd1 * qdr2 * t96 * 4.185e-2 + qd2 * qdr1 * t96 * 4.185e-2 + qd1 * qdr3 * t96 * 4.185e-2 + qd3 * qdr1 * t96 * 4.185e-2 + qd1 * qdr2 * t100 * 4.185e-2 + qd2 * qdr1 * t100 * 4.185e-2 + qd1 * qdr3 * t100 * 4.185e-2 + qd3 * qdr1 * t100 * 4.185e-2;
+  const double et25 = qddr1 * (-1.139e-1) + t131 + t132 + t133 + t144 + qddr1 * t29 * 1.139e-1 - qd2 * qdr2 * t82 * 1.674e-1 - qd3 * qdr2 * t82 * 1.674e-1 + qd2 * qdr2 * t86 * 1.674e-1 + qd3 * qdr2 * t86 * 1.674e-1 - qddr2 * t17 * t32 * 1.674e-1 - qddr3 * t17 * t32 * 1.674e-1 - qd1 * qdr2 * t3 * t31 * 1.4165e-1 - qd2 * qdr2 * t3 * t32 * 2.833e-1 - qd2 * qdr1 * t15 * t31 * 8.37e-2 - qd1 * qdr3 * t15 * t31 * 8.37e-2 - qd3 * qdr1 * t15 * t31 * 8.37e-2;
+  const double et26 = qd2 * qdr3 * t15 * t32 * (-1.674e-1) - qd3 * qdr3 * t15 * t32 * 1.674e-1 - qddr1 * t3 * t7 * t31 * 1.674e-1 - qddr1 * t4 * t6 * t31 * 1.674e-1 - qd1 * qdr2 * t3 * t4 * t31 * 8.37e-2 + qd1 * qdr2 * t6 * t7 * t31 * 8.37e-2;
+  const double et27 = qddr2 * 1.0828165e-1 + t39 * 1.0828165e-1 + t107 + t157 + t158 + t165 + t166 + t177 + t182 + t188 + t189 + t204 + t205 + qddr2 * t4 * 9.484884e-2 + qddr3 * t4 * 4.742442e-2 + t4 * t39 * 9.484884e-2 - g * t6 * t58 * 2.833e-1 - g * t17 * t58 * 1.674e-1 - qd2 * qdr3 * t7 * 4.742442e-2 - qd3 * qdr2 * t7 * 4.742442e-2 - qd3 * qdr3 * t7 * 4.742442e-2 + qd1 * qdr1 * t118;
+  const double et28 = qd1 * qdr1 * t171 + qddr1 * t6 * t32 * 3.226787e-2 + g * t3 * t30 * t52 * 2.833e-1 + g * t15 * t30 * t52 * 1.674e-1 + qd1 * qdr1 * t4 * t13 * 2.371221e-2 + qd1 * qdr1 * t7 * t11 * 2.371221e-2 - qd1 * qdr1 * t3 * t31 * 1.6133935e-2 - qd1 * qdr3 * t7 * t30 * 4.742442e-2 - qd3 * qdr1 * t7 * t30 * 4.742442e-2 - qd1 * qdr1 * t4 * t13 * t29 * 2.371221e-2;
+  const double et29 = qd1 * qdr1 * t7 * t11 * t29 * (-2.371221e-2);
+  const double et30 = qddr2 * 2.802276e-2 + t39 * 2.802276e-2 + t107 + t157 + t158 + t165 + t166 + t177 + t182 + t188 + t189 + t205 + qddr2 * t4 * 4.742442e-2 + t4 * t39 * 4.742442e-2 + qd1 * qdr1 * t7 * 3.5568315e-2 + qd2 * qdr2 * t7 * 4.742442e-2 - g * t3 * t7 * t58 * 1.674e-1 - g * t4 * t6 * t58 * 1.674e-1 + qd1 * qdr1 * t4 * t13 * 1.1856105e-2 + qd1 * qdr1 * t7 * t11 * 1.1856105e-2;
+  const double et31 = qd1 * qdr1 * t7 * t29 * 1.1856105e-2 + qd1 * qdr2 * t7 * t30 * 4.742442e-2 + qd2 * qdr1 * t7 * t30 * 4.742442e-2 + g * t3 * t4 * t30 * t52 * 1.674e-1 - g * t6 * t7 * t30 * t52 * 1.674e-1 - qd1 * qdr1 * t4 * t13 * t29 * 1.1856105e-2 - qd1 * qdr1 * t7 * t11 * t29 * 1.1856105e-2;
+  const double et32 = t35 + t36 + t112 + t114 + t115 + t148 + t149 + t154 + t156 + t168 + t169 + t198 + qddr2 * t4 * 2.833e-1 + t4 * t39 * 2.833e-1 + qd1 * qdr1 * t7 * 2.12475e-1 + qd2 * qdr2 * t7 * 2.833e-1 - g * t3 * t7 * t58 - g * t4 * t6 * t58 + qd1 * qdr1 * t4 * t13 * 7.0825e-2 + qd1 * qdr1 * t7 * t11 * 7.0825e-2 + qd1 * qdr1 * t7 * t29 * 7.0825e-2 + qd1 * qdr2 * t7 * t30 * 2.833e-1 + qd2 * qdr1 * t7 * t30 * 2.833e-1 + g * t3 * t4 * t30 * t52 - g * t6 * t7 * t30 * t52 - qd1 * qdr1 * t4 * t13 * t29 * 7.0825e-2;
+  const double et33 = qd1 * qdr1 * t7 * t11 * t29 * (-7.0825e-2);
+  const double et34 = t113 + t120 + t146 + t150 + t152 + t153 + t162 + t167 + t201 - qddr2 * t7 * 2.833e-1 - t7 * t39 * 2.833e-1 + qd1 * qdr1 * t4 * 2.12475e-1 + qd2 * qdr2 * t4 * 2.833e-1 - g * t3 * t4 * t58 + g * t6 * t7 * t58 + qd1 * qdr1 * t4 * t11 * 7.0825e-2 - qd1 * qdr1 * t7 * t13 * 7.0825e-2 + qd1 * qdr1 * t4 * t29 * 7.0825e-2 + qd1 * qdr2 * t4 * t30 * 2.833e-1 + qd2 * qdr1 * t4 * t30 * 2.833e-1 - g * t3 * t7 * t30 * t52 - g * t4 * t6 * t30 * t52 - qd1 * qdr1 * t4 * t11 * t29 * 7.0825e-2;
+  const double et35 = qd1 * qdr1 * t7 * t13 * t29 * 7.0825e-2;
+
+  std::array<double, 90> mt;
+  // mt1 (1..31)
+  mt[0] = 0.0;
+  mt[1] = 0.0;
+  mt[2] = 0.0;
+  mt[3] = g * t52;
+  mt[4] = 0.0;
+  mt[5] = 0.0;
+  mt[6] = -g * t30 * t58;
+  mt[7] = 0.0;
+  mt[8] = 0.0;
+  mt[9] = t133;
+  mt[10] = 0.0;
+  mt[11] = 0.0;
+  mt[12] = qddr1;
+  mt[13] = 0.0;
+  mt[14] = 0.0;
+  mt[15] = qddr1 * (t29 / 2.0 + 1.0 / 2.0);
+  mt[16] = 0.0;
+  mt[17] = 0.0;
+  mt[18] = t110;
+  mt[19] = 0.0;
+  mt[20] = 0.0;
+  mt[21] = 0.0;
+  mt[22] = 0.0;
+  mt[23] = 0.0;
+  mt[24] = 0.0;
+  mt[25] = 0.0;
+  mt[26] = 0.0;
+  mt[27] = -qddr1 * t31;
+  mt[28] = 0.0;
+  mt[29] = 0.0;
+  mt[30] = t40 * 8.025889e-2 + g * (t3 * t52 * 2.833e-1 - t6 * t30 * t58 * 2.833e-1) + qddr1 * (t11 * 2.00647225e-2 + t29 * 2.00647225e-2 - t11 * t29 * 2.00647225e-2 + 6.01941675e-2) - qd1 * qdr2 * t197 - qd2 * qdr1 * t197;
+  // mt2 (32..34)
+  mt[31] = qddr2 * 8.025889e-2 + t39 * 8.025889e-2 + t204 - g * (t6 * t58 * 2.833e-1 - t3 * t30 * t52 * 2.833e-1) + qd1 * qdr1 * t197;
+  mt[32] = 0.0;
+  mt[33] = t40 * 5.666e-1 + g * (t3 * t52 - t6 * t30 * t58) + qddr1 * (t29 * 1.4165e-1 + t196 + 4.2495e-1) - qd1 * qdr2 * t194 - qd2 * qdr1 * t194;
+  // mt3 (35..39)
+  mt[34] = qddr2 * 5.666e-1 + t39 * 5.666e-1 - g * (t6 * t58 - t3 * t30 * t52) + g * t3 * t32 * 2.679489658502863e-8 + qd1 * qdr1 * t194;
+  mt[35] = 0.0;
+  mt[36] = -g * (t6 * t52 + t3 * t30 * t58) - qddr1 * t194 - qd1 * qdr2 * t196 - qd2 * qdr1 * t196;
+  mt[37] = -g * (t3 * t58 + t6 * t30 * t52) - g * t6 * t32 * 2.679489658502863e-8 + qd1 * qdr1 * t196;
+  mt[38] = 0.0;
+  // mt4 (40..54)
+  mt[39] = t131 + t132 + t133 + t144 - qdr2 * (qd1 * t3 * t31 * 1.4165e-1 + qd2 * t3 * t32 * 2.833e-1);
+  mt[40] = qddr1 * t6 * t32 * (-2.833e-1) + qd1 * qdr1 * t3 * t31 * 1.4165e-1;
+  mt[41] = 0.0;
+  mt[42] = t40 + qddr1 * (t27 + t78 - (t11 * t29) / 4.0 + 3.0 / 4.0) - qd1 * qdr2 * t155 - qd2 * qdr1 * t155;
+  mt[43] = qddr2 + t39 + t163;
+  mt[44] = 0.0;
+  mt[45] = t40 + qddr1 * (-t27 + t78 + t108 + 3.0 / 4.0) - (qd1 * qdr2 * t13 * t64) / 4.0 - (qd2 * qdr1 * t13 * t64) / 4.0;
+  mt[46] = qddr2 + t39 - t163;
+  mt[47] = 0.0;
+  mt[48] = t110;
+  mt[49] = 0.0;
+  mt[50] = 0.0;
+  mt[51] = (t64 * (qddr1 * t13 + qd1 * qdr2 * t11 + qd2 * qdr1 * t11)) / 2.0;
+  mt[52] = qd1 * qdr1 * t11 * t64 * (-1.0 / 2.0);
+  mt[53] = 0.0;
+  // mt5 (55..64)
+  mt[54] = -qdr2 * ((qd1 * t3 * t31) / 2.0 + qd2 * t3 * t32) - qddr1 * t6 * t31 - qddr2 * t6 * t32 - (qd2 * qdr1 * t3 * t31) / 2.0;
+  mt[55] = -qddr1 * t6 * t32 + (qd1 * qdr1 * t3 * t31) / 2.0;
+  mt[56] = 0.0;
+  mt[57] = qdr2 * ((qd1 * t6 * t31) / 2.0 + qd2 * t6 * t32) - qddr1 * t3 * t31 - qddr2 * t3 * t32 + (qd2 * qdr1 * t6 * t31) / 2.0;
+  mt[58] = -qddr1 * t3 * t32 - (qd1 * qdr1 * t6 * t31) / 2.0;
+  mt[59] = 0.0;
+  mt[60] = et1 + et2 + et3 + et4 + et5 + et6 + et7 + et8 + et9 + et10 + et11 + et12;
+  mt[61] = et27 + et28 + et29;
+  mt[62] = et30 + et31;
+  mt[63] = et13 + et14 + et15 + et16 + et17 + et18;
+  // mt6 (65..67)
+  mt[64] = t35 + t36 + t112 + t114 + t115 + t148 + t149 + t154 + t156 + t168 + t169 + t198 + qddr2 * t4 * 5.666e-1 + qddr3 * t4 * 2.833e-1 + t4 * t39 * 5.666e-1 - g * t17 * t58 - qd2 * qdr3 * t7 * 2.833e-1 - qd3 * qdr2 * t7 * 2.833e-1 - qd3 * qdr3 * t7 * 2.833e-1 + g * t15 * t30 * t52 - qd1 * qdr3 * t7 * t30 * 2.833e-1 - qd3 * qdr1 * t7 * t30 * 2.833e-1 + qd1 * qdr1 * t4 * t88 + qd1 * qdr1 * t7 * t85 + qd1 * qdr1 * t4 * t142 + qd1 * qdr1 * t7 * t147;
+  mt[65] = et32 + et33;
+  mt[66] = et19 + et20 + et21 + et22 + et23 + et24;
+  // mt7 (68..70)
+  mt[67] = t113 + t120 + t146 + t150 + t152 + t153 + t162 + t167 + t201 - qddr2 * t7 * 5.666e-1 - qddr3 * t7 * 2.833e-1 - t7 * t39 * 5.666e-1 - g * t15 * t58 - qd2 * qdr3 * t4 * 2.833e-1 - qd3 * qdr2 * t4 * 2.833e-1 - qd3 * qdr3 * t4 * 2.833e-1 - g * t17 * t30 * t52 - qd1 * qdr1 * t7 * t13 * 1.4165e-1 - qd1 * qdr3 * t4 * t30 * 2.833e-1 - qd3 * qdr1 * t4 * t30 * 2.833e-1 + qd1 * qdr1 * t4 * t85 + qd1 * qdr1 * t7 * t130 + qd1 * qdr1 * t4 * t147;
+  mt[68] = et34 + et35;
+  mt[69] = et25 + et26;
+  // mt8 (71..79)
+  mt[70] = qddr1 * t32 * (t6 * 2.833e3 + t17 * 1.674e3) * (-1.0e-4) + (qd1 * qdr1 * t31 * (t3 * 2.833e3 + t15 * 1.674e3)) / 2.0e4;
+  mt[71] = -qddr1 * (t83 * 1.674e-1 + t84 * 1.674e-1) + qd1 * qdr1 * (t3 * t4 * t31 * 8.37e-2 - t6 * t7 * t31 * 8.37e-2);
+  mt[72] = t20 + t40 + t41 + t54 - t74 - t75 - t76 - t77 + t81 - t121 - t124 + t126 + t127 + t128 + t129 + t137 + t138 + t139 + t140;
+  mt[73] = t209;
+  mt[74] = t209;
+  mt[75] = t20 + t40 + t41 - t54 + t74 + t75 + t76 + t77 + t81 + t121 + t124 - t126 - t127 - t128 - t129 - t137 - t138 - t139 - t140;
+  mt[76] = t207;
+  mt[77] = t207;
+  mt[78] = t110;
+  // mt9 (80..90)
+  mt[79] = 0.0;
+  mt[80] = 0.0;
+  mt[81] = qddr1 * (t26 * (-1.0 / 2.0) + t97 / 4.0 + t101 / 4.0) + qd1 * qdr2 * t200 + qd1 * qdr3 * t200 + qdr1 * (qd2 / 4.0 + qd3 / 4.0) * (t25 * (-2.0) + t96 + t100);
+  mt[82] = t203;
+  mt[83] = t203;
+  mt[84] = -qddr2 * t164 - qddr3 * t164 - qdr2 * t211 - qdr3 * t211 - qddr1 * (t3 * t7 * t31 + t4 * t6 * t31) - qdr1 * (qd2 * t187 + qd3 * t187);
+  mt[85] = t206;
+  mt[86] = t206;
+  mt[87] = -qddr2 * t175 - qddr3 * t175 + qdr2 * t210 + qdr3 * t210 - qddr1 * (t3 * t4 * t31 - t6 * t7 * t31) + qdr1 * (qd2 * t184 + qd3 * t184);
+  mt[88] = t208;
+  mt[89] = t208;
+
+  return reshape3x30(mt);
 }
 
 RegressorMatrix exo_Y(

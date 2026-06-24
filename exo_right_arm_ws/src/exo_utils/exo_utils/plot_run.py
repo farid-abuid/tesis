@@ -26,6 +26,37 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# Arm name shown in Spanish, in parentheses, in the plot title only.
+_ARM_ES = {'left': 'Brazo Izquierdo', 'right': 'Brazo Derecho'}
+
+
+def _arm_suffix(arm_label: str | None) -> str:
+    """Title suffix like ' (Brazo Derecho)'; empty when the run is unlabeled."""
+    if not arm_label:
+        return ''
+    return f' ({_ARM_ES.get(arm_label, arm_label)})'
+
+
+def _disp_joint(j: str) -> str:
+    """Joint label for in-plot text, arm prefix stripped (the arm lives in the title)."""
+    for p in ('left_', 'right_'):
+        if j.startswith(p):
+            return j[len(p):]
+    return j
+
+
+def _savefig(fig, png_path: Path, **kwargs) -> list[Path]:
+    """Save *fig* as PNG plus a vector PDF; return the paths written.
+
+    Every figure here is line/scatter content, so the PDF keeps full vector
+    quality and is worth emitting next to the PNG.
+    """
+    pdf_path = png_path.with_suffix('.pdf')
+    fig.savefig(png_path, dpi=150, **kwargs)
+    fig.savefig(pdf_path, **kwargs)
+    return [png_path, pdf_path]
+
+
 def _discover_joints(fieldnames: list[str]) -> list[str]:
     joints: list[str] = []
     seen: set[str] = set()
@@ -77,8 +108,8 @@ def _plot_stack(
     out_path: Path,
     title: str,
     ylabel_unit: str = '',
-) -> bool:
-    """Create a stacked per-joint figure. Returns True if the figure was saved.
+) -> list[Path]:
+    """Create a stacked per-joint figure. Returns the saved file paths (PNG, PDF).
 
     ``suffix_map`` is a list of (column_suffix, plot_label) pairs.
     Series with no finite samples are skipped; the whole figure is skipped if
@@ -97,7 +128,7 @@ def _plot_stack(
         if series:
             available[j] = series
     if not available:
-        return False
+        return []
 
     n = len(joints)
     fig, axes = plt.subplots(n, 1, figsize=(10, 2.5 * max(n, 1)), sharex=True)
@@ -107,15 +138,14 @@ def _plot_stack(
         series = available.get(j, {})
         for lab, arr in series.items():
             ax.plot(t, arr, label=lab)
-        ax.set_ylabel(f'{j}{" [" + ylabel_unit + "]" if ylabel_unit else ""}')
+        ax.set_ylabel(f'{_disp_joint(j)}{" [" + ylabel_unit + "]" if ylabel_unit else ""}')
         if series:
             ax.legend(loc='upper right')
         ax.grid(True, alpha=0.3)
-    axes[-1].set_xlabel('time [s]')
+    axes[-1].set_xlabel('tiempo [s]')
     fig.suptitle(title)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=150)
-    return True
+    return _savefig(fig, out_path)
 
 
 def _plot_ee_xyz(
@@ -125,27 +155,26 @@ def _plot_ee_xyz(
     prefix: str,
     out_path: Path,
     title: str,
-) -> bool:
+) -> list[Path]:
     need = {f'{prefix}ee_x', f'{prefix}ee_y', f'{prefix}ee_z'}
     if not need.issubset(fieldnames):
-        return False
+        return []
     axes_names = ['x', 'y', 'z']
     fig, axs = plt.subplots(3, 1, figsize=(10, 7), sharex=True)
     for ax, axis in zip(axs, axes_names):
         a = _as_array(rows, f'{prefix}ee_{axis}')
         d = _as_array(rows, f'{prefix}ee_des_{axis}')
         if _has_data(a):
-            ax.plot(t, a, label=f'{axis} actual')
+            ax.plot(t, a, label=f'{axis} medido')
         if _has_data(d):
-            ax.plot(t, d, label=f'{axis} des')
-        ax.set_ylabel(axis)
+            ax.plot(t, d, label=f'{axis} deseado')
+        ax.set_ylabel(f'{axis} [m]')
         ax.legend(loc='upper right')
         ax.grid(True, alpha=0.3)
-    axs[-1].set_xlabel('time [s]')
+    axs[-1].set_xlabel('tiempo [s]')
     fig.suptitle(title)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=150)
-    return True
+    return _savefig(fig, out_path)
 
 
 def _first_finite(arr: np.ndarray) -> float | None:
@@ -162,7 +191,7 @@ def _plot_sliding_surface(
     fieldnames: set[str],
     out_path: Path,
     title: str,
-) -> bool:
+) -> list[Path]:
     """All joints' sliding variable s on one axes vs time."""
     series: list[tuple[str, np.ndarray]] = []
     for j in joints:
@@ -172,19 +201,18 @@ def _plot_sliding_surface(
             if _has_data(arr):
                 series.append((j, arr))
     if not series:
-        return False
+        return []
     fig, ax = plt.subplots(figsize=(10, 5))
     for j, arr in series:
-        ax.plot(t, arr, label=j)
+        ax.plot(t, arr, label=_disp_joint(j))
     ax.axhline(0.0, color='k', lw=0.8, alpha=0.5)
-    ax.set_xlabel('time [s]')
+    ax.set_xlabel('tiempo [s]')
     ax.set_ylabel('s')
     ax.legend(loc='upper right')
     ax.grid(True, alpha=0.3)
     fig.suptitle(title)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=150)
-    return True
+    return _savefig(fig, out_path)
 
 
 def _plot_phase(
@@ -194,7 +222,7 @@ def _plot_phase(
     fieldnames: set[str],
     out_path: Path,
     title: str,
-) -> bool:
+) -> list[Path]:
     """Per-joint sliding-surface phase plane.
 
     For s = e + lambda*int(e)  (integral SMC) the axes are (int(e), e).
@@ -207,7 +235,7 @@ def _plot_phase(
         if f'{j}_s' in fieldnames or f'{j}_int_e' in fieldnames:
             plottable.append(j)
     if not plottable:
-        return False
+        return []
 
     n = len(plottable)
     fig, axes = plt.subplots(n, 1, figsize=(7, 5 * max(n, 1)))
@@ -237,28 +265,27 @@ def _plot_phase(
             ax.set_visible(False)
             continue
         sc = ax.scatter(x[m], y[m], c=t[m], s=6, cmap='viridis')
-        ax.plot(x[m][0], y[m][0], 'o', color='red', label='start')
+        ax.plot(x[m][0], y[m][0], 'o', color='red', label='inicio')
         if lam is not None and lam != 0.0:
             xr = np.array([np.nanmin(x[m]), np.nanmax(x[m])])
             ax.plot(xr, -lam * xr, 'r--', lw=1.5, label=f's = 0 (λ={lam:g})')
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
-        ax.set_title(j)
+        ax.set_title(_disp_joint(j))
         ax.legend(loc='upper right')
         ax.grid(True, alpha=0.3)
     if sc is not None:
-        fig.colorbar(sc, ax=axes, label='time [s]', shrink=0.6)
+        fig.colorbar(sc, ax=axes, label='tiempo [s]', shrink=0.6)
     fig.suptitle(title)
-    fig.savefig(out_path, dpi=150, bbox_inches='tight')
-    return True
+    return _savefig(fig, out_path, bbox_inches='tight')
 
 
 # Barycentric parameter layout per link: 10 entries, grouped by physical type.
 _THETA_GROUPS = [
-    ('mass', 'Link mass m', [(0, 'm')]),
-    ('com', 'Center of mass (m·c / m)',
+    ('mass', 'Masa del eslabón m', [(0, 'm')]),
+    ('com', 'Centro de masa (m·c / m)',
      [(1, 'x_c'), (2, 'y_c'), (3, 'z_c')]),
-    ('inertia', 'Second moments of mass (about link origin)',
+    ('inertia', 'Segundos momentos de masa (respecto al origen del eslabón)',
      [(4, 'Jxx'), (5, 'Jyy'), (6, 'Jzz'), (7, 'Jxy'), (8, 'Jxz'), (9, 'Jyz')]),
 ]
 
@@ -269,7 +296,7 @@ def _plot_adaptive_params(
     fieldnames: set[str],
     prefix: str,
     out_dir: Path,
-    title_prefix: str,
+    title_suffix: str,
 ) -> list[Path]:
     """θ̂ evolution grouped by parameter type, 3 links overlaid, with θ̂₀ dashed."""
     if f'{prefix}theta_0' not in fieldnames:
@@ -305,7 +332,7 @@ def _plot_adaptive_params(
                         out=np.full_like(m, np.nan), where=m != 0.0)
                 else:
                     series = _as_array(rows, col)
-                ax.plot(t, series, color=c, label=f'link {link + 1}')
+                ax.plot(t, series, color=c, label=f'eslabón {link + 1}')
                 c0 = f'{prefix}theta0_{idx}'
                 if c0 in fieldnames:
                     if is_com:
@@ -322,12 +349,10 @@ def _plot_adaptive_params(
             ax.set_ylabel(label)
             ax.legend(loc='upper right', fontsize=8, ncol=max(n_links, 1))
             ax.grid(True, alpha=0.3)
-        axes[-1].set_xlabel('time [s]')
-        fig.suptitle(f'{title_prefix}{gtitle}  (dashed = θ̂₀ seed)')
+        axes[-1].set_xlabel('tiempo [s]')
+        fig.suptitle(f'{gtitle}  (discontinua = θ̂₀ inicial){title_suffix}')
         fig.tight_layout()
-        out_path = out_dir / f'theta_{fname}.png'
-        fig.savefig(out_path, dpi=150)
-        saved.append(out_path)
+        saved.extend(_savefig(fig, out_dir / f'theta_{fname}.png'))
     return saved
 
 
@@ -341,54 +366,49 @@ def _generate_for_group(
     arm_label: str | None,
 ) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
-    prefix_txt = f'[{arm_label}] ' if arm_label else ''
+    suffix = _arm_suffix(arm_label)
     ee_prefix = f'{arm}_' if arm != 'main' else ''
     saved: list[Path] = []
 
     pos_path = out_dir / 'joint_position.png'
-    if _plot_stack(
+    saved += _plot_stack(
         t, joints, rows, fieldnames,
-        [('_q', 'q'), ('_q_cmd', 'q_cmd'), ('_q_des', 'q_des')],
-        pos_path, f'{prefix_txt}Joint position', ylabel_unit='rad',
-    ):
-        saved.append(pos_path)
+        [('_q', 'q medido'), ('_q_cmd', 'q comandado'), ('_q_des', 'q deseado')],
+        pos_path, f'Posiciones Articulares{suffix}', ylabel_unit='rad',
+    )
 
     vel_path = out_dir / 'joint_velocity.png'
-    if _plot_stack(
+    saved += _plot_stack(
         t, joints, rows, fieldnames,
-        [('_dq', 'dq'), ('_dq_cmd', 'dq_cmd'), ('_dq_des', 'dq_des')],
-        vel_path, f'{prefix_txt}Joint velocity', ylabel_unit='rad/s',
-    ):
-        saved.append(vel_path)
+        [('_dq', 'dq medido'), ('_dq_cmd', 'dq comandado'), ('_dq_des', 'dq deseado')],
+        vel_path, f'Velocidades Articulares{suffix}', ylabel_unit='rad/s',
+    )
 
     tau_path = out_dir / 'joint_torque.png'
-    if _plot_stack(
+    saved += _plot_stack(
         t, joints, rows, fieldnames,
         [
-            ('_tau_meas', 'tau_meas'),
-            ('_tau_cmd', 'tau_cmd'),
-            ('_tau_cmd_in', 'tau_cmd_in'),
-            # ('_tau_ff', 'tau_ff'),
+            ('_tau_meas', 'τ medido'),
+            ('_tau_cmd', 'τ comandado'),
+            ('_tau_cmd_in', 'τ entrada'),
+            # ('_tau_ff', 'τ feedforward'),
         ],
-        tau_path, f'{prefix_txt}Joint torque', ylabel_unit='N·m',
-    ):
-        saved.append(tau_path)
+        tau_path, f'Torques Articulares{suffix}', ylabel_unit='N·m',
+    )
 
     ee_path = out_dir / 'ee_position_xyz.png'
-    if _plot_ee_xyz(t, rows, fieldnames, ee_prefix, ee_path, f'{prefix_txt}EE position vs desired'):
-        saved.append(ee_path)
+    saved += _plot_ee_xyz(t, rows, fieldnames, ee_prefix, ee_path,
+                          f'Posición del Efector Final vs Deseada{suffix}')
 
     s_path = out_dir / 'sliding_surface.png'
-    if _plot_sliding_surface(t, joints, rows, fieldnames, s_path,
-                             f'{prefix_txt}Sliding surface s vs time'):
-        saved.append(s_path)
+    saved += _plot_sliding_surface(t, joints, rows, fieldnames, s_path,
+                                   f'Superficie Deslizante s{suffix}')
 
     phase_path = out_dir / 'sliding_phase_plane.png'
-    if _plot_phase(t, joints, rows, fieldnames, phase_path,
-                   f'{prefix_txt}Sliding-surface phase plane'):
-        saved.append(phase_path)
+    saved += _plot_phase(t, joints, rows, fieldnames, phase_path,
+                         f'Plano de Fase de la Superficie Deslizante{suffix}')
 
-    saved += _plot_adaptive_params(t, rows, fieldnames, ee_prefix, out_dir, prefix_txt)
+    saved += _plot_adaptive_params(t, rows, fieldnames, ee_prefix, out_dir, suffix)
 
     return saved
 
@@ -439,6 +459,8 @@ def main() -> None:
         help='Plot output directory (default: sibling plots/ next to csv)',
     )
     p.add_argument('--no-show', action='store_true', help='Only save; do not open windows')
+    p.add_argument('--no-metrics', action='store_true',
+                   help='Skip writing the IAE/ISE/ITAE/ITSE metrics CSV')
     args = p.parse_args()
     csv_path = Path(args.csv)
     out = Path(args.output_dir) if args.output_dir else csv_path.parent / 'plots'
@@ -446,6 +468,15 @@ def main() -> None:
     print(f'Plots written to {out}')
     for s in saved:
         print(f'  - {s}')
+
+    if not args.no_metrics:
+        # Lazy import keeps plotting usable even if metrics deps ever change.
+        from exo_utils.metrics import compute_metrics, format_table, write_metrics_csv
+        results = compute_metrics(str(csv_path))
+        if results:
+            metrics_path = write_metrics_csv(results, out / 'metrics.csv')
+            print(f'\n{format_table(results)}')
+            print(f'\nMetrics written to {metrics_path}')
 
 
 if __name__ == '__main__':

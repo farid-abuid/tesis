@@ -105,6 +105,7 @@ install(PROGRAMS
   scripts/exo_data_logger
   scripts/exo_imu_node
   scripts/exo_plot_run
+  scripts/exo_metrics
   scripts/exo_dc_motor_id
   scripts/exo_dc_motor_stiction_id
   scripts/exo_teensy_serial_rtt
